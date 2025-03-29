@@ -15,7 +15,7 @@
 
 <body>
     <?php
-    include "./user/view/Login.php";
+    include "../user/view/Login.php";
     ?>
     <script src="./assets/js/login.js"></script>
 </body>

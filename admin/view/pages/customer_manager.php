@@ -1,0 +1,1 @@
+<h1>Customer Manager pages</h1>

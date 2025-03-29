@@ -1,0 +1,5 @@
+.container {
+  margin-top: 96px;
+  display: flex;
+  height: 100vh;
+}

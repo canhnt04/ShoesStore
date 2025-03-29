@@ -1,0 +1,63 @@
+.main-content {
+  flex: 1;
+  background: #f4f4f4;
+  padding: 20px;
+  overflow-y: auto;
+}
+/* Content */
+.content {
+  background: white;
+  padding: 10px 20px 20px;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.buttons {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.blue {
+  background: #0099ff;
+}
+.yellow {
+  background: #ffcc00;
+}
+.orange {
+  background: #ff9900;
+}
+.red {
+  background: #ff3333;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background: #555;
+  color: white;
+}
+
+tbody tr:nth-child(even) {
+  background: #f9f9f9;
+}
