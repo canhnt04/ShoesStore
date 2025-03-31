@@ -9,7 +9,8 @@
         }
 
         public function index() {
-            echo "Trang Home Page";
+            echo "Trang Home Page </br>";
+            echo "<a href='Route.php?page=Product&action=showList'/> Danh sách sản phẩm";
         }
     }
 ?>

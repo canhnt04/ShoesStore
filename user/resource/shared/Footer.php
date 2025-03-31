@@ -4,7 +4,7 @@
             <div class="row">
 
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Zay Shop</h2>
+                    <h2 class="h2 text-success border-bottom pb-3 border-light logo">Shoes Shop</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
@@ -82,8 +82,8 @@
                 <div class="row pt-2">
                     <div class="col-12">
                         <p class="text-left text-light">
-                            Copyright &copy; 2021 Company Name 
-                            | Designed by <a rel="sponsored" href="https://templatemo.com" target="_blank">TemplateMo</a>
+                            Copyright &copy; 2025 Team SGU
+                            | Designed by <a rel="sponsored" href="https://github.com/canhnt04/ShoesStore" target="_blank">Copy pasta</a>
                         </p>
                     </div>
                 </div>
@@ -93,4 +93,11 @@
     </footer>
     <!-- End Footer -->
 
+    <!-- Start Script -->
+    <script src="../../public/assets/js/jquery-1.11.0.min.js"></script>
+    <script src="../../../public/assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../../public/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../../../public/assets/js/templatemo.js"></script>
+    <script src="../../../public/assets/js/custom.js"></script>
+    <!-- End Script -->
 </body>

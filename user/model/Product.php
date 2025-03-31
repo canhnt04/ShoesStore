@@ -22,5 +22,18 @@ class Product
         }
         return $productList;
     }
+
+    public function getById($id) {
+        $sql = "SELECT * FROM product WHERE id = " . (int)$id;
+        $result = $this->con->query($sql);
+    
+        $product = null;
+        if ($result->num_rows > 0) {
+            $product = $result->fetch_assoc();
+        }
+    
+        return $product;
+    }
+    
 }
 ?>

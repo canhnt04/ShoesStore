@@ -2,7 +2,7 @@
     // File định tuyến router
 
     // Lấy tên controller
-    $controller = isset($_GET['controller']) ? $_GET['controller'] : 'Home';
+    $controller = isset($_GET['page']) ? $_GET['page'] : 'Home';
     $action = isset($_GET['action']) ? $_GET['action'] : 'index';
     $id = isset($_GET['id']) ? $_GET['id'] : null;
 
