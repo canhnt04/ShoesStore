@@ -14,6 +14,7 @@
             require_once($view_file);
             $content = ob_get_clean();
 
+            echo $content;
             } else {
             // Nếu file muốn gọi ra không tồn tại thì chuyển hướng đến trang báo lỗi.
             header('Location: index.php?controller=pages&action=error');
