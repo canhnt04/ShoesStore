@@ -3,8 +3,9 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 1000;
   background-color: #333333;
-  height: 40px;
+  height: 10px;
   padding: 28px;
   display: flex;
   justify-content: space-between;

@@ -1,7 +1,8 @@
 .main-content {
   flex: 1;
-  background: #f4f4f4;
+  margin-left: 280px;
   padding: 20px;
+  background: #f4f4f4;
   overflow-y: auto;
 }
 /* Content */
@@ -22,8 +23,14 @@
   padding: 10px 20px;
   border: none;
   color: white;
+  background: #0099ff;
   font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
+  &:hover {
+    opacity: 0.9;
+  }
+  transition: ease-in-out 0.06s;
 }
 
 .blue {
@@ -60,4 +67,30 @@ th {
 
 tbody tr:nth-child(even) {
   background: #f9f9f9;
+}
+
+/* Phân trang */
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination a {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 0 5px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 5px;
+}
+
+.pagination a.active {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
 }

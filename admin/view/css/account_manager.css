@@ -1,0 +1,193 @@
+.header_account-page {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header_account-page a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.header_account-page a.active {
+  color: blue;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.tab-content {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.account-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.account-action.detail-tab {
+  justify-content: flex-end;
+}
+
+.group-button_account-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button_account-action {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: ease-in-out 0.06s;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.button_account-action i,
+.button_account-action span {
+  padding: 0 5px;
+  font-size: 16px;
+}
+
+.button_account-action.add {
+  background-color: #17a2b8;
+}
+
+.input_search_account-action {
+  width: 300px;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 20px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  &:hover {
+    border-color: #007bff;
+  }
+}
+
+.table_col-action {
+  width: 120px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Tạo khoảng cách giữa các biểu tượng */
+.table_col-action span {
+  display: inline-block;
+  margin: 0 2px;
+  cursor: pointer;
+  /* transition: transform 0.2s ease, color 0.2s ease; */
+}
+
+/* Định dạng icon */
+.table_col-action i {
+  font-size: 16px;
+  padding: 0 8px;
+  border-radius: 5px;
+  transition: ease-in 0.1s;
+}
+
+/* Màu sắc cho từng action */
+.table_col-action i.fa-pen {
+  color: #ffc107;
+} /* Màu vàng cho chỉnh sửa */
+.table_col-action i.fa-eye {
+  color: #17a2b8;
+} /* Màu xanh dương cho xem */
+.table_col-action i.fa-lock {
+  color: #dc3545;
+} /* Màu đỏ cho xóa */
+
+/* Hiệu ứng hover */
+.table_col-action i:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+.seperator {
+  width: 1px;
+  height: 20px;
+  background-color: #ccc;
+  margin: 0 5px;
+}
+
+/* Phân trang */
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+.pagination a {
+  display: inline-block;
+  padding: 8px 12px;
+  margin: 0 5px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 5px;
+}
+
+.pagination a.active {
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+.pagination a:hover {
+  background-color: #ddd;
+}
+
+/* Form thêm user */
+
+.form-create-user {
+  width: 400px;
+  margin: 10px 6px;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+.form-group label {
+  font-weight: 300;
+  font-size: 13px;
+  text-align: start;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  &:hover {
+    border-color: #007bff;
+  }
+}
