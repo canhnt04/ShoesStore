@@ -12,8 +12,14 @@ class ProductController extends BaseController
         $this->productModel = new Product();
     }
 
-    public function showList()
+    public function showList($params)
     {
+        $test = $params['pageNumber'];
+        echo "
+            <p> $test </p>";
+            $test2 = $params['id'];
+            echo "
+                <p> $test2 </p>";
         $productList = $this->productModel->getAll();
         include(__DIR__ . "../../view/productList.php");
     }

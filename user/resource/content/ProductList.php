@@ -77,7 +77,7 @@
                                         <img class="card-img rounded-0 img-fluid" src="../.../../public/assets/images/test2.jpg"/>
                                     </div>
                                     <div class="card-body">
-                                        <a href="Route.php?controller=Product&action=showById&id=' . $product['id'] . '" class="h3 text-decoration-none">' . $product['name'] . '</a>                                        <p class="text-center mb-0">' .$product['id']. '</p>
+                                        <a href="Route.php?page=Product&action=showById&id=' . $product['id'] . '" class="h3 text-decoration-none">' . $product['name'] . '</a>                                        <p class="text-center mb-0">' .$product['id']. '</p>
                                     </div>
                                     </div>
                             </div>
