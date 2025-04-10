@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="apple-touch-icon" href="../.../../public/assets/images/apple-icon.png">
-    <link rel="shortcut icon" type="images/x-icon" href="../../public/assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="../../../public/assets/images/apple-icon.png">
+    <link rel="shortcut icon" type="images/x-icon" href="../../../public/assets/images/favicon.ico">
 
     <link rel="stylesheet" href="../../../public/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../../public/assets/css/templatemo.css">
@@ -39,7 +39,7 @@
                             <a class="nav-link" href="Route.php?page=Home&action=index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Route.php?page=Product&action=showList">Shop</a>
+                            <a class="nav-link" href="Route.php?page=Product&action=showList&pageNumber=1">Shop</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Route.php?page=Home&action=about">About</a>

@@ -10,7 +10,7 @@
 
         public function index() {
             echo "Trang Home Page </br>";
-            echo "<a href='Route.php?page=Product&action=showList'/> Danh sách sản phẩm";
+            echo "<a href='Route.php?page=Product&action=showList&pageNumber=1'/> Danh sách sản phẩm";
         }
     }
 ?>

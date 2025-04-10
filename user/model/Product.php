@@ -7,33 +7,94 @@ class Product
 
     public function __construct() {
         $db = new Database();
-        $this->con = $db->getConnection(); // Gán vào thuộc tính của class
+        $this->con = $db->getConnection();
     }
 
-    public function getAll() {
-        $sql = "SELECT * FROM product";
+    public function getTotalPage($categoryId = -1) {
+        if($categoryId == -1)
+            $sql = "SELECT count(*) AS total FROM product";
+        else
+            $sql = "SELECT count(*) AS total FROM product WHERE category_id = $categoryId";
+        $result = $this->con->query($sql);
+        $row = $result->fetch_assoc();
+        $totalRecord = $row['total'];
+
+        $productPerPage = 6;
+        $totalPage = ceil($totalRecord / $productPerPage);
+        
+        return $totalPage;
+    }
+
+    public function getAll($limit, $offset) {
+        $sql = "SELECT * FROM product LIMIT $limit OFFSET $offset";
         $result = $this->con->query($sql);
 
         $productList = [];
         if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $productList[] = $row;
+           while ($row = $result->fetch_object()) {
+                // Gán dữ liệu product
+                $product = $row;
+
+                // Truy vấn chi tiết
+                $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product->id;
+                $resultDetails = $this->con->query($sqlDetails);
+
+                $productDetails = [];
+                if ($resultDetails->num_rows > 0) {
+                    while ($detailRow = $resultDetails->fetch_assoc()) {
+                        $productDetails[] = $detailRow;
+                    }
+                }
+
+                // Gán mảng chi tiết vào product
+                $product->productDetailsList = $productDetails;
+
+                // Thêm vào danh sách, mỗi phần tử là một object.
+                $productList[] = $product;
             }
         }
+
         return $productList;
     }
 
     public function getById($id) {
-        $sql = "SELECT * FROM product WHERE id = " . (int)$id;
+        $sql = "SELECT *
+                FROM product p
+                WHERE p.id = " . (int)$id;
         $result = $this->con->query($sql);
     
         $product = null;
         if ($result->num_rows > 0) {
-            $product = $result->fetch_assoc();
+            $product = $result->fetch_object();
+
+            $sqlDetails = "SELECT * FROM  productdetail pd WHERE pd.product_id = " . (int)$id;
+            $resultDetails = $this->con->query($sqlDetails);
+
+            $product->productDetailsList = [];
+            if ($resultDetails->num_rows > 0) {
+                while ($row = $resultDetails->fetch_assoc()) {
+                    $product->productDetailsList[] = $row;
+                }
+            }
         }
     
         return $product;
     }
     
+    public function getByCategory($category , $limit, $offset) {
+        $sql = "SELECT *
+                FROM product
+                WHERE category_id = $category
+                LIMIT $limit OFFSET $offset";
+        $result = $this->con->query($sql);
+
+        $productList = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_object()) {
+                $productList[] = $row;
+            }
+        }
+        return $productList;
+    }
 }
 ?>

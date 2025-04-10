@@ -22,7 +22,7 @@
     $controllerName = ucfirst($controller) . 'Controller';
     require_once __DIR__ . "/controller/{$controllerName}.php";
 
-    // Khởi tạo controller và gọi phương thức
+    // Khởi tạo controller và gọi phương thức tại file này
     $controllerInstance = new $controllerName();
     $controllerInstance->$action($params);
 ?>
