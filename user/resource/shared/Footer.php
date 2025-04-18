@@ -100,6 +100,5 @@
     <script src="../../../public/assets/js/templatemo.js"></script>
     <script src="../../../public/assets/js/custom.js"></script>
     
-    <script src="../../../public/assets/js/productList.js"></script>
     <!-- End Script -->
 </body>

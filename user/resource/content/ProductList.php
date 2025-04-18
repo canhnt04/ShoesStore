@@ -64,7 +64,7 @@
                                         if (isset($product->productDetailsList) && !empty($product->productDetailsList)) {
                                             foreach ($product->productDetailsList as $detail) { ?>
                                                 <a href="Route.php?page=Product&action=showById&id=<?= $product->id ?>&color=<?= $detail['color'] ?>"
-                                                class='text-muted mb-0' ><?= $detail['color'] ?></a>
+                                                class='text-muted mb-0 text-decoration-none' ><?= $detail['color'] ?></a>
                                         <?php }
                                         }
                                         ?>

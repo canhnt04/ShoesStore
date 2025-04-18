@@ -5,9 +5,12 @@ $(document).ready(function () {
             url: url,
             method: 'GET',
             dataType: 'html',
+            beforeSend: function () {
+                // Chạy trước khi gửi request
+                $('#loadProduct').html('<p style="height:400px;">Đang tải dữ liệu...</p>');
+            },
             success: function (data) {
                 // $('#loadProduct').html("<p>Hello World</p>");
-
                 $('#loadProduct').html($(data).find('#loadProduct').html());
                 history.pushState({}, '', url); // Cập nhật URL
             },
@@ -17,19 +20,13 @@ $(document).ready(function () {
         });
     }
 
-    // Gắn sự kiện click cho link "Shop"
-    $(document).on('click', 'a.nav-link[href*="page=Product&action=showList"]', function (e) {
+    // Bắt link trên trang ProductList.php, còn các link của các trang khác sẽ render toàn bộ trang.
+    $(document).on('click', 'a[href*="page=Product&action=showList"], a[href*="page=Product&action=showByCategory"]', function (e) {
         e.preventDefault();
+        console.log('Hành vi mặc định đã bị ngăn chặn');
+        console.log('URL được chọn:', $(this).attr('href'));
         let url = $(this).attr('href');
         loadProductPage(url);
     });
-
-    // Gắn sự kiện click cho phân trang
-    $(document).on('click', '.paginationProduct a', function (e) {
-        e.preventDefault();
-        let url = $(this).attr('href');
-        console.log("Pagination URL:", url);
-        loadProductPage(url);
-    });
-
+    
 });

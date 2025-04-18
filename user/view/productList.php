@@ -8,4 +8,6 @@
 
     // Footer
     include(__DIR__ . "../../resource/shared/Footer.php");
+
 ?>
+<script src="../../../public/assets/js/product.js"></script>

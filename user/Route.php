@@ -1,6 +1,10 @@
 <?php
     // File định tuyến router
+    session_start();
 
+    $_SESSION['username'] = "HuyNek";
+    $_SESSION['password'] = "alibaba";
+    $_SESSION['userId'] = 1;
     // Lấy tên controller
     $controller = isset($_GET['page']) ? $_GET['page'] : 'Home';
     $action = isset($_GET['action']) ? $_GET['action'] : 'index';
@@ -10,11 +14,24 @@
     // $id = isset($_GET['id']) ? $_GET['id'] : null;
 
     // Tạo mảng để lấy tham số
-    $params[] = [];
-    foreach ($_GET as $key => $value) {
-        // Bỏ qua các khóa đã sử dụng cho routing
-        if ($key != 'page' && $key != 'action') {
-            $params[$key] = $value;
+    $params= [];
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        // Lấy theo yêu cầu GET, duyệt qua từng tham số
+        foreach ($_GET as $key => $value) {
+            // Bỏ qua các khóa đã sử dụng cho routing
+            if ($key != 'page' && $key != 'action') {
+                $params[$key] = $value;
+            }
+        }
+    } else if($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Lấy theo yêu cầu POST, duyệt qua từng tham số, 
+        // xem ví dụ trong ProductController.php method buyProduct 
+        foreach ($_POST as $key => $value) {
+            // Bỏ qua các khóa đã sử dụng cho routing
+            if ($key != 'page' && $key != 'action') {
+                $params[$key] = $value;
+            }
         }
     }
 

@@ -1,8 +1,8 @@
 
 <!-- Open Content -->
-<section class="bg-light">
+<section class="bg-light" id="prDetail">
         <div class="container pb-5">
-            <div class="row">
+            <div class="row" id="loadProductDetails">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
                         <img class="card-img img-fluid" src="../../../public/assets/images/test2.jpg" alt="Card image cap" id="product-detail">
@@ -14,7 +14,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h1 class="h2"><?php echo $product->name ?></h1>
-                            <p class="h3 py-2"></p>
+                            <p class="h3 py-2"><?php echo number_format($productDetailsSelected->price, 0, ',', '.') . ' VND'; ?></p></p>
                             <p class="py-2">
                                 <i class="fa fa-star text-warning"></i>
                                 <i class="fa fa-star text-warning"></i>
@@ -28,7 +28,7 @@
                                     <h6>Brand:</h6>
                                 </li>
                                 <li class="list-inline-item">
-                                    <p class="text-muted"><strong>BRAND S</strong></p>
+                                    <p class="text-muted"><strong><?php echo $productDetailsSelected->brand ?></strong></p>
                                 </li>
                             </ul>
 
@@ -41,34 +41,28 @@
                                 <li class="list-inline-item">
                                     <?php 
                                     foreach($product->productDetailsList as $productDetails) {
-                                        echo '<a href="#" class="text-muted"><strong>' . $productDetails['color'] . '</strong></a>';
+                                        echo "<a href='Route.php?page=Product&action=showById&id={$product->id}&color={$productDetails->color}' class='text-muted'><strong>{$productDetails->color}</strong></a>";
                                     }?>
                                 </li>
                             </ul>
 
-                            <h6>Specification:</h6>
-                            <ul class="list-unstyled pb-3">
-                                <li>Lorem ipsum dolor sit</li>
-                                <li>Amet, consectetur</li>
-                                <li>Adipiscing elit,set</li>
-                                <li>Duis aute irure</li>
-                                <li>Ut enim ad minim</li>
-                                <li>Dolore magna aliqua</li>
-                                <li>Excepteur sint</li>
-                            </ul>
-
-                            <form action="" method="GET">
-                                <input type="hidden" name="product-title" value="Activewear">
+                            <h6>Quantity:</h6>
+                            <p> <?php echo $productDetailsSelected->quantity ?> </p>
+                            
+                            <!--action vừa get vừa Post -->
+                            <!--GET: page=Product&action=buyProduct-->
+                            <!--POST: Dữ liệu trong form -->
+                            <form action="Route.php?page=Product&action=buyProduct" method="POST">
+                                <input type="hidden" name="page" value="Product">
+                                <input type="hidden" name="pr_id" id="pr_id" value="<?php echo $product->id ?>">
+                                <input type="hidden" name="prdetail_id" id="prdetail_id" value="<?php echo $productDetailsSelected->id ?>">
                                 <div class="row">
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item">Size :
-                                                <input type="hidden" name="product-size" id="product-size" value="S">
+                                                <input type="hidden" name="product-size" id="product-size" value="<?php echo $productDetailsSelected->size ?>">
                                             </li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">S</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">M</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">L</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size">XL</span></li>
+                                            <li class="list-inline-item"><span class="btn btn-success btn-size"><?php echo $productDetailsSelected->size ?></span></li>
                                         </ul>
                                     </div>
                                     <div class="col-auto">
@@ -84,11 +78,13 @@
                                     </div>
                                 </div>
                                 <div class="row pb-3">
+                                    <!-- Điều hướng đến trang mua sắm -->
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</button>
+                                        <button id="buyProductBtn" type="submit" class="btn btn-success btn-lg" name="action" value="buyProduct">Buy</button>
                                     </div>
+                                    <!-- Tiếp tục mua sắm -->
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                        <a id="addToCartBtn" href="Route.php?page=Product&action=addToCart" class="btn btn-success btn-lg">Add To Cart</a>
                                     </div>
                                 </div>
                             </form>
@@ -100,3 +96,39 @@
         </div>
     </section>
     <!-- Close Content -->
+    <script>
+    document.getElementById("addToCartBtn").addEventListener("click", function(e) {
+        e.preventDefault();
+        
+        var pr_id = document.getElementById("pr_id").value;
+        var prdetail_id = document.getElementById("prdetail_id").value;
+        var size = document.getElementById("product-size").value;
+        var quanity = document.getElementById("product-quanity").value;
+
+        const formData = new FormData();
+        formData.append("pr_id", pr_id);
+        formData.append("prdetail_id", prdetail_id);
+        formData.append("product-size", size);
+        formData.append("product-quanity", quanity);
+
+        $.ajax({
+            url: "Route.php?page=Product&action=addToCart",
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $('#loadProduct').html('<p style="height:400px;">Đang tải dữ liệu...</p>');
+            },
+            success: function (data) {
+                if(confirm("Thêm giỏ hàng thành công! Xem giỏ hàng?")) {
+                    $('#prDetail').html($(data).find('#cartDetail').html());
+                    window.location.href = "Route.php?page=Product&action=addToCart";
+                }
+            },
+            error: function () {
+                alert('Lỗi khi tải dữ liệu sản phẩm.');
+            }
+        });
+    });
+    </script>
