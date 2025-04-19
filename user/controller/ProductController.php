@@ -1,11 +1,11 @@
 <?php
 /* Controller ProductController sẽ được gọi bởi router nếu đúng định tuyến uri */
-
+require_once(__DIR__ ."../BaseController.php");
 require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Category.php";
 require_once __DIR__ . "/../model/Cart.php";
 
-class ProductController
+class ProductController extends BaseController
 {
     private $productModel;
     private $categoryModel;
@@ -26,7 +26,13 @@ class ProductController
         $productList = $this->productModel->getAll($limit, $offset);
         $categoryList = $this->categoryModel->getAll();
         
-        include(__DIR__ . "../../view/ProductList.php");
+        $this->render("ProductList.php", [
+            'pageNumber' => $pageNumber,
+            'productList' => $productList,
+            'categoryList' => $categoryList,
+            'totalPage' => $totalPage,
+            'paginationName' => "showList"
+        ]);
     }
 
     public function showById($params) {
@@ -40,7 +46,12 @@ class ProductController
                 break;
             }
         }
-        include(__DIR__ . "../../view/ProductDetail.php");
+        $this->render("ProductDetail.php", [
+            "id" => $id,
+            "color" => $color,
+            "product" => $product,
+            "productDetailsSelected" => $productDetailsSelected
+        ]);
     }
 
     public function showByCategory($params) {
@@ -51,7 +62,15 @@ class ProductController
         $offset = ($pageNumber - 1) * $limit;
         $productList = $this->productModel->getByCategory($categoryId, $limit, $offset);
         $categoryList = $this->categoryModel->getAll();
-        include(__DIR__ . "../../view/ProductList.php");
+
+        $this->render("ProductList.php", [
+            "pageNumber" => $pageNumber,
+            "categoryId" => $categoryId,
+            "totalPage" => $totalPage,
+            "productList" => $productList,
+            "categoryList" => $categoryList,
+            "paginationName" => "showByCategory"
+        ]);
     }
 
     public function buyProduct($params) {
@@ -84,7 +103,10 @@ class ProductController
             $check = $this->cartModel->addToCart($productDetails, $userId);
         }
         $cart = $this->cartModel->getCartByUserId($userId);
-        include(__DIR__ . "../../view/Cart.php");
+
+        $this->render("Cart.php", [
+            "cart" => $cart
+        ]);
     }
 }
 ?>

@@ -1,3 +1,4 @@
+<div id="ajaxLoad">
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
@@ -12,7 +13,7 @@
                         </a>
                         <ul id="collapseThree" class="collapse list-unstyled pl-3">
                             <?php
-                            foreach($categoryList as $category) {
+                            foreach ($categoryList as $category) {
                                 echo <<<HTML
                                 <li>
                                     <a class="text-decoration-none"
@@ -24,7 +25,7 @@
                         </ul>
                     </li>
                 </ul>
-            </div> 
+            </div>
 
             <div class="col-lg-9">
                 <div class="row">
@@ -32,7 +33,7 @@
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
                                 <a class="h3 text-dark text-decoration-none mr-3"
-                                 href="Route.php?page=Product&action=showList&pageNumber=1">All</a>
+                                    href="Route.php?page=Product&action=showList&pageNumber=1">All</a>
                             </li>
                         </ul>
                     </div>
@@ -47,47 +48,43 @@
                 </div>
 
                 <div class="row" id="loadProduct">
-                <?php
+                    <?php
                     // Kiểm tra nếu biến $productList có dữ liệu
                     if (isset($productList) && !empty($productList)) {
                         foreach ($productList as $product) { ?>
                             <div class="col-md-4">
                                 <div class="card mb-4 product-wap rounded-0">
                                     <div class="card rounded-0">
-                                        <img class="card-img rounded-0 img-fluid" src="../.../../public/assets/images/test2.jpg"/>
+                                        <img class="card-img rounded-0 img-fluid" src="../.../../public/assets/images/test2.jpg" />
                                     </div>
                                     <div class="card-body">
-                                        <p class="h3"><?= $product->name ?></p> 
+                                        <p class="h3"><?= $product->name ?></p>
 
-                                        <?php 
+                                        <?php
                                         // Duyệt chi tiết sản phẩm
-                                        if (isset($product->productDetailsList) && !empty($product->productDetailsList)) {
+                                        if (isset($product->productDetailsList)) {
                                             foreach ($product->productDetailsList as $detail) { ?>
                                                 <a href="Route.php?page=Product&action=showById&id=<?= $product->id ?>&color=<?= $detail['color'] ?>"
-                                                class='text-muted mb-0 text-decoration-none' ><?= $detail['color'] ?></a>
+                                                    class='text-muted mb-0 text-decoration-none'><?= $detail['color'] ?></a>
                                         <?php }
                                         }
                                         ?>
                                     </div>
                                 </div>
                             </div>
-                    <?php } 
+                        <?php }
                     } else { ?>
                         <div class="col-md-4">
                             <p class="text-dark">Không có sản phẩm nào.</p>
                         </div>
                     <?php } ?>
                     <ul class="pagination pagination-lg justify-content-end">
-                        <?php
-                        for($index = 1; $index<= $totalPage; $index++){
-                            echo <<<HTML
-                                <li class="page-item">
-                                    <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
-                                     href="Route.php?page=Product&action=showList&pageNumber=$index">$index</a>
-                                </li>
-                            HTML;
-                        }
-                        ?>
+                        <?php for ($index = 1; $index <= $totalPage; $index++) { ?>
+                            <li class="page-item">
+                                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                                    href="Route.php?page=Product&action=<?php $pageName ?>&pageNumber=<?php $index ?>"></a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
@@ -95,3 +92,4 @@
         </div>
     </div>
     <!-- End Content -->
+</div>

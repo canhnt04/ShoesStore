@@ -1,4 +1,4 @@
-
+<div id="ajaxLoad">
 <!-- Open Content -->
 <section class="bg-light" id="prDetail">
         <div class="container pb-5">
@@ -132,3 +132,4 @@
         });
     });
     </script>
+    </div>

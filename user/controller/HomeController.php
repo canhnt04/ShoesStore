@@ -1,5 +1,7 @@
 <?php
-    class HomeController {
+    require_once(__DIR__ ."../BaseController.php");
+
+    class HomeController extends BaseController {
 
         public function home($id = null) {
             echo "Trang Home Page";
@@ -9,9 +11,8 @@
         }
 
         public function index() {
-            include (__DIR__ . "../../resource/shared/Header.php");
-            echo "Trang Home Page </br>";
-            echo "<a href='Route.php?page=Product&action=showList&pageNumber=1'/> Danh sách sản phẩm";
+            // Gọi view Home.php
+            $this->render("Home.php");
         }
     }
 ?>
