@@ -7,7 +7,8 @@
                 <h1 class="h2 pb-4">Category</h1>
                 <ul class="list-unstyled templatemo-accordion">
                     <li class="pb-3">
-                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        <a class="collapsed d-flex justify-content-between h3 text-decoration-none" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" href="#collapseThree">
                             Category
                             <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
