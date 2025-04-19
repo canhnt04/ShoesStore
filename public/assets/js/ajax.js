@@ -10,7 +10,7 @@ $(document).ready(function () {
             },
             success: function (data) {
                 // $('#ajaxLoad').html("<p>Hello World</p>");
-                $('#ajaxLoad').replaceWith(data);
+                $('#ajaxLoad').html(data);
                 history.pushState({}, '', url);
             },
             error: function () {
@@ -22,7 +22,9 @@ $(document).ready(function () {
     $(document).on('click', 'a', function (e) {
         e.preventDefault();
         const url = $(this).attr('href');
-        if(url.startsWith('#')) return;
+        if(url.startsWith('#')) {
+            return;
+        }
         console.log("==> Bắt được link: " + url);
         loadAjax(url);
     });

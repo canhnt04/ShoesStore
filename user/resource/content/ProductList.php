@@ -82,7 +82,7 @@
                         <?php for ($index = 1; $index <= $totalPage; $index++) { ?>
                             <li class="page-item">
                                 <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
-                                    href="Route.php?page=Product&action=<?php $pageName ?>&pageNumber=<?php $index ?>"></a>
+                                    href="Route.php?page=Product&action=<?php echo $paginationName ?>&pageNumber=<?php echo $index ?>"><?php echo $index ?></a>
                             </li>
                         <?php } ?>
                     </ul>
