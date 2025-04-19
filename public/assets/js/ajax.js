@@ -11,10 +11,6 @@ $(document).ready(function () {
             success: function (data) {
                 // $('#ajaxLoad').html("<p>Hello World</p>");
                 $('#ajaxLoad').html(data);
-                // Thực thi lại các script trong view
-                content.find("script").each(function () {
-                    $.globalEval(this.innerText || this.textContent || this.innerHTML);
-                })
                 history.pushState({}, '', url);
             },
             error: function () {
