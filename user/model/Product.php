@@ -110,8 +110,19 @@ class Product
         return $result2;
     }
 
-    public function addToCart() {
+    public function getProductDetailByID($productId, $productDetailsId) {
+        $sql = "SELECT pd.size, pd.color, pd.price
+                FROM productdetail pd
+                WHERE pd.id = $productDetailsId AND pd.product_id = $productId";
 
+        $result = $this->con->query($sql);
+
+        $productDetails = null;
+        if ($result->num_rows > 0) {
+            $productDetails = $result->fetch_object();
+        }
+
+        return $productDetails;
     }
 }
 ?>

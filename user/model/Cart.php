@@ -7,19 +7,27 @@ class Cart
 
     public function __construct() {
         $db = new Database();
-        $this->con = $db->getConnection(); // Gán vào thuộc tính của class
+        $this->con = $db->getConnection();
     }
 
-    public function addToCart($productDetails, $userId) {
-        $sqlCart = "INSERT INTO cart (user_id, total_price, status)
-                VALUES ($userId, 0, 1)";
-        $cartId = $this->con->insert_id;
-        $sqlDetail = "INSERT INTO cartdetail (cart_id, product_id, quantity, price)
-            VALUES ($cartId, $productDetails->product_id, $productDetails->quantity, $productDetails->price)";
-        
-        $result = $this->con->query($sqlCart);
-
-
+    public function addToCart($productDetails, $userId, $cartId) {
+        try {
+            $sqlCartDetails = 
+                "INSERT INTO cartdetail (cart_id, product_id, quantity, price, status)
+                 VALUES ($cartId, {$productDetails->product_id}, {$productDetails->quantity}, {$productDetails->price}, 1)";
+            
+            $result = $this->con->query($sqlCartDetails);
+    
+            if (!$result) {
+                throw new Exception("MySQL Error: " . $this->con->error);
+            }
+    
+            return true;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            echo "Lỗi thêm giỏ hàng: " . $e->getMessage();
+            return false;
+        }
     }
 
     public function getCartByUserId($userId) {

@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Cart.php";
+require_once __DIR__ . "/BaseController.php";
 
-
-class CartController {
+class CartController extends BaseController{
     private $cartModel;
 
     public function __construct() {
@@ -13,9 +13,7 @@ class CartController {
     public function showCart($params) {
         $userId = $_SESSION["userId"];
         $cart = $this->cartModel->getCartByUserId($userId);
-        include(__DIR__ . "../../resource/shared/Header.php" );
-        include(__DIR__ . "../../view/Cart.php");
-        include(__DIR__ . "../../resource/shared/Footer.php" );
+        $this->render("Cart.php", ["cart" => $cart]);
     }
 }
 ?>

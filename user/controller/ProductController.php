@@ -81,26 +81,24 @@ class ProductController extends BaseController
         $productDetails->product_id = $params['pr_id'];
         $productDetails->size = $params['product-size'];
         $productDetails->quantity = $params['product-quanity'];
-        // // $productDetails->quantity = $params['price'];
 
-        // $check = $this->productModel->buyProduct($productDetails, 1);
-        // echo '<p>' .$check. '</p>';
-        // // include(__DIR__ . "../../view/ProductList.php");
-
-        echo '<p>BUYING... ' .$productDetails->size. '</p>';
+        // Thêm vào cart theo user id
+        $this->render("Cart.php", [
+        ]);
     }
 
     public function addToCart($params) {
         $userId = $_SESSION['userId'];
+        $cartId = 1;
         if(isset($params['prdetail_id'])) {
             $productDetails = new stdClass();
             $productDetails->id = $params['prdetail_id'];
             $productDetails->product_id = $params['pr_id'];
-            $productDetails->size = $params['product-size'];
-            $productDetails->price = 2000;
-            $productDetails->quantity = $params['product-quanity'];
+            $productDetails->quantity = $params['product_quantity'];
+            $model = $this->productModel->getProductDetailByID($productDetails->product_id, $productDetails->id);
+            $productDetails->price = $model->price;
         
-            $check = $this->cartModel->addToCart($productDetails, $userId);
+            $check = $this->cartModel->addToCart($productDetails, $userId, $cartId);
         }
         $cart = $this->cartModel->getCartByUserId($userId);
 

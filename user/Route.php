@@ -15,23 +15,9 @@
 
     // Tạo mảng để lấy tham số
     $params= [];
-    
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        // Lấy theo yêu cầu GET, duyệt qua từng tham số
-        foreach ($_GET as $key => $value) {
-            // Bỏ qua các khóa đã sử dụng cho routing
-            if ($key != 'page' && $key != 'action') {
-                $params[$key] = $value;
-            }
-        }
-    } else if($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Lấy theo yêu cầu POST, duyệt qua từng tham số, 
-        // xem ví dụ trong ProductController.php method buyProduct 
-        foreach ($_POST as $key => $value) {
-            // Bỏ qua các khóa đã sử dụng cho routing
-            if ($key != 'page' && $key != 'action') {
-                $params[$key] = $value;
-            }
+    foreach ($_REQUEST as $key => $value) {
+        if ($key !== 'page' && $key !== 'action') {
+            $params[$key] = $value;
         }
     }
 
