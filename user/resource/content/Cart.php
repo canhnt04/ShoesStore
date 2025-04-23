@@ -20,7 +20,7 @@
                                             </div>
                                             <div class="cart_item_color cart_info_col">
                                                 <div class="cart_item_title">Color</div>
-                                                <div class="cart_item_text"><?php echo $cartDetail->name ?></div>
+                                                <div class="cart_item_text"><?php echo $cartDetail->color ?></div>
                                             </div>
                                             <div class="cart_item_quantity cart_info_col">
                                                 <div class="cart_item_title">Quantity</div>

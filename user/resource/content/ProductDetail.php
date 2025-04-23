@@ -29,12 +29,12 @@
                                     <h6>Brand:</h6>
                                 </li>
                                 <li class="list-inline-item">
-                                    <p class="text-muted"><strong><?php echo $productDetailsSelected->brand ?></strong></p>
+                                    <p><?php echo $productDetailsSelected->brand ?></strong></p>
                                 </li>
                             </ul>
 
                             <h6>Description:</h6>
-                            <p>Test</p>
+                            <p><?php echo is_null($productDetailsSelected->description) ? $productDetailsSelected->description : 'None'; ?></p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6>Avaliable Color :</h6>
@@ -42,15 +42,21 @@
                                 <li class="list-inline-item">
                                     <?php
                                     foreach ($product->productDetailsList as $productDetails) {
-                                        echo "<a href='Route.php?page=Product&action=showById&id={$product->id}&color={$productDetails->color}' class='text-muted'><strong>{$productDetails->color}</strong></a>";
+                                        echo "<a href='Route.php?page=Product&action=showById&id={$product->id}&color={$productDetails->color}' class='text-muted text-decoration-none'><strong>{$productDetails->color}</strong></a> ";
                                     } ?>
                                 </li>
                             </ul>
 
-                            <h6>Quantity:</h6>
-                            <p> <?php echo $productDetailsSelected->quantity ?> </p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Quantity:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <p><?php echo $productDetailsSelected->quantity ?></p>
+                                </li>
+                            </ul>
 
-                            <form action="Route.php?page=Product&action=buyProduct" method="POST">
+                            <form action="Route.php?page=Cart&action=buyProduct" method="POST">
                                 <input type="hidden" name="page" value="Product">
                                 <input type="hidden" name="pr_id" id="pr_id" value="<?php echo $product->id ?>">
                                 <input type="hidden" name="prdetail_id" id="prdetail_id" value="<?php echo $productDetailsSelected->id ?>">
@@ -78,9 +84,9 @@
                                 <div class="row pb-3">
                                     <div class="col d-grid">
                                         <button id="buyProductBtn" type="submit" class="btn btn-success btn-lg" name="action" value="buyProduct">Buy</button>
-                                    </div>>
+                                    </div>
                                     <div class="col d-grid">
-                                        <a id="addToCartBtn" href="Route.php?page=Product&action=addToCart"
+                                        <a id="addToCartBtn" href="Route.php?page=Cart&action=addToCart"
                                             class="btn btn-success btn-lg">Add To Cart</a>
                                     </div>
                                 </div>

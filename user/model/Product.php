@@ -97,19 +97,6 @@ class Product
         return $productList;
     }
 
-    public function buyProduct($productDetails, $userId) {
-        $sqlOrder = "INSERT INTO orders (user_id, status_id) 
-            VALUES ($userId, 1)";
-        $result = $this->con->query($sqlOrder);
-        $orderId = $this->con->insert_id;
-
-        $sqlOrder2 = "INSERT INTO orderdetail (order_id, product_id, quantity, price) 
-            VALUES ($orderId ,$productDetails->product_id, $productDetails->quantity, 200000)";
-        $result2 = $this->con->query($sqlOrder2);
-
-        return $result2;
-    }
-
     public function getProductDetailByID($productId, $productDetailsId) {
         $sql = "SELECT pd.size, pd.color, pd.price
                 FROM productdetail pd

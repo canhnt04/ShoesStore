@@ -1,6 +1,6 @@
 <?php
 /* Controller ProductController sẽ được gọi bởi router nếu đúng định tuyến uri */
-require_once(__DIR__ ."../BaseController.php");
+require_once(__DIR__ . "../BaseController.php");
 require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Category.php";
 require_once __DIR__ . "/../model/Cart.php";
@@ -9,12 +9,11 @@ class ProductController extends BaseController
 {
     private $productModel;
     private $categoryModel;
-    private $cartModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->productModel = new Product();
         $this->categoryModel = new Category();
-        $this->cartModel = new Cart();
     }
 
     public function showList($params)
@@ -25,7 +24,7 @@ class ProductController extends BaseController
         $totalPage = $this->productModel->getTotalPage();
         $productList = $this->productModel->getAll($limit, $offset);
         $categoryList = $this->categoryModel->getAll();
-        
+
         $this->render("ProductList.php", [
             'pageNumber' => $pageNumber,
             'productList' => $productList,
@@ -35,7 +34,8 @@ class ProductController extends BaseController
         ]);
     }
 
-    public function showById($params) {
+    public function showById($params)
+    {
         $id = $params['id'];
         $color = $params['color'];
         $product = $this->productModel->getById($id);
@@ -54,7 +54,8 @@ class ProductController extends BaseController
         ]);
     }
 
-    public function showByCategory($params) {
+    public function showByCategory($params)
+    {
         $pageNumber = $params['pageNumber'];
         $categoryId = (int)$params['category'];
         $totalPage = $this->productModel->getTotalPage($categoryId);
@@ -73,38 +74,5 @@ class ProductController extends BaseController
         ]);
     }
 
-    public function buyProduct($params) {
-        // Phần tử thuộc $GET trong params: page=Product&action=buyProduct
-        // $POST trong params: prdetail_id, pr_id, product-size, ...
-        $productDetails = new stdClass(); // Tạo đỡ cái entity lỏ
-        $productDetails->id = $params['prdetail_id'];
-        $productDetails->product_id = $params['pr_id'];
-        $productDetails->size = $params['product-size'];
-        $productDetails->quantity = $params['product-quanity'];
 
-        // Thêm vào cart theo user id
-        $this->render("Cart.php", [
-        ]);
-    }
-
-    public function addToCart($params) {
-        $userId = $_SESSION['userId'];
-        $cartId = 1;
-        if(isset($params['prdetail_id'])) {
-            $productDetails = new stdClass();
-            $productDetails->id = $params['prdetail_id'];
-            $productDetails->product_id = $params['pr_id'];
-            $productDetails->quantity = $params['product_quantity'];
-            $model = $this->productModel->getProductDetailByID($productDetails->product_id, $productDetails->id);
-            $productDetails->price = $model->price;
-        
-            $check = $this->cartModel->addToCart($productDetails, $userId, $cartId);
-        }
-        $cart = $this->cartModel->getCartByUserId($userId);
-
-        $this->render("Cart.php", [
-            "cart" => $cart
-        ]);
-    }
 }
-?>
