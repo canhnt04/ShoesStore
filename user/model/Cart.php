@@ -11,19 +11,32 @@ class Cart
         $this->con = $db->getConnection();
     }
 
-    public function addToCart($productDetails, $userId, $cartId)
+    private function checkQuantity($detailId, $quantity)
     {
+        $sql =  "SELECT pd.id
+                FROM productdetail pd
+                WHERE pd.id = $detailId AND $quantity <= quantity";
+
+        $check = $this->con->query($sql);
+
+        return $check->num_rows > 0;
+    }
+
+    public function addToCart($productDetails, $userId)
+    {
+        if (!$this->checkQuantity($productDetails->id, $productDetails->quantity)) {
+            throw new Exception("Sản phẩm bạn mua không đủ số lượng!");
+        }
         try {
-            $sqlCartDetails =
+            $cartId = $this->getCartByUserId($userId)->id;
+
+            $sqlInsertCartDetails =
                 "INSERT INTO cartdetail (cart_id, product_id, quantity, price, product_detail_id, status)
                  VALUES ($cartId, $productDetails->product_id, $productDetails->quantity, $productDetails->price, $productDetails->id, 1)";
-
-            $this->con->query($sqlCartDetails);
-
-            return true;
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            throw new Exception("Thêm giỏ hàng thất bại! Vui lòng thử lại sau.");
+            $this->con->query($sqlInsertCartDetails);
+        } catch (Exception $ex) {
+            error_log($ex->getMessage());
+            throw new Exception("Thêm giỏ hàng thất bại! Vui lòng thử lại sau. " . $ex);
         }
     }
 
@@ -38,7 +51,7 @@ class Cart
                 $cart = $result->fetch_object();
 
                 $sqlDetails =
-                    "SELECT p.name, pd.color, SUM(cd.quantity) AS quantity, SUM(cd.quantity * cd.price) AS price
+                    "SELECT p.id as product_id, pd.id as prdetail_id, p.name, pd.color, SUM(cd.quantity) AS quantity, SUM(cd.quantity * cd.price) AS price
                 FROM cartdetail cd
                 LEFT JOIN product p ON p.id = cd.product_id
                 LEFT JOIN productdetail pd ON pd.id = cd.product_detail_id
@@ -56,10 +69,10 @@ class Cart
                 }
                 return $cart;
             } else {
-                throw new Exception("Lấy giỏ hàng thất bại!");
+                throw new Exception("Giỏ hàng không tồn tại trên hệ thống!");
             }
         } catch (Exception) {
-            throw new Exception("User không tồn tại hoặc chưa đăng nhập!");
+            throw new Exception("User không tồn tại trên hệ thống!");
         }
     }
 }

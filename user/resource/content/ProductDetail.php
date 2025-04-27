@@ -100,3 +100,7 @@
     </section>
     <!-- Close Content -->
 </div>
+<footer>
+<script src="../../../public/assets/js/templatemo.js"></script>
+<script src="../../../public/assets/js/custom.js"></script>
+</footer>

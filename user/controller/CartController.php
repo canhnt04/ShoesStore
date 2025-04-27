@@ -13,6 +13,14 @@ class CartController extends BaseController{
     }
 
     public function showCart($params) {
+        if (!isset($_SESSION["userId"])) {
+            http_response_code(401);
+            echo json_encode([
+                "status" => 401,
+                "message" => "Bạn chưa đăng nhập!",
+            ]);
+            return;
+        }
         $userId = $_SESSION["userId"];
         try {
             $cart = $this->cartModel->getCartByUserId($userId);
@@ -30,8 +38,15 @@ class CartController extends BaseController{
     {
         // Phần tử thuộc $GET trong params: page=Product&action=buyProduct
         // $POST trong params: prdetail_id, pr_id, product-size, ...
-        $userId = $_SESSION['userId'];
-        $cartId = 1;
+        if (!isset($_SESSION["userId"])) {
+            http_response_code(401);
+            echo json_encode([
+                "status" => 401,
+                "message" => "Bạn chưa đăng nhập!",
+            ]);
+            return;
+        }
+        $userId = $_SESSION["userId"];
         $productDetails = new stdClass();
         $productDetails->id = $params['prdetail_id'];
         $productDetails->product_id = $params['pr_id'];
@@ -40,7 +55,7 @@ class CartController extends BaseController{
         $productDetails->price = $model->price;
 
         try {
-            $check = $this->cartModel->addToCart($productDetails, $userId, $cartId);
+            $check = $this->cartModel->addToCart($productDetails, $userId);
 
             $cart = $this->cartModel->getCartByUserId($userId);
 
@@ -58,14 +73,15 @@ class CartController extends BaseController{
 
     public function addToCart($params)
     {
-        if (!isset($_SESSION['userId'])) {
+        if (!isset($_SESSION["userId"])) {
+            http_response_code(401);
             echo json_encode([
                 "status" => 401,
                 "message" => "Bạn chưa đăng nhập!",
             ]);
             return;
         }
-        $userId = $_SESSION['userId'];
+        $userId = $_SESSION["userId"];
         $cartId = 1;
         if (isset($params['prdetail_id'])) { // If này quên nó làm gì rồi :V, mà xóa thì không chạy được.
             $productDetails = new stdClass();

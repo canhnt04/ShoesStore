@@ -28,4 +28,7 @@
     // Khởi tạo controller và gọi phương thức tại file này
     $controllerInstance = new $controllerName();
     $controllerInstance->$action($params);
+    
+    session_unset();
+    session_destroy();
 ?>

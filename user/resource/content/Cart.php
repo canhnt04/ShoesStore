@@ -12,7 +12,9 @@
                             <ul class="cart_list">
                                 <?php foreach ($cart->cartDetailList as $cartDetail) { ?>
                                     <li class="cart_item clearfix">
-                                        <div class="cart_item_image"><img class="img-fluid object-fit" src="../../../public/assets/images/test2.jpg" alt=""></div>
+                                        <div class="cart_item_image">
+                                            <img class="img-fluid object-fit" src="../../../public/assets/images/test2.jpg" alt="">
+                                        </div>
                                         <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
                                             <div class="cart_item_name cart_info_col">
                                                 <div class="cart_item_title">Name</div>
@@ -30,6 +32,16 @@
                                                 <div class="cart_item_title">Price</div>
                                                 <div class="cart_item_text"><?php echo number_format($cartDetail->price, 0, ',', '.') ?></div>
                                             </div>
+                                            <div class="cart_item_select cart_info_col">
+                                                <div class="cart_item_title">Select</div>
+                                                <div class="cart_item_text">
+                                                    <input type="checkbox" class="product-checkbox"
+                                                        product_id="<?php echo $cartDetail->product_id ?>" detail_id="<?php echo $cartDetail->prdetail_id ?>"
+                                                        product_quantity="<?= $cartDetail->quantity ?>"
+                                                        product_price="<?= $cartDetail->price ?>"
+                                                        product_color="<?= $cartDetail->color ?>" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </li>
                                 <?php } ?>
@@ -42,8 +54,8 @@
                             </div>
                         </div>
                         <div class="cart_buttons">
-                            <a href="Route.php?page=Product&action=showList&pageNumber=1" type="button" class="button cart_button_clear">Continue Shopping</a>
-                            <a type="button" class="button cart_button_checkout">Go To Payment</a>
+                            <a href="Route.php?page=Product&action=showList&pageNumber=1" type="button" class="button cart_button_clear ajaxLink">Continue Shopping</a>
+                            <a href="Route.php?page=VnPay&action=checkout" id="btnCheckout" type="button" class="button cart_button_checkout">Go To Payment</a>
                         </div>
                     </div>
                 </div>

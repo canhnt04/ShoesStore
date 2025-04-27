@@ -21,58 +21,77 @@ class ProductController extends BaseController
         $pageNumber = $params['pageNumber'];
         $limit = 6;
         $offset = ($pageNumber - 1) * $limit;
-        $totalPage = $this->productModel->getTotalPage();
-        $productList = $this->productModel->getAll($limit, $offset);
-        $categoryList = $this->categoryModel->getAll();
+        try {
+            $totalPage = $this->productModel->getTotalPage();
+            $productList = $this->productModel->getAll($limit, $offset);
+            $categoryList = $this->categoryModel->getAll();
 
-        $this->render("ProductList.php", [
-            'pageNumber' => $pageNumber,
-            'productList' => $productList,
-            'categoryList' => $categoryList,
-            'totalPage' => $totalPage,
-            'paginationName' => "showList"
-        ]);
+            $this->render("ProductList.php", [
+                'pageNumber' => $pageNumber,
+                'productList' => $productList,
+                'categoryList' => $categoryList,
+                'totalPage' => $totalPage,
+                'paginationName' => "showList"
+            ]);
+        } catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode(
+                ["message" => $ex->getMessage()]
+            );
+        }
     }
 
     public function showById($params)
     {
-        $id = $params['id'];
-        $color = $params['color'];
-        $product = $this->productModel->getById($id);
-        $productDetailsSelected = null;
-        foreach ($product->productDetailsList as $productDetails) {
-            if ($productDetails->color === $color) {
-                $productDetailsSelected = $productDetails;
-                break;
+        try {
+            $id = $params['id'];
+            $color = $params['color'];
+            $product = $this->productModel->getById($id);
+            $productDetailsSelected = null;
+            foreach ($product->productDetailsList as $productDetails) {
+                if ($productDetails->color === $color) {
+                    $productDetailsSelected = $productDetails;
+                    break;
+                }
             }
+            $this->render("ProductDetail.php", [
+                "id" => $id,
+                "color" => $color,
+                "product" => $product,
+                "productDetailsSelected" => $productDetailsSelected
+            ]);
+        } catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode(
+                ["message" => $ex->getMessage()]
+            );
         }
-        $this->render("ProductDetail.php", [
-            "id" => $id,
-            "color" => $color,
-            "product" => $product,
-            "productDetailsSelected" => $productDetailsSelected
-        ]);
     }
 
     public function showByCategory($params)
     {
-        $pageNumber = $params['pageNumber'];
-        $categoryId = (int)$params['category'];
-        $totalPage = $this->productModel->getTotalPage($categoryId);
-        $limit = 6;
-        $offset = ($pageNumber - 1) * $limit;
-        $productList = $this->productModel->getByCategory($categoryId, $limit, $offset);
-        $categoryList = $this->categoryModel->getAll();
+        try {
+            $pageNumber = $params['pageNumber'];
+            $categoryId = (int)$params['category'];
+            $totalPage = $this->productModel->getTotalPage($categoryId);
+            $limit = 6;
+            $offset = ($pageNumber - 1) * $limit;
+            $productList = $this->productModel->getByCategory($categoryId, $limit, $offset);
+            $categoryList = $this->categoryModel->getAll();
 
-        $this->render("ProductList.php", [
-            "pageNumber" => $pageNumber,
-            "categoryId" => $categoryId,
-            "totalPage" => $totalPage,
-            "productList" => $productList,
-            "categoryList" => $categoryList,
-            "paginationName" => "showByCategory"
-        ]);
+            $this->render("ProductList.php", [
+                "pageNumber" => $pageNumber,
+                "categoryId" => $categoryId,
+                "totalPage" => $totalPage,
+                "productList" => $productList,
+                "categoryList" => $categoryList,
+                "paginationName" => "showByCategory"
+            ]);
+        } catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode(
+                ["message" => $ex->getMessage()]
+            );
+        }
     }
-
-
 }

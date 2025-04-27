@@ -5,111 +5,136 @@ class Product
 {
     private $con;
 
-    public function __construct() {
+    public function __construct()
+    {
         $db = new Database();
         $this->con = $db->getConnection();
     }
 
-    public function getTotalPage($categoryId = -1) {
-        if($categoryId == -1)
-            $sql = "SELECT count(*) AS total FROM product";
-        else
-            $sql = "SELECT count(*) AS total FROM product WHERE category_id = $categoryId";
-        $result = $this->con->query($sql);
-        $row = $result->fetch_assoc();
-        $totalRecord = $row['total'];
+    public function getTotalPage($categoryId = -1)
+    {
+        try {
+            if ($categoryId == -1)
+                $sql = "SELECT count(*) AS total FROM product";
+            else
+                $sql = "SELECT count(*) AS total FROM product WHERE category_id = $categoryId";
+            $result = $this->con->query($sql);
+            $row = $result->fetch_assoc();
+            $totalRecord = $row['total'];
 
-        $productPerPage = 6;
-        $totalPage = ceil($totalRecord / $productPerPage);
-        
-        return $totalPage;
-    }
+            $productPerPage = 6;
+            $totalPage = ceil($totalRecord / $productPerPage);
 
-    public function getAll($limit, $offset) {
-        $sql = "SELECT * FROM product LIMIT $limit OFFSET $offset";
-        $result = $this->con->query($sql);
-
-        $productList = [];
-        if ($result->num_rows > 0) {
-           while ($row = $result->fetch_object()) {
-                // Gán dữ liệu product
-                $product = $row;
-
-                // Truy vấn chi tiết
-                $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product->id;
-                $resultDetails = $this->con->query($sqlDetails);
-
-                $productDetails = [];
-                if ($resultDetails->num_rows > 0) {
-                    while ($detailRow = $resultDetails->fetch_assoc()) {
-                        $productDetails[] = $detailRow;
-                    }
-                }
-
-                // Gán mảng chi tiết vào product
-                $product->productDetailsList = $productDetails;
-
-                // Thêm vào danh sách, mỗi phần tử là một object.
-                $productList[] = $product;
-            }
+            return $totalPage;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
         }
-
-        return $productList;
     }
 
-    public function getById($id) {
-        $sql = "SELECT *
+    public function getAll($limit, $offset)
+    {
+        try {
+            $sql = "SELECT * FROM product LIMIT $limit OFFSET $offset";
+            $result = $this->con->query($sql);
+
+            $productList = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_object()) {
+                    // Gán dữ liệu product
+                    $product = $row;
+
+                    // Truy vấn chi tiết
+                    $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product->id;
+                    $resultDetails = $this->con->query($sqlDetails);
+
+                    $productDetails = [];
+                    if ($resultDetails->num_rows > 0) {
+                        while ($detailRow = $resultDetails->fetch_assoc()) {
+                            $productDetails[] = $detailRow;
+                        }
+                    }
+
+                    // Gán mảng chi tiết vào product
+                    $product->productDetailsList = $productDetails;
+
+                    // Thêm vào danh sách, mỗi phần tử là một object.
+                    $productList[] = $product;
+                }
+            }
+
+            return $productList;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
+
+    public function getById($id)
+    {
+        try {
+            $sql = "SELECT *
                 FROM product p
                 WHERE p.id = " . (int)$id;
-        $result = $this->con->query($sql);
-    
-        $product = null;
-        if ($result->num_rows > 0) {
-            $product = $result->fetch_object();
+            $result = $this->con->query($sql);
 
-            $sqlDetails = "SELECT * FROM  productdetail pd WHERE pd.product_id = " . (int)$id;
-            $resultDetails = $this->con->query($sqlDetails);
+            $product = null;
+            if ($result->num_rows > 0) {
+                $product = $result->fetch_object();
 
-            $product->productDetailsList = [];
-            if ($resultDetails->num_rows > 0) {
-                while ($row = $resultDetails->fetch_object()) {
-                    $product->productDetailsList[] = $row;
+                $sqlDetails = "SELECT * FROM  productdetail pd WHERE pd.product_id = " . (int)$id;
+                $resultDetails = $this->con->query($sqlDetails);
+
+                $product->productDetailsList = [];
+                if ($resultDetails->num_rows > 0) {
+                    while ($row = $resultDetails->fetch_object()) {
+                        $product->productDetailsList[] = $row;
+                    }
                 }
             }
+
+            return $product;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
         }
-    
-        return $product;
     }
-    
-    public function getByCategory($category , $limit, $offset) {
-        $sql = "SELECT *
+
+    public function getByCategory($category, $limit, $offset)
+    {
+        try {
+            $sql = "SELECT *
                 FROM product
                 WHERE category_id = $category
                 LIMIT $limit OFFSET $offset";
-        $result = $this->con->query($sql);
+            $result = $this->con->query($sql);
 
-        $productList = [];
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_object()) {
-                $productList[] = $row;
+            $productList = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_object()) {
+                    $productList[] = $row;
+                }
             }
+            return $productList;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
         }
-        return $productList;
     }
 
-    public function getProductDetailByID($productId, $productDetailsId) {
-        $sql = "SELECT pd.size, pd.color, pd.price
+    public function getProductDetailByID($productId, $productDetailsId)
+    {
+        try {
+            $sql = "SELECT pd.size, pd.color, pd.price
                 FROM productdetail pd
                 WHERE pd.id = $productDetailsId AND pd.product_id = $productId";
 
-        $result = $this->con->query($sql);
+            $result = $this->con->query($sql);
 
-        $productDetails = null;
-        if ($result->num_rows > 0) {
-            $productDetails = $result->fetch_object();
+            $productDetails = null;
+            if ($result->num_rows > 0) {
+                $productDetails = $result->fetch_object();
+            }
+
+            return $productDetails;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
         }
-
-        return $productDetails;
     }
 }
-?>

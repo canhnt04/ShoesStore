@@ -36,16 +36,16 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="Route.php?page=Home&action=index">Home</a>
+                            <a class="nav-link ajaxLink" href="Route.php?page=Home&action=index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Route.php?page=Product&action=showList&pageNumber=1">Shop</a>
+                            <a class="nav-link ajaxLink" id="headerShowList" href="Route.php?page=Product&action=showList&pageNumber=1">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Route.php?page=Home&action=about">About</a>
+                            <a class="nav-link ajaxLink" id="headerAbout" href="Route.php?page=Home&action=about">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Route.php?page=Home&action=home">Contact</a>
+                            <a class="nav-link ajaxLink" href="Route.php?page=Home&action=home">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -61,7 +61,7 @@
                     <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="Route.php?page=Cart&action=showCart">
+                    <a id="headerShowCart" class="nav-icon position-relative text-decoration-none ajaxLink" href="Route.php?page=Cart&action=showCart">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
