@@ -44,13 +44,15 @@ class ProductController extends BaseController
     public function showById($params)
     {
         try {
-            $id = $params['id'];
-            $color = $params['color'];
+            $id = $params["pr_id"];
+            $prDetailsID = $params["pr_id"];
             $product = $this->productModel->getById($id);
             $productDetailsSelected = null;
+            $color = "";
             foreach ($product->productDetailsList as $productDetails) {
-                if ($productDetails->color === $color) {
+                if ($productDetails->id === $prDetailsID) {
                     $productDetailsSelected = $productDetails;
+                    $color =  $productDetails->color;
                     break;
                 }
             }

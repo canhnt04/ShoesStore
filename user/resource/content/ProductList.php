@@ -10,16 +10,17 @@
                         <a class="collapsed d-flex justify-content-between h3 text-decoration-none" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" href="#collapseThree">
                             Category
-                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1" data-bs-toggle="collapse" role="button" href="#collapseThree"></i>
+                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" href="#collapseThree"></i>
                         </a>
                         <ul id="collapseThree" class="collapse list-unstyled pl-3">
                             <?php
                             foreach ($categoryList as $category) { ?>
                                 <li>
                                     <a class="text-decoration-none ajaxLink"
-                                     href="Route.php?page=Product&action=showByCategory&category=<?php echo $category['id'] ?>&pageNumber=1"><?php echo $category['name'] ?></a>
+                                        href="Route.php?page=Product&action=showByCategory&category=<?php echo $category['id'] ?>&pageNumber=1"><?php echo $category['name'] ?></a>
                                 </li>
-                            <?php }?>
+                            <?php } ?>
                         </ul>
                     </li>
                 </ul>
@@ -62,8 +63,9 @@
                                         // Duyệt chi tiết sản phẩm
                                         if (isset($product->productDetailsList)) {
                                             foreach ($product->productDetailsList as $detail) { ?>
-                                                <a href="Route.php?page=Product&action=showById&id=<?= $product->id ?>&color=<?= $detail['color'] ?>"
-                                                    class='text-muted mb-0 text-decoration-none ajaxLink'><?= $detail['color'] ?></a>
+                                                <a href="Route.php?page=Product&action=showById&id=<?= $detail["product_id"] ?>&pr_id=<?= $detail["id"] ?>"
+                                                    class='text-muted mb-0 text-decoration-none'><?= $detail['color'] ?></a>
+
                                         <?php }
                                         }
                                         ?>

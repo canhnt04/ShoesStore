@@ -32,14 +32,19 @@
                                                 <div class="cart_item_title">Price</div>
                                                 <div class="cart_item_text"><?php echo number_format($cartDetail->price, 0, ',', '.') ?></div>
                                             </div>
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Total</div>
+                                                <div class="cart_item_text"><?php echo number_format($cartDetail->price*$cartDetail->quantity, 0, ',', '.') ?></div>
+                                            </div>
                                             <div class="cart_item_select cart_info_col">
                                                 <div class="cart_item_title">Select</div>
-                                                <div class="cart_item_text">
+                                                <div class="cart_item_checkbox">
                                                     <input type="checkbox" class="product-checkbox"
                                                         product_id="<?php echo $cartDetail->product_id ?>" detail_id="<?php echo $cartDetail->prdetail_id ?>"
                                                         product_quantity="<?= $cartDetail->quantity ?>"
                                                         product_price="<?= $cartDetail->price ?>"
-                                                        product_color="<?= $cartDetail->color ?>" />
+                                                        product_color="<?= $cartDetail->color ?>"
+                                                        product_name="<?php echo $cartDetail->name ?>" />
                                                 </div>
                                             </div>
                                         </div>
@@ -55,7 +60,7 @@
                         </div>
                         <div class="cart_buttons">
                             <a href="Route.php?page=Product&action=showList&pageNumber=1" type="button" class="button cart_button_clear ajaxLink">Continue Shopping</a>
-                            <a href="Route.php?page=VnPay&action=checkout" id="btnCheckout" type="button" class="button cart_button_checkout">Go To Payment</a>
+                            <a href="Route.php?page=Payment&action=checkout" id="btnCheckout" type="button" class="button cart_button_checkout">Go To Payment</a>
                         </div>
                     </div>
                 </div>

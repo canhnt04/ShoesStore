@@ -107,8 +107,22 @@ ul {
     text-align: right
 }
 
+.cart_item_quantity {
+    text-align: center;
+}
+
 .cart_item_total {
-    text-align: right
+    text-align: right;
+}
+
+.cart_item_checkbox {
+    text-align: center;
+}
+
+.product-checkbox {
+    width: calc(100% - 133px);
+    float: left;
+    padding-top: 18px
 }
 
 .order_total {

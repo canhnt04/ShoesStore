@@ -55,16 +55,16 @@ $(document).ready(function () {
         e.preventDefault();
 
         const url = $(this).attr('href');   
-        const productId = $("#pr_id").val();
-        const productDetailId = $("#prdetail_id").val();
+        // const prId = $(this).attr('pr_id');
+        // const dtId = $(this).attr('dt_id');
 
-        const data = {
-            pr_id: productId,
-            prdetail_id: productDetailId,
-        };
+        // const data = {
+        //     pr_id: prId,
+        //     prdetail_id: dtId,
+        // };
         console.log("==> Gửi yêu cầu Show By ID với dữ liệu:", data);
 
-        loadAjax(url, "POST", data);
+        loadAjax(url, "GET", data);
     });
 
     $(document).on('click', '#addToCartBtn', function (e) {
@@ -98,16 +98,19 @@ $(document).ready(function () {
             detail_id: x.getAttribute("detail_id"),
             quantity: x.getAttribute("product_quantity"),
             price: x.getAttribute("product_price"),
-            color: x.getAttribute("product_color")
+            color: x.getAttribute("product_color"),
+            product_name: x.getAttribute("product_name")
         }));
 
         console.log(selected);
-        // if(selected.length == 0) {
-        //     alert("Please select one product to continue.");
-        //     return;
-        // }
+        if(selected.length == 0) {
+            alert("Please select one product to continue.");
+            return;
+        }
+        // Chuyển mảng thành chuỗi JSON
+        const jsonData = JSON.stringify(selected);
 
-        loadAjax(url, "GET", selected);
+        loadAjax(url, "POST", { products: JSON.stringify(selected) });
     });
 
     // Khi bấm nút back/forward trình duyệt
