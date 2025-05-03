@@ -39,7 +39,7 @@
                                             <div class="cart_item_select cart_info_col">
                                                 <div class="cart_item_title">Select</div>
                                                 <div class="cart_item_checkbox">
-                                                    <input type="checkbox" class="product-checkbox"
+                                                    <input type="checkbox"
                                                         product_id="<?php echo $cartDetail->product_id ?>" detail_id="<?php echo $cartDetail->prdetail_id ?>"
                                                         product_quantity="<?= $cartDetail->quantity ?>"
                                                         product_price="<?= $cartDetail->price ?>"
@@ -78,3 +78,18 @@
     }
     ?>
 </div>
+<script>
+document.getElementById("btnCheckout").onclick = function(e) {
+    e.preventDefault();
+
+    const selectedCartItem = document.querySelectorAll('input[type="checkbox"]:checked');
+
+    if (selectedCartItem.length === 0) {
+        alert("Không có sản phẩm nào được chọn!");
+        return;
+    }
+
+    // Xử lý tiếp, ví dụ gửi dữ liệu đi
+    console.log("Sản phẩm đã chọn:", selectedCartItem);
+};
+</script>

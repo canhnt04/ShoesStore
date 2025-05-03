@@ -116,14 +116,17 @@ ul {
 }
 
 .cart_item_checkbox {
-    text-align: center;
+    height: calc(100% - 27px);
+    display: flex;
+    margin-top: 25px;        /* Canh theo chiều dọc */
+    justify-content: center; /* Canh giữa theo chiều ngang */
 }
 
-.product-checkbox {
-    width: calc(100% - 133px);
-    float: left;
-    padding-top: 18px
+.cart_item_checkbox input {
+    width: 30px;
+    height: 30px;
 }
+
 
 .order_total {
     width: 100%;

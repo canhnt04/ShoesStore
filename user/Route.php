@@ -30,6 +30,6 @@
     $controllerInstance = new $controllerName();
     $controllerInstance->$action($params);
     
-    session_unset();
-    session_destroy();
+    // session_unset();
+    // session_destroy();
 ?>

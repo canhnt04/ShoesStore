@@ -4,7 +4,7 @@
 <div id="ajaxLoad">
     <main id="main" role="main">
         <section id="checkout-container">
-            <form class="needs-validation">
+            <form class="needs-validation" action="Route.php?page=Payment&action=placeorder" method="POST">
                 <div class="container">
                     <div class="row py-5">
                         <div class="sticky-top col-md-4 order-md-2 mb-4">
@@ -13,6 +13,7 @@
                                 <span class="badge badge-secondary badge-pill">3</span>
                             </h4>
                             <ul class="list-group mb-3">
+                            <?php $cart = isset($_SESSION["cartSession"]) ? $_SESSION["cartSession"] : []; ?>
                                 <?php foreach ($cart as $cartItem) { ?>
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                     <div>
@@ -25,57 +26,57 @@
                                         </small>
                                     </div>
                                     <span class="text-muted">
-                                       <?= $cartItem["price"] * $cartItem["quantity"] ?>
+                                       <?= number_format($cartItem["price"] * $cartItem["quantity"], 0, ',', '.') ?>
                                     </span>
                                 </li>
                                 <?php } ?>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Total (VND)</span>
-                                    <strong><?= sum($cart)?></strong>
+                                    <strong><?= number_format(sum($cart), 0, "," , ".") ?></strong>
                                 </li>
                             </ul>
                             <button class="button payment_checkout" type="submit">Place Order</button>
                         </div>
                         <div class="col-md-8 order-md-1">
-                            <h4 class="mb-3">Billing address</h4>
+                            <h4 class="mb-3">Your address info</h4>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="firstName">First name</label>
-                                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                    <input type="text" class="form-control" id="firstName" disabled placeholder="" value="">
                                     <div class="invalid-feedback">
                                         Valid first name is required.
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="lastName">Last name</label>
-                                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
-                                    <div class="invalid-feedback">
+                                    <input type="text" class="form-control" id="lastName" disabled placeholder="" value="">
+                                    <!-- <div class="invalid-feedback">
                                         Valid last name is required.
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="username">Username</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="username" placeholder="Username" required>
-                                    <div class="invalid-feedback" style="width: 100%;">
+                                    <input type="text" class="form-control" id="username" disabled placeholder="Username" required>
+                                    <!-- <div class="invalid-feedback" style="width: 100%;">
                                         Your username is required.
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
                             <div class="mb-3">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="you@example.com" required>
-                                <div class="invalid-feedback">
+                                <input type="email" class="form-control" id="email" name="email" disabled  placeholder="you@example.com" required>
+                                <!-- <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="mb-3">
                                 <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address.
                                 </div>
@@ -87,11 +88,11 @@
 
                             <div class="d-block my-3">
                                 <div class="custom-control custom-radio">
-                                    <input id="cash" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                    <input id="cash" name="paymentMethod" value="cash" type="radio" class="custom-control-input" checked required>
                                     <label class="custom-control-label" for="cash">Cash</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                    <input id="credit" name="paymentMethod" value="credit" type="radio" class="custom-control-input" required>
                                     <label class="custom-control-label" for="credit">Credit card</label>
                                 </div>
                             </div>
@@ -110,10 +111,6 @@
     </main>
 </div>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        console.log("DOM đã sẵn sàng để chiến!");
-        // let userName = 
-    });
 
     document.getElementById("credit").addEventListener("change", creditChecked);
 

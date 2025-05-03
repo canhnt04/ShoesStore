@@ -21,6 +21,7 @@ $(document).ready(function () {
                 history.pushState({}, '', url);
             },
             error: function (xhr, ajaxOptions, thrownError) {
+                alert("2");
                 var errorMessage = JSON.parse(xhr.responseText);
                 alert(errorMessage.message);
             }
@@ -53,17 +54,7 @@ $(document).ready(function () {
 
     $(document).on('click', '#showById', function (e) {
         e.preventDefault();
-
-        const url = $(this).attr('href');   
-        // const prId = $(this).attr('pr_id');
-        // const dtId = $(this).attr('dt_id');
-
-        // const data = {
-        //     pr_id: prId,
-        //     prdetail_id: dtId,
-        // };
-        console.log("==> Gửi yêu cầu Show By ID với dữ liệu:", data);
-
+        const url = $(this).attr('href');
         loadAjax(url, "GET", data);
     });
 
@@ -88,7 +79,7 @@ $(document).ready(function () {
         callAPI(url, "POST", data);
     });
 
-    $(document).on("click", "#btnCheckout", function(e) {
+    $(document).on("click", "#btnCheckout", function (e) {
         e.preventDefault();
         const url = $(this).attr("href");
 
@@ -103,18 +94,21 @@ $(document).ready(function () {
         }));
 
         console.log(selected);
-        if(selected.length == 0) {
+        if (selected.length == 0) {
             alert("Please select one product to continue.");
             return;
         }
-        // Chuyển mảng thành chuỗi JSON
-        const jsonData = JSON.stringify(selected);
 
         loadAjax(url, "POST", { products: JSON.stringify(selected) });
     });
 
     // Khi bấm nút back/forward trình duyệt
     window.onpopstate = function () {
+        loadAjax(location.href);
+    };
+
+    // Khi bấm reload
+    window.onload = function () {
         loadAjax(location.href);
     };
 });
