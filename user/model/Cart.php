@@ -75,4 +75,20 @@ class Cart
             throw new Exception("User không tồn tại trên hệ thống!");
         }
     }
+
+    public function removeFromCart($productDetailId, $userId) {
+        try {
+            $sqlGetCart = "SELECT id FROM cart WHERE user_id = $userId";
+            $result = $this->con->query($sqlGetCart); 
+            
+            if ($result->num_rows > 0) {
+                $cart = $result->fetch_assoc();
+                $cartId = $cart["id"];
+                $sqlDeleteCartDetail = "DELETE FROM cartdetail WHERE product_id = $productDetailId AND cart_id = $cartId";
+                $this->con->query($sqlDeleteCartDetail);
+            }
+        } catch (Exception $ex) {
+            throw new Exception("SQl Error: " .$ex->getMessage());
+        }
+    }
 }

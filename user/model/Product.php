@@ -137,4 +137,16 @@ class Product
             throw new Exception("SQL Error: " . $ex->getMessage());
         }
     }
+
+    public function updateQuantity($productDetailsId, $quantity) {
+        try {
+            $sql = "UPDATE productdetail pd
+                    SET pd.quantity = pd.quantity + $quantity
+                    WHERE pd.id = $productDetailsId";
+            $result = $this->con->query($sql);
+
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
 }

@@ -1,14 +1,20 @@
 <?php
 require_once("Database.php");
+require_once("Product.php");
+require_once("Cart.php");
 
 class Payment
 {
     private $con;
+    private $productModel;
+    private $cartModel;
 
     public function __construct()
     {
         $db = new Database();
         $this->con = $db->getConnection();
+        $this->productModel = new Product();
+        $this->cartModel = new Cart();
     }
 
     public function createOrder($userId, $cart, $method, $adress)
@@ -29,6 +35,8 @@ class Payment
                 $sql2 = "INSERT INTO orderdetail (order_id, product_id, quantity, price)
                          VALUES ($order_id, $product_id, $quantity, $totalPrice)";
                 $this->con->query($sql2);
+                $this->productModel->updateQuantity($cartItem["detail_id"], -$cartItem["quantity"]);
+                $this->cartModel->removeFromCart($product_id, $userId);
             }
         } catch (Exception $ex) {
             throw new Exception("SQL Error: " . $ex);

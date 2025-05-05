@@ -42,13 +42,10 @@ class PaymentController extends BaseController
         $paymentAdress = $params["address"];
         $cart = $_SESSION["cartSession"];
 
-        echo $paymentMethod . " ";
-        echo $paymentAdress;
         try{
             $this->paymentModel->createOrder($userId,  $cart, $paymentMethod, $paymentAdress);
-            $this->render("Thankyou.php");
+            $this->render("Home.php");
         } catch (Exception $ex) {
-            // Sẽ xử lý raw vì chưa gắn ajax.
             http_response_code(500);
             echo json_encode([
                 "status" => 500,

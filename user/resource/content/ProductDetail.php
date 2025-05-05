@@ -42,7 +42,7 @@
                                 <li class="list-inline-item">
                                     <?php
                                     foreach ($product->productDetailsList as $productDetails) {
-                                        echo "<a href='Route.php?page=Product&action=showById&id={$product->id}&color={$productDetails->color}' class='text-muted text-decoration-none'><strong>{$productDetails->color}</strong></a> ";
+                                        echo "<a href='Route.php?page=Product&action=showById&id={$product->id}&pr_id={$productDetails->id}' class='text-muted text-decoration-none'><strong>{$productDetails->color}</strong></a> ";
                                     } ?>
                                 </li>
                             </ul>

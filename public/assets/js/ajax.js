@@ -21,7 +21,6 @@ $(document).ready(function () {
                 history.pushState({}, '', url);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                alert("2");
                 var errorMessage = JSON.parse(xhr.responseText);
                 alert(errorMessage.message);
             }
@@ -37,6 +36,34 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 alert(data.message);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var errorMessage = JSON.parse(xhr.responseText);
+                alert(errorMessage.message);
+            }
+        });
+    }
+
+    function submitForm(url, method = "GET", data = {}) {
+        $.ajax({
+            url: url,
+            method: method,
+            dataType: "html",
+            data: data,
+            beforeSend: function () {
+                $(window).scrollTop(0);
+                $('#ajaxLoad').html(`
+                    <div style="height:600px; display:flex; align-items:center; justify-content:center;">
+                        <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
+                            src="/public/assets/images/loading.gif" alt="Loading..." />
+                    </div>
+                `);
+            },
+            success: function (data) {
+                // $('#ajaxLoad').html("<p>Hello World</p>");
+                $('#ajaxLoad').html(data);
+                alert("Your order is successful!")
+                history.pushState({}, '', "Route.php?page=Home&action=index");
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 var errorMessage = JSON.parse(xhr.responseText);
@@ -100,6 +127,14 @@ $(document).ready(function () {
         }
 
         loadAjax(url, "POST", { products: JSON.stringify(selected) });
+    });
+
+    $(document).on("submit", "#submitForm", function (e) {
+        e.preventDefault();
+        const url = $(this).attr("action");
+
+        let data = $(this).serialize(); // Lấy hết dữ liệu post trong form
+        submitForm(url,"POST",data);
     });
 
     // Khi bấm nút back/forward trình duyệt

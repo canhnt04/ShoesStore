@@ -44,7 +44,7 @@ class ProductController extends BaseController
     public function showById($params)
     {
         try {
-            $id = $params["pr_id"];
+            $id = $params["id"];
             $prDetailsID = $params["pr_id"];
             $product = $this->productModel->getById($id);
             $productDetailsSelected = null;
