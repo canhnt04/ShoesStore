@@ -31,8 +31,8 @@ class Cart
             $cartId = $this->getCartByUserId($userId)->id;
 
             $sqlInsertCartDetails =
-                "INSERT INTO cartdetail (cart_id, product_id, quantity, price, product_detail_id, status)
-                 VALUES ($cartId, $productDetails->product_id, $productDetails->quantity, $productDetails->price, $productDetails->id, 1)";
+                "INSERT INTO cartdetail (cart_id, product_id, quantity, price, created_at, updated_at, product_detail_id, status)
+                 VALUES ($cartId, $productDetails->product_id, $productDetails->quantity, $productDetails->price, NOW(), NOW(), $productDetails->id, 1)";
             $this->con->query($sqlInsertCartDetails);
         } catch (Exception $ex) {
             error_log($ex->getMessage());

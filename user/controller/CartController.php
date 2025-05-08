@@ -82,7 +82,6 @@ class CartController extends BaseController{
             return;
         }
         $userId = $_SESSION["userId"];
-        $cartId = 1;
         if (isset($params['prdetail_id'])) { // If này quên nó làm gì rồi :V, mà xóa thì không chạy được.
             $productDetails = new stdClass();
             $productDetails->id = $params['prdetail_id'];
@@ -92,7 +91,7 @@ class CartController extends BaseController{
             $productDetails->price = $model->price;
 
             try {
-                $check = $this->cartModel->addToCart($productDetails, $userId, $cartId);
+                $check = $this->cartModel->addToCart($productDetails, $userId);
 
                 echo json_encode([
                     "status" => 200,

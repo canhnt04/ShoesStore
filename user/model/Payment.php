@@ -21,8 +21,8 @@ class Payment
     {
         try {
             // Create Order
-            $sql = "INSERT INTO orders (user_id, status_id, paymethod)
-                    VALUES ($userId, 1, '$method')";
+            $sql = "INSERT INTO orders (user_id, status_id, created_at, updated_at, paymethod)
+                    VALUES ($userId, 1, NOW(), NOW(), '$method')";
             $this->con->query($sql);
             $order_id = $this->con->insert_id;
 
@@ -32,8 +32,8 @@ class Payment
                 $quantity = $cartItem['quantity'];
                 $totalPrice = $cartItem['price'] * $quantity;
 
-                $sql2 = "INSERT INTO orderdetail (order_id, product_id, quantity, price)
-                         VALUES ($order_id, $product_id, $quantity, $totalPrice)";
+                $sql2 = "INSERT INTO orderdetail (order_id, product_id, quantity, price, created_at, updated_at)
+                         VALUES ($order_id, $product_id, $quantity, $totalPrice, NOW(), NOW())";
                 $this->con->query($sql2);
                 $this->productModel->updateQuantity($cartItem["detail_id"], -$cartItem["quantity"]);
                 $this->cartModel->removeFromCart($product_id, $userId);

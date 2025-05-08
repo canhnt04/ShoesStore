@@ -78,18 +78,3 @@
     }
     ?>
 </div>
-<script>
-document.getElementById("btnCheckout").onclick = function(e) {
-    e.preventDefault();
-
-    const selectedCartItem = document.querySelectorAll('input[type="checkbox"]:checked');
-
-    if (selectedCartItem.length === 0) {
-        alert("Không có sản phẩm nào được chọn!");
-        return;
-    }
-
-    // Xử lý tiếp, ví dụ gửi dữ liệu đi
-    console.log("Sản phẩm đã chọn:", selectedCartItem);
-};
-</script>

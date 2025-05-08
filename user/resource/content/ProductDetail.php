@@ -56,7 +56,7 @@
                                 </li>
                             </ul>
 
-                            <form action="Route.php?page=Cart&action=buyProduct" method="POST">
+                            <form id="buyProductForm" action="Route.php?page=Cart&action=buyProduct" method="POST">
                                 <input type="hidden" name="page" value="Product">
                                 <input type="hidden" name="pr_id" id="pr_id" value="<?php echo $product->id ?>">
                                 <input type="hidden" name="prdetail_id" id="prdetail_id" value="<?php echo $productDetailsSelected->id ?>">

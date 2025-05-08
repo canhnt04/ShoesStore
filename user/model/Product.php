@@ -109,7 +109,25 @@ class Product
             $productList = [];
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_object()) {
-                    $productList[] = $row;
+                    // Gán dữ liệu product
+                    $product = $row;
+
+                    // Truy vấn chi tiết
+                    $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product->id;
+                    $resultDetails = $this->con->query($sqlDetails);
+
+                    $productDetails = [];
+                    if ($resultDetails->num_rows > 0) {
+                        while ($detailRow = $resultDetails->fetch_assoc()) {
+                            $productDetails[] = $detailRow;
+                        }
+                    }
+
+                    // Gán mảng chi tiết vào product
+                    $product->productDetailsList = $productDetails;
+
+                    // Thêm vào danh sách, mỗi phần tử là một object.
+                    $productList[] = $product;
                 }
             }
             return $productList;
@@ -138,13 +156,13 @@ class Product
         }
     }
 
-    public function updateQuantity($productDetailsId, $quantity) {
+    public function updateQuantity($productDetailsId, $quantity)
+    {
         try {
             $sql = "UPDATE productdetail pd
                     SET pd.quantity = pd.quantity + $quantity
                     WHERE pd.id = $productDetailsId";
             $result = $this->con->query($sql);
-
         } catch (Exception $ex) {
             throw new Exception("SQL Error: " . $ex->getMessage());
         }

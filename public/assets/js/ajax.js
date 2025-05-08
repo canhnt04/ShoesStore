@@ -129,6 +129,15 @@ $(document).ready(function () {
         loadAjax(url, "POST", { products: JSON.stringify(selected) });
     });
 
+    $(document).on("submit", "#buyProductForm", function (e) {
+        e.preventDefault();
+        const url = $(this).attr("action");
+
+        let data = $(this).serialize();
+        console.log(data);
+        loadAjax(url, "POST", data);
+    });
+    
     $(document).on("submit", "#submitForm", function (e) {
         e.preventDefault();
         const url = $(this).attr("action");
