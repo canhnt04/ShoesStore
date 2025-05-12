@@ -17,12 +17,16 @@
                 case 'customer_manager':
                     include './pages/customer_manager.php';
                     break;
+                case 'stats_customer':
+                    include './pages/stats_customer.php';
+                    break;
+               
                 default:
                     include './pages/home.php';
                     break;
             }
         } else {
-            // include './List.php';
+            include './pages/home.php';
         }
 
         ?>

@@ -47,6 +47,7 @@ CREATE TABLE `Customer` (
   `user_id` int UNIQUE NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `phone` varchar(15) UNIQUE NOT NULL,
+  `gmail` varchar(255) UNIQUE NOT NULL,
   `address` text,
   `created_at` datetime,
   `updated_at` datetime
@@ -103,19 +104,14 @@ CREATE TABLE `CartDetail` (
   `updated_at` datetime
 );
 
-CREATE TABLE `Order` (
+CREATE TABLE `Orders` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` int NOT NULL,
-  `payment_method` varchar(50) NOT NULL,
-  `payment_status` int,
-  `shipping_address` varchar(255) NOT NULL,
-  `shipping_status` int,
   `note` text,
-  `status` int,
+  `status_id` int,
   `created_at` datetime,
   `updated_at` datetime
 );
-
 CREATE TABLE `OrderDetail` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `order_id` int NOT NULL,
@@ -125,6 +121,21 @@ CREATE TABLE `OrderDetail` (
   `created_at` datetime,
   `updated_at` datetime
 );
+CREATE TABLE `Orders_status` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` datetime,
+  `updated_at` datetime
+) ;
+CREATE TABLE `Orders_status_detail` (
+  `order_id` int(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `created_at` datetime,
+  `updated_at` datetime
+  
+);
+
+
 
 CREATE TABLE `Supplier` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
@@ -195,11 +206,19 @@ ALTER TABLE `CartDetail` ADD FOREIGN KEY (`cart_id`) REFERENCES `Cart` (`id`);
 
 ALTER TABLE `CartDetail` ADD FOREIGN KEY (`product_id`) REFERENCES `Product` (`id`);
 
-ALTER TABLE `Order` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
+ALTER TABLE `Orders` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
 
-ALTER TABLE `OrderDetail` ADD FOREIGN KEY (`order_id`) REFERENCES `Order` (`id`);
+ALTER TABLE `OrderDetail` ADD FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`);
 
 ALTER TABLE `OrderDetail` ADD FOREIGN KEY (`product_id`) REFERENCES `Product` (`id`);
+
+ALTER TABLE `Orders_status` ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `Orders_status_detail` ADD FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`);
+
+ALTER TABLE `Orders_status_detail` ADD FOREIGN KEY (`status_id`) REFERENCES `Orders_status` (`id`);
+
+
 
 ALTER TABLE `ImportReceipt` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`id`);
 

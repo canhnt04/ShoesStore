@@ -1,1 +1,0 @@
-<h1>Staff Manager page</h1>
