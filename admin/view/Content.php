@@ -6,13 +6,13 @@
             $page = $_GET['page'];
             switch ($page) {
                 case 'account_manager':
-                    include './pages/account_manager.php';
+                    include './pages/role_manager.php';
                     break;
                 case 'product_manager':
                     include './pages/product_manager.php';
                     break;
-                case 'staff_manager':
-                    include './pages/staff_manager.php';
+                case 'employee_manager':
+                    include './pages/employee_manager.php';
                     break;
                 case 'customer_manager':
                     include './pages/customer_manager.php';

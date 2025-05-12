@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once '../../../config/database/ConnectDB.php';
-include_once '../../model/Model/User.php';
+include_once __DIR__ . '/../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../model/Model/Model_User.php';
 
 $username = $_POST['username'];
 $password = $_POST['password'];
