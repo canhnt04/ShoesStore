@@ -22,11 +22,15 @@
                                             </div>
                                             <div class="cart_item_color cart_info_col">
                                                 <div class="cart_item_title">Color</div>
-                                                <div class="cart_item_text"><?php echo $cartDetail->color ?></div>
+                                                <div class="cart_item_text"><?php echo $cartDetail->color  . " - " .$cartDetail->size ?></div>
                                             </div>
                                             <div class="cart_item_quantity cart_info_col">
                                                 <div class="cart_item_title">Quantity</div>
-                                                <div class="cart_item_text"><?php echo $cartDetail->quantity ?></div>
+                                                <div class="cart_item_text">
+                                                    <button class="btn btn-secondary" onclick="updateQuantity(<?= $cartDetail->id ?>, -1, <?= $cartDetail->quantity ?> )">-</button>
+                                                    <?php echo $cartDetail->quantity ?>
+                                                    <button class="btn btn-secondary" onclick="updateQuantity(<?= $cartDetail->id ?>, 1)">+</button>
+                                                </div>
                                             </div>
                                             <div class="cart_item_price cart_info_col">
                                                 <div class="cart_item_title">Price</div>
@@ -78,3 +82,28 @@
     }
     ?>
 </div>
+<script>
+    function updateQuantity(cartDetailId, quanity, oldQuantity = 1) {
+        if(oldQuantity < 1) return;
+        let url = "Route.php?page=Cart&action=updateQuantity";
+
+        let data = {
+            cartDetail_id: cartDetailId,
+            quantity: quanity
+        };
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            dataType: "html",
+            data: data,
+            success: function (data) {
+                $('#ajaxLoad').html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var errorMessage = JSON.parse(xhr.responseText);
+                alert(errorMessage.message);
+            }
+        });
+    }
+</script>

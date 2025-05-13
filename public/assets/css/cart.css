@@ -95,7 +95,7 @@ ul {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    margin-right: 11px;
+    margin-right: 2px;
     -webkit-transform: translateY(4px);
     -moz-transform: translateY(4px);
     -ms-transform: translateY(4px);
@@ -104,7 +104,7 @@ ul {
 }
 
 .cart_item_price {
-    text-align: right
+    text-align: right;
 }
 
 .cart_item_quantity {
@@ -126,7 +126,15 @@ ul {
     width: 30px;
     height: 30px;
 }
-
+    
+.input {
+    width: 36px;
+    height: 24px;
+    text-align: center;
+    font-size: 16px;
+    background-color: white;
+    border-radius: 10%;
+}
 
 .order_total {
     width: 100%;

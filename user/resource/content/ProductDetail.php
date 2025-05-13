@@ -34,19 +34,31 @@
                             </ul>
 
                             <h6>Description:</h6>
-                            <p><?php echo is_null($productDetailsSelected->description) ? $productDetailsSelected->description : 'None'; ?></p>
+                            <p><?php echo !empty($productDetailsSelected->description) ? $productDetailsSelected->description : 'None'; ?></p>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
-                                    <h6>Avaliable Color :</h6>
+                                    <h6>Avaliable Size :</h6>
                                 </li>
                                 <li class="list-inline-item">
-                                    <?php
-                                    foreach ($product->productDetailsList as $productDetails) {
-                                        echo "<a href='Route.php?page=Product&action=showById&id={$product->id}&pr_id={$productDetails->id}' class='text-muted text-decoration-none'><strong>{$productDetails->color}</strong></a> ";
-                                    } ?>
+                                    <?php foreach ($sizeList as $item) {
+                                        $class = "text-decoration-none ";
+                                        $class .= $item->id == $productDetailsSelected->id ? "text-white btn btn-success" : "text-muted" ?>
+                                        <a href='Route.php?page=Product&action=showById&id=<?php echo $product->id ?>&pr_id=<?php echo $item->id ?>' class='<?php echo $class ?>'><strong><?php echo $item->size ?></strong></a>
+                                    <?php } ?>
                                 </li>
                             </ul>
-
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <h6>Available Color:</h6>
+                                </li>
+                                <li class="list-inline-item">
+                                    <?php foreach ($colorList as $item) {
+                                        $class = "text-decoration-none ";
+                                        $class .= $item->color == $productDetailsSelected->color ? "text-white btn btn-success" : "text-muted" ?>
+                                        <a href='Route.php?page=Product&action=showById&id=<?php echo $product->id ?>&pr_id=<?php echo $item->id ?>' class='<?php echo $class ?>'><strong><?php echo $item->color ?></strong></a>
+                                    <?php } ?>
+                                </li>
+                            </ul>
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6>Quantity:</h6>
@@ -61,14 +73,6 @@
                                 <input type="hidden" name="pr_id" id="pr_id" value="<?php echo $product->id ?>">
                                 <input type="hidden" name="prdetail_id" id="prdetail_id" value="<?php echo $productDetailsSelected->id ?>">
                                 <div class="row">
-                                    <div class="col-auto">
-                                        <ul class="list-inline pb-3">
-                                            <li class="list-inline-item">Size :
-                                                <input type="hidden" name="product-size" id="product-size" value="<?php echo $productDetailsSelected->size ?>">
-                                            </li>
-                                            <li class="list-inline-item"><span class="btn btn-success btn-size"><?php echo $productDetailsSelected->size ?></span></li>
-                                        </ul>
-                                    </div>
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item text-right">
@@ -101,6 +105,6 @@
     <!-- Close Content -->
 </div>
 <footer>
-<script src="../../../public/assets/js/templatemo.js"></script>
-<script src="../../../public/assets/js/custom.js"></script>
+    <script src="../../../public/assets/js/templatemo.js"></script>
+    <script src="../../../public/assets/js/custom.js"></script>
 </footer>

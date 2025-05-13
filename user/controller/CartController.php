@@ -3,16 +3,19 @@ require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Cart.php";
 require_once __DIR__ . "/BaseController.php";
 
-class CartController extends BaseController{
+class CartController extends BaseController
+{
     private $cartModel;
     private $productModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->cartModel = new Cart();
         $this->productModel = new Product();
     }
 
-    public function showCart($params) {
+    public function showCart($params)
+    {
         if (!isset($_SESSION["userId"])) {
             http_response_code(401);
             echo json_encode([
@@ -106,5 +109,32 @@ class CartController extends BaseController{
             }
         }
     }
+
+    public function updateQuantity($params)
+    {
+        if (!isset($_SESSION["userId"])) {
+            http_response_code(401);
+            echo json_encode([
+                "status" => 401,
+                "message" => "Bạn chưa đăng nhập!",
+            ]);
+            return;
+        }
+        $userId = $_SESSION["userId"];
+        $cartDetailId = $params["cartDetail_id"];
+        $quantity = $params["quantity"];
+
+        try {
+            $this->cartModel->updateQuantity($cartDetailId, $quantity);
+            $cart = $this->cartModel->getCartByUserId($userId);
+
+            $this->render("Cart.php", ["cart" => $cart]);
+        } catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode([
+                "status" => 500,
+                "message" => $ex->getMessage(),
+            ]);
+        }
+    }
 }
-?>
