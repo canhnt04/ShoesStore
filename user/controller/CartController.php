@@ -137,4 +137,22 @@ class CartController extends BaseController
             ]);
         }
     }
+
+    public function removeFromCartDetail($params) {
+        $userId = $_SESSION["userId"];
+        $cartDetailId = $params["cartDetail_id"];
+
+        try {
+            $this->cartModel->removeFromCartDetail($cartDetailId);
+            $cart = $this->cartModel->getCartByUserId($userId);
+
+            $this->render("Cart.php", ["cart" => $cart]);
+        } catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode([
+                "status" => 500,
+                "message" => $ex->getMessage(),
+            ]);
+        }
+    }
 }

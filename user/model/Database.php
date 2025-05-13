@@ -4,7 +4,7 @@ class Database {
     private $servername = "localhost"; 
     private $username = "root";
     private $password = "";
-    private $dbname = "shoesstore";
+    private $dbname = "shoesstore2";
 
     public function __construct() {
         $this->connectDB();

@@ -29,7 +29,7 @@
                                                 <div class="cart_item_text">
                                                     <button class="btn btn-secondary" onclick="updateQuantity(<?= $cartDetail->id ?>, -1, <?= $cartDetail->quantity ?> )">-</button>
                                                     <?php echo $cartDetail->quantity ?>
-                                                    <button class="btn btn-secondary" onclick="updateQuantity(<?= $cartDetail->id ?>, 1)">+</button>
+                                                    <button class="btn btn-secondary" onclick="updateQuantity(<?= $cartDetail->id ?>, 1, <?= $cartDetail->quantity ?>)">+</button>
                                                 </div>
                                             </div>
                                             <div class="cart_item_price cart_info_col">
@@ -83,13 +83,38 @@
     ?>
 </div>
 <script>
-    function updateQuantity(cartDetailId, quanity, oldQuantity = 1) {
-        if(oldQuantity < 1) return;
+    function updateQuantity(cartDetailId, quanity, oldQuantity) {
+        if(oldQuantity + quanity <= 1) {
+            removeFromCart(cartDetailId);
+            return;
+        }
         let url = "Route.php?page=Cart&action=updateQuantity";
 
         let data = {
             cartDetail_id: cartDetailId,
             quantity: quanity
+        };
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            dataType: "html",
+            data: data,
+            success: function (data) {
+                $('#ajaxLoad').html(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var errorMessage = JSON.parse(xhr.responseText);
+                alert(errorMessage.message);
+            }
+        });
+    }
+
+    function removeFromCart(cartDetailId) {
+        let url = "Route.php?page=Cart&action=removeFromCartDetail";
+
+        let data = {
+            cartDetail_id: cartDetailId,
         };
 
         $.ajax({

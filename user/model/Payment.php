@@ -39,7 +39,7 @@ class Payment
                 $this->cartModel->removeFromCart($product_id, $userId);
             }
         } catch (Exception $ex) {
-            throw new Exception("SQL Error: " . $ex);
+            throw new Exception("SQL Error: " . $ex->getMessage());
         }
     }
 }
