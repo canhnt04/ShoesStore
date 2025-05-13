@@ -67,7 +67,7 @@ $orders = $orderController->listOrders();
                 <tr>
                     <td><input type="radio" name="selected_order_id" value="<?= $data['order']->getId() ?>" form="actionForm"></td>
                     <td><?= htmlspecialchars($data['order']->getId()) ?></td>
-                    <td><?= htmlspecialchars($data['order']->getCustomerId()) ?></td>
+                    <td><?= htmlspecialchars($data['order']->getUserId()) ?></td>
                     <td><?= htmlspecialchars($data['customer_name']) ?></td>
                     <td><?= htmlspecialchars($data['customer_phone']) ?></td>
                     <td><?= htmlspecialchars($data['customer_address']) ?></td>
@@ -131,10 +131,10 @@ $orders = $orderController->listOrders();
 
                             // Trạng thái theo cấp bậc (để so sánh logic)
                             const statusRank = {
-                                'Waiting Confirm': 1,
+                                'Order Placed': 1,
                                 'Order Paid': 2,
                                 'Order Shipped Out': 3,
-                                'Canceled': 4,
+                                'Order Canceled': 4,
                                 'Order Received': 5
                             };
 
@@ -210,22 +210,22 @@ $orders = $orderController->listOrders();
     });
 
     $(document).on('click', '.btn-view', function(e) {
-    e.preventDefault();
+        e.preventDefault();
 
-    const orderId = $(this).data('id'); // Lấy ID từ thuộc tính data-id
-    const url = 'includes/customer-action/ajax/order_detail.php?id=' + orderId;
+        const orderId = $(this).data('id'); // Lấy ID từ thuộc tính data-id
+        const url = 'includes/customer-action/ajax/order_detail.php?id=' + orderId;
 
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function(html) {
-            $('#modal-body').html(html); // Gán nội dung vào modal
-            $('#order-modal').fadeIn(); // Hiển thị modal
-        },
-        error: function() {
-            $('#modal-body').html('<p>Lỗi khi tải dữ liệu.</p>');
-            $('#order-modal').fadeIn();
-        }
-    });
+        $.ajax({
+            url: url,
+            method: 'GET',
+            success: function(html) {
+                $('#modal-body').html(html); // Gán nội dung vào modal
+                $('#order-modal').fadeIn(); // Hiển thị modal
+            },
+            error: function() {
+                $('#modal-body').html('<p>Lỗi khi tải dữ liệu.</p>');
+                $('#order-modal').fadeIn();
+            }
+        });
     });
 </script>

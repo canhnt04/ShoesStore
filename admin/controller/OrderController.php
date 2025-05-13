@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../../config/database/ConnectDB.php';
-include_once __DIR__ . '/../controller/model/Model/Model_Order.php';
+include_once __DIR__ . '/../model/Model/Model_Order.php';
 
 
 class OrderController

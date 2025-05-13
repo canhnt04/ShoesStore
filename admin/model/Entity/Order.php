@@ -1,27 +1,33 @@
 <?php
 class Order {
     private $id;
-    private $customer_id;
+    private $user_id ;
     private $status_id;
     private $note;
+
+    private $paymethod;
+
     private $created_at;
     private $updated_at;
 
 
-    public function __construct($id, $customer_id,$note, $created_at, $updated_at) {
+    public function __construct($id, $user_id ,$note,$paymethod, $created_at, $updated_at) {
         $this->id = $id;
-        $this->customer_id = $customer_id;
+        $this->user_id  = $user_id ;
         $this->note = $note;
+        $this->paymethod = $paymethod;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
     }
     public function getId() {
         return $this->id;
     }
-    public function getCustomerId() {
-        return $this->customer_id;
+    public function getUserId() {
+        return $this->user_id ;
     }
-
+public function setUserId($user_id){
+        $this->user_id = $user_id;
+}
     public function setNote($note) {
         $this->note = $note;
     }
@@ -41,6 +47,12 @@ class Order {
     }
     public function getUpdatedAt() {
         return $this->updated_at;
+    }
+    public function getPayMethod(){
+        return $this->paymethod;
+    }
+    public function setPayMethod($paymethod){
+        $this->paymethod = $paymethod;
     }
 }
 

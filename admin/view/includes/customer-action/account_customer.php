@@ -26,7 +26,7 @@ $customers = $customerController->listCustomers(); // Lấy danh sách trực ti
             <tr>
                 <td><?= htmlspecialchars($customer->getId()) ?></td>
                 <td><?= htmlspecialchars($customer->getFullName()) ?></td>
-                <td><?= htmlspecialchars($customer->getEmail()) ?></td>
+                <td><?= htmlspecialchars($customer->getGmail()) ?></td>
                 <td><?= htmlspecialchars($customer->getPhone()) ?></td>
                 <td><?= htmlspecialchars($customer->getAddress()) ?></td>
                 <td class="table_col-action">

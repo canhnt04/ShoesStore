@@ -20,7 +20,6 @@
                 case 'stats_customer':
                     include './pages/stats_customer.php';
                     break;
-               
                 default:
                     include './pages/home.php';
                     break;
@@ -30,7 +29,6 @@
         }
 
         ?>
-
     </div>
 
 </div>

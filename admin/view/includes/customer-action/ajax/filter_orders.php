@@ -25,7 +25,7 @@ if ($orders) {
         $ordersHtml .= '<tr>
             <td><input type="radio" name="selected_order_id" value="' . htmlspecialchars($data['order']->getId()) . '" form="actionForm"></td>
             <td>' . htmlspecialchars($data['order']->getId()) . '</td>
-            <td>' . htmlspecialchars($data['order']->getCustomerId()) . '</td>
+            <td>' . htmlspecialchars($data['order']->getUserId()) . '</td>
             <td>' . htmlspecialchars($data['customer_name']) . '</td>
             <td>' . htmlspecialchars($data['customer_phone']) . '</td>
             <td>' . htmlspecialchars($data['customer_address']) . '</td>

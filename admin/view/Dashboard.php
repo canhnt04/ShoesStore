@@ -21,11 +21,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             <a href="index.php?page=customer_manager"><i class="fas fa-user-friends"></i> Khách hàng</a>
         </li>
         <li class="menu-title">THỐNG KÊ</li>
-        <li class="module-manager <?php echo ($page == 'stats_time') ? 'active' : ''; ?>">
-            <a href="index.php?page=stats_time"><i class="fas fa-chart-line"></i> Thống kê theo thời gian</a>
-        </li>
-        <li class="module-manager <?php echo ($page == 'stats_product') ? 'active' : ''; ?>">
-            <a href="index.php?page=stats_product"><i class="fas fa-chart-bar"></i> Thống kê theo sản phẩm</a>
+
+        <li class="module-manager <?php echo ($page == 'stats_customer') ? 'active' : ''; ?>">
+            <a href="index.php?page=stats_customer"><i class="fas fa-chart-bar"></i> Thống kê khach hang</a>
         </li>
     </ul>
 </aside>

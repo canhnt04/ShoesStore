@@ -4,18 +4,18 @@ class Customer {
 
     private $user_id;
     private $fullname;
-    private $email;
+    private $gmail;
     private $phone;
     private $address;
 
     private $created_at;
     private $updated_at;
 
-    public function __construct($id, $user_id, $fullname, $email, $phone, $address, $created_at, $updated_at) {
+    public function __construct($id, $user_id, $fullname, $gmail, $phone, $address, $created_at, $updated_at) {
         $this->id = $id;
         $this->user_id = $user_id;
         $this->fullname = $fullname;
-        $this->email = $email;
+        $this->gmail = $gmail;
         $this->phone = $phone;
         $this->address = $address;
         $this->created_at = $created_at;
@@ -32,8 +32,8 @@ class Customer {
         return $this->fullname;
     }
 
-    public function getEmail() {
-        return $this->email;
+    public function getGmail() {
+        return $this->gmail;
     }
 
     public function getPhone() {

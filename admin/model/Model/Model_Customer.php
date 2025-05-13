@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../Entity/Customer.php';
-include_once __DIR__ . '/../../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../../config/database/ConnectDB.php';
 
 class Model_Customer
 {
@@ -25,14 +25,14 @@ class Model_Customer
         $customers = [];
         while ($row = $result->fetch_assoc()) {
             $customer = new Customer(
-                $row['id'],
-                $row['user_id'],
-                $row['fullname'],
-                $row['email'],
-                $row['phone'],
-                $row['address'],
-                $row['created_at'],
-                $row['updated_at']
+                id: $row['id'],
+                user_id: $row['user_id'],
+                fullname: $row['fullname'],
+                gmail: $row['gmail'],
+                phone: $row['phone'],
+                address: $row['address'],
+                created_at: $row['created_at'],
+                updated_at: $row['updated_at']
             );
             $customers[] = $customer;
         }
@@ -44,27 +44,23 @@ class Model_Customer
         // Bảo vệ sortOrder khỏi SQL Injection
         $sortOrder = strtoupper($sortOrder) === 'ASC' ? 'ASC' : 'DESC';
 
-        $query = "
-    SELECT *
-    FROM (
-        SELECT 
-            c.id AS customer_id,
-            SUM(o.total_price) AS total_spent,
-            c.fullname AS customer_name
-        FROM 
-            orders o
-        JOIN 
-            customer c ON o.customer_id = c.id
-        WHERE 
-            o.created_at BETWEEN ? AND ?
-        GROUP BY 
-            c.id
-        ORDER BY 
-            total_spent DESC
-        LIMIT 5
-    ) AS top_customers
-    ORDER BY total_spent $sortOrder
-";
+        $query = "SELECT *
+        FROM (
+            SELECT 
+                c.id AS user_id,
+                c.fullname AS customer_name,
+                SUM(od.quantity * od.price) AS total_spent
+            FROM orders o
+            JOIN customer c ON o.user_id = c.id
+            JOIN orderdetail od ON o.id = od.order_id
+            WHERE o.created_at BETWEEN ? AND ?
+            GROUP BY c.id
+            ORDER BY total_spent DESC
+            LIMIT 5
+        ) AS top_customers
+        ORDER BY total_spent $sortOrder"
+        
+    ;
 
 
         $stmt = $this->connection->prepare($query);

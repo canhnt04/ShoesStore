@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../Entity/Order.php';
 include_once __DIR__ . '/../Entity/OrderDetail.php';
-include_once __DIR__ . '/../../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../../config/database/ConnectDB.php';
 
 class Model_Order
 {
@@ -15,19 +15,18 @@ class Model_Order
     {
         $query = "SELECT orders.*, 
                   customer.fullname AS customer_name,
-                  customer.email AS customer_email, 
+                  customer.gmail AS customer_email, 
                   customer.phone AS customer_phone, 
                   customer.address AS customer_address,
                   orders_status.name AS status_name,
-                  payment_method.name AS payment_method_name,
                   product.name AS product_name,
-                  orders_detail.quantity AS quantity
+                  orderdetail.quantity AS quantity,
+                  SUM(orderdetail.quantity * orderdetail.price) AS total_price
                   FROM orders 
-                  LEFT JOIN customer ON orders.customer_id = customer.id
+                  LEFT JOIN customer ON orders.user_id  = customer.id
                   LEFT JOIN orders_status ON orders.status_id = orders_status.id
-                  LEFT JOIN payment_method ON orders.payment_id = payment_method.id
-                  LEFT JOIN orders_detail ON orders.id = orders_detail.order_id
-                  LEFT JOIN product ON orders_detail.product_id = product.id
+                  LEFT JOIN orderdetail ON orders.id = orderdetail.order_id
+                  LEFT JOIN product ON orderdetail.product_id = product.id
                   GROUP BY orders.id
                   ";
 
@@ -40,21 +39,23 @@ class Model_Order
         while ($row = $result->fetch_assoc()) {
             $orderData = [
                 "order" => new Order(
-                    $row['id'],
-                    $row['customer_id'],
-                    $row['note'],
-                    $row['created_at'],
-                    $row['updated_at']
+                    id: $row['id'],
+                    user_id : $row['user_id'],
+                    note: $row['note'],
+                    paymethod: $row['paymethod'],
+                    created_at: $row['created_at'],
+                    updated_at: $row['updated_at'],
+
+
                 ),
                 "customer_name" => $row['customer_name'],
                 "customer_email" => $row['customer_email'],
                 "customer_phone" => $row['customer_phone'],
                 "customer_address" => $row['customer_address'],
                 "status_name" => $row['status_name'],
-                "payment_method_name" => $row['payment_method_name'],
                 "product_name" => $row['product_name'],
                 "quantity" => $row['quantity'],
-                "total_price" => $row['total_price'],
+                "total_price"=>$row['total_price']
             ];
             $orders[] = $orderData;
         }
@@ -64,16 +65,16 @@ class Model_Order
     {
         $query = "SELECT orders.*, 
                      customer.fullname AS customer_name,
-                     customer.email AS customer_email, 
+                     customer.gmail AS customer_email, 
                      customer.phone AS customer_phone, 
                      customer.address AS customer_address,
                      orders_status.name AS status_name,
-                     payment_method.name AS payment_method_name,
+                     orders.paymethod AS paymethod_name,
                      orders.total_price
               FROM orders 
-              LEFT JOIN customer ON orders.customer_id = customer.id
+              LEFT JOIN customer ON orders.user_id  = customer.id
               LEFT JOIN orders_status ON orders.status_id = orders_status.id
-              LEFT JOIN payment_method ON orders.payment_id = payment_method.id
+              LEFT JOIN paymethod ON orders.payment_id = paymethod.id
               WHERE orders.id = ?";
 
         $stmt = $this->connection->prepare($query);
@@ -98,20 +99,20 @@ class Model_Order
     {
         $query = "SELECT orders.*, 
                      customer.fullname AS customer_name,
-                     customer.email AS customer_email, 
+                     customer.gmail AS customer_email, 
                      customer.phone AS customer_phone, 
                      customer.address AS customer_address,
                      orders_status.name AS status_name,
-                     payment_method.name AS payment_method_name,
+                     paymethod.name AS paymethod_name,
                      product.name AS product_name,
-                     orders_detail.quantity AS quantity,
-                     orders_detail.price AS total_price
+                     orderdetail.quantity AS quantity,
+                     orderdetail.price AS total_price
               FROM orders
-              LEFT JOIN customer ON orders.customer_id = customer.id
+              LEFT JOIN customer ON orders.user_id  = customer.id
               LEFT JOIN orders_status ON orders.status_id = orders_status.id
-              LEFT JOIN payment_method ON orders.payment_id = payment_method.id
-              LEFT JOIN orders_detail ON orders.id = orders_detail.order_id
-              LEFT JOIN product ON orders_detail.product_id = product.id
+              LEFT JOIN paymethod ON orders.payment_id = paymethod.id
+              LEFT JOIN orderdetail ON orders.id = orderdetail.order_id
+              LEFT JOIN product ON orderdetail.product_id = product.id
               WHERE 1=1";
 
         $params = [];
@@ -154,8 +155,9 @@ class Model_Order
             $orderData = [
                 "order" => new Order(
                     $row['id'],
-                    $row['customer_id'],
+                    $row['user_id '],
                     $row['note'],
+                    $row['paymethod'], // Assuming 'paymethod' is the missing argument
                     $row['created_at'],
                     $row['updated_at']
                 ),
@@ -164,7 +166,7 @@ class Model_Order
                 "customer_phone" => $row['customer_phone'],
                 "customer_address" => $row['customer_address'],
                 "status_name" => $row['status_name'],
-                "payment_method_name" => $row['payment_method_name'],
+                "paymethod_name" => $row['paymethod_name'],
                 "product_name" => $row['product_name'],
                 "quantity" => $row['quantity'],
                 "total_price" => $row['total_price'],
@@ -173,26 +175,26 @@ class Model_Order
         }
         return $orders;
     }
-    public function getOrdersByCustomerIdAndDateRange($customerId, $beginDate, $endDate)
+    public function getOrdersByCustomerIdAndDateRange($userId, $beginDate, $endDate)
     {
         $query = "SELECT orders.*, 
               customer.fullname AS customer_name,
-              customer.email AS customer_email, 
+              customer.gmail AS customer_email, 
               customer.phone AS customer_phone, 
               customer.address AS customer_address,
               orders_status.name AS status_name,
-              payment_method.name AS payment_method_name,
+              orders.paymethod AS paymethod_name,
               product.name AS product_name,
-              orders_detail.id AS order_detail_id,
-              orders_detail.quantity AS quantity,
-              orders_detail.price AS total_price
+              orderdetail.id AS order_detail_id,
+              orderdetail.quantity AS quantity,
+              orderdetail.price AS total_price
               FROM orders 
-              LEFT JOIN customer ON orders.customer_id = customer.id
+              LEFT JOIN customer ON orders.user_id  = customer.id
               LEFT JOIN orders_status ON orders.status_id = orders_status.id
-              LEFT JOIN payment_method ON orders.payment_id = payment_method.id
-              LEFT JOIN orders_detail ON orders.id = orders_detail.order_id
-              LEFT JOIN product ON orders_detail.product_id = product.id
-              WHERE orders.customer_id = ? 
+              LEFT JOIN paymethod ON orders.payment_id = paymethod.id
+              LEFT JOIN orderdetail ON orders.id = orderdetail.order_id
+              LEFT JOIN product ON orderdetail.product_id = product.id
+              WHERE orders.user_id  = ? 
               AND orders.created_at BETWEEN ? AND ?
               ORDER BY orders.created_at DESC";
 
@@ -201,7 +203,7 @@ class Model_Order
             die("Lỗi prepare: " . $this->connection->error);
         }
 
-        $stmt->bind_param("iss", $customerId, $beginDate, $endDate);
+        $stmt->bind_param("iss", $userId, $beginDate, $endDate);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -209,18 +211,18 @@ class Model_Order
         while ($row = $result->fetch_assoc()) {
             $orderData = [
                 "order" => new Order(
-                    $row['id'],
-                    $row['customer_id'],
-                    $row['note'],
-                    $row['created_at'],
-                    $row['updated_at']
+                    id: $row['id'],
+                    user_id : $row['user_id '],
+                    note: $row['note'],
+                    paymethod: $row['paymethod'],
+                    created_at: $row['created_at'],
+                    updated_at: $row['update_at'],
                 ),
                 "customer_name" => $row['customer_name'],
                 "customer_email" => $row['customer_email'],
                 "customer_phone" => $row['customer_phone'],
                 "customer_address" => $row['customer_address'],
                 "status_name" => $row['status_name'],
-                "payment_method_name" => $row['payment_method_name'],
                 "product_name" => $row['product_name'],
                 "quantity" => $row['quantity'],
                 "total_price" => $row['total_price'],
@@ -235,21 +237,20 @@ class Model_Order
     {
         $query = "SELECT orders.*, 
               customer.fullname AS customer_name,
-              customer.email AS customer_email, 
+              customer.gmail AS customer_email, 
               customer.phone AS customer_phone, 
               customer.address AS customer_address,
               orders_status.name AS status_name,
-              payment_method.name AS payment_method_name,
               product.name AS product_name,
-              orders_detail.id AS order_detail_id,
-              orders_detail.quantity AS quantity,
-              orders_detail.price AS total_price
+              orderdetail.id AS order_detail_id,
+              orderdetail.quantity AS quantity,
+              orderdetail.price AS total_price
               FROM orders 
-              LEFT JOIN customer ON orders.customer_id = customer.id
+              LEFT JOIN customer ON orders.user_id  = customer.id
               LEFT JOIN orders_status ON orders.status_id = orders_status.id
-              LEFT JOIN payment_method ON orders.payment_id = payment_method.id
-              LEFT JOIN orders_detail ON orders.id = orders_detail.order_id
-              LEFT JOIN product ON orders_detail.product_id = product.id
+              LEFT JOIN paymethod ON orders.payment_id = paymethod.id
+              LEFT JOIN orderdetail ON orders.id = orderdetail.order_id
+              LEFT JOIN product ON orderdetail.product_id = product.id
               WHERE orders.id = ?";
 
         $stmt = $this->connection->prepare($query);
@@ -266,8 +267,9 @@ class Model_Order
             $orderData = [
                 "order" => new Order(
                     $row['id'],
-                    $row['customer_id'],
+                    $row['user_id '],
                     $row['note'],
+                    $row['paymethod'], // Assuming 'paymethod' is the missing argument
                     $row['created_at'],
                     $row['updated_at']
                 ),
@@ -276,7 +278,6 @@ class Model_Order
                 "customer_phone" => $row['customer_phone'],
                 "customer_address" => $row['customer_address'],
                 "status_name" => $row['status_name'],
-                "payment_method_name" => $row['payment_method_name'],
                 "product_name" => $row['product_name'],
                 "quantity" => $row['quantity'],
                 "total_price" => $row['total_price'],
