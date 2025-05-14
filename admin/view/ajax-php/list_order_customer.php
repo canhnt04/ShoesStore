@@ -1,7 +1,7 @@
 <?php
-include_once __DIR__ . '/../../../../controller/OrderController.php';
+include_once __DIR__ . '/../../controller/OrderController.php';
 
-$customerId = $_GET['customer_id'] ?? null;
+$customerId = $_GET['user_id'] ?? null;
 $beginDate = $_GET['begin_date'] ?? null;
 $endDate = $_GET['end_date'] ?? null;
 
@@ -43,9 +43,9 @@ if (!$orders || count($orders) === 0) {
                 <td><?= htmlspecialchars($order['customer_name']) ?></td>
                 <td><?= htmlspecialchars($order['customer_phone']) ?></td>
                 <td><?= htmlspecialchars($order['customer_address']) ?></td>
-                <td><?= htmlspecialchars($order['order']->getCreatedAt())?></td>
+                <td><?= htmlspecialchars($order['order']->getCreatedAt()) ?></td>
                 <td><?= htmlspecialchars($order['status_name']) ?></td>
-                <td><?= htmlspecialchars($order['payment_method_name']) ?></td>
+                <td><?= htmlspecialchars($order['payment_method']) ?></td>
                 <td><?= htmlspecialchars($order['product_name'] ?? '-') ?></td>
                 <td><?= htmlspecialchars($order['quantity'] ?? '-') ?></td>
                 <td><?= isset($order['total_price']) ? number_format($order['total_price'], 0, ',', '.') . 'đ' : '-' ?></td>

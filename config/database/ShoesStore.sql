@@ -170,30 +170,7 @@ INSERT INTO `employee` (`id`, `user_id`, `fullname`, `phone`, `address`, `salary
 -- Cấu trúc bảng cho bảng `importreceipt`
 --
 
-CREATE TABLE `importreceipt` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `supplier_id` int(11) NOT NULL,
-  `total_price` decimal(10,2) NOT NULL,
-  `import_date` datetime NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `importreceiptdetail`
---
-
-CREATE TABLE `importreceiptdetail` (
-  `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price` decimal(10,2) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
