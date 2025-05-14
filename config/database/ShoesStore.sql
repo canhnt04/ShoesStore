@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 30, 2025 lúc 09:37 AM
+-- Thời gian đã tạo: Th5 13, 2025 lúc 11:10 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -65,24 +65,26 @@ CREATE TABLE `cartdetail` (
   `quantity` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `product_detail_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `cartdetail`
 --
 
-INSERT INTO `cartdetail` (`id`, `cart_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 10, 10000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(2, 1, 3, 10, 20000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(3, 2, 2, 10, 15000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(4, 3, 5, 10, 25000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(5, 4, 4, 10, 30000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(6, 5, 6, 10, 35000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(7, 6, 7, 10, 40000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(8, 7, 8, 10, 45000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(9, 8, 9, 10, 50000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30'),
-(10, 9, 10, 10, 55000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30');
+INSERT INTO `cartdetail` (`id`, `cart_id`, `product_id`, `quantity`, `price`, `created_at`, `updated_at`, `status`, `product_detail_id`) VALUES
+(2, 1, 3, 10, 20000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 1),
+(3, 2, 2, 10, 15000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(4, 3, 5, 10, 25000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(5, 4, 4, 10, 30000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(6, 5, 6, 10, 35000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(7, 6, 7, 10, 40000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(8, 7, 8, 10, 45000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(9, 8, 9, 10, 50000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(10, 9, 10, 10, 55000.00, '2025-03-30 11:57:30', '2025-03-30 11:57:30', 1, 0),
+(89, 1, 11, 2, 569000.00, '2025-05-08 08:35:00', '2025-05-08 08:35:00', 1, 12);
 
 -- --------------------------------------------------------
 
@@ -118,7 +120,6 @@ CREATE TABLE `customer` (
   `user_id` int(11) NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `phone` varchar(15) NOT NULL,
-  `gmail` varchar(255) NOT NULL,
   `address` text DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
@@ -128,14 +129,14 @@ CREATE TABLE `customer` (
 -- Đang đổ dữ liệu cho bảng `customer`
 --
 
-INSERT INTO `customer` (`id`, `user_id`, `fullname`, `phone`, `gmail`, `address`, `created_at`, `updated_at`) VALUES
-(4, 4, 'Phạm Thị D', '0956345678', 'phamthid@gmail.com', '101 Đường D, Quận 4, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
-(5, 5, 'Hoàng Văn E', '0945234567', 'hoangvane@gmail.com', '202 Đường E, Quận 5, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
-(6, 6, 'Đỗ Thị F', '0934123456', 'dothif@gmail.com', '303 Đường F, Quận 6, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
-(7, 7, 'Vũ Văn G', '0923012345', 'vuvang@gmail.com', '404 Đường G, Quận 7, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
-(8, 8, 'Bùi Thị H', '0912923456', 'buithih@gmail.com', '505 Đường H, Quận 8, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
-(9, 9, 'Ngô Văn I', '0901834567', 'ngovani@gmail.com', '606 Đường I, Quận 9, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
-(10, 10, 'Dương Thị K', '0892745678', 'duongthik@gmail.com', '707 Đường K, Quận 10, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46');
+INSERT INTO `customer` (`id`, `user_id`, `fullname`, `phone`, `address`, `created_at`, `updated_at`) VALUES
+(4, 4, 'Phạm Thị D', '0956345678', '101 Đường D, Quận 4, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
+(5, 5, 'Hoàng Văn E', '0945234567', '202 Đường E, Quận 5, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
+(6, 6, 'Đỗ Thị F', '0934123456', '303 Đường F, Quận 6, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
+(7, 7, 'Vũ Văn G', '0923012345', '404 Đường G, Quận 7, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
+(8, 8, 'Bùi Thị H', '0912923456', '505 Đường H, Quận 8, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
+(9, 9, 'Ngô Văn I', '0901834567', '606 Đường I, Quận 9, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46'),
+(10, 10, 'Dương Thị K', '0892745678', '707 Đường K, Quận 10, TP.HCM', '2025-03-30 12:08:46', '2025-03-30 12:08:46');
 
 -- --------------------------------------------------------
 
@@ -221,7 +222,11 @@ INSERT INTO `orderdetail` (`id`, `order_id`, `product_id`, `quantity`, `price`, 
 (4, 3, 4, 1, 1500000.00, '2025-03-30 12:23:01', '2025-03-30 12:23:01'),
 (5, 3, 5, 2, 250000.00, '2025-03-30 12:23:01', '2025-03-30 12:23:01'),
 (6, 4, 6, 5, 100000.00, '2025-03-30 12:23:01', '2025-03-30 12:23:01'),
-(7, 5, 7, 1, 800000.00, '2025-03-30 12:23:01', '2025-03-30 12:23:01');
+(7, 5, 7, 1, 800000.00, '2025-03-30 12:23:01', '2025-03-30 12:23:01'),
+(48, 54, 11, 3, 5121000.00, '2025-05-07 15:43:06', '2025-05-07 15:43:06'),
+(49, 55, 11, 5, 14225000.00, '2025-05-07 16:06:06', '2025-05-07 16:06:06'),
+(50, 56, 1, 12, 37200000.00, '2025-05-08 08:27:35', '2025-05-08 08:27:35'),
+(51, 57, 11, 5, 14225000.00, '2025-05-08 08:34:39', '2025-05-08 08:34:39');
 
 -- --------------------------------------------------------
 
@@ -235,21 +240,25 @@ CREATE TABLE `orders` (
   `note` text DEFAULT NULL,
   `status_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+  `updated_at` datetime DEFAULT NULL,
+  `paymethod` int(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `orders`
 --
 
-INSERT INTO `orders` (`id`, `user_id`, `note`, `status_id`, `created_at`, `updated_at`) VALUES
-(1, 4, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37'),
-(2, 5, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37'),
-(3, 6, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37'),
-(4, 7, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37'),
-(5, 8, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37'),
-(6, 9, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37'),
-(7, 10, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37');
+INSERT INTO `orders` (`id`, `user_id`, `note`, `status_id`, `created_at`, `updated_at`, `paymethod`) VALUES
+(1, 4, '', 5, '2025-03-30 12:14:37', '2025-03-30 12:14:37', 1),
+(2, 5, '', 3, '2025-03-30 12:14:37', '2025-03-30 12:14:37', 2),
+(3, 6, '', 4, '2025-03-30 12:14:37', '2025-03-30 12:14:37', 1),
+(4, 7, '', 5, '2025-03-30 12:14:37', '2025-03-30 12:14:37', 1),
+(5, 8, '', 4, '2025-03-30 12:14:37', '2025-03-30 12:14:37', 2),
+(6, 9, '', 1, '2025-03-30 12:14:37', '2025-03-30 12:14:37', 1),
+(54, 1, '', 3, '2025-05-07 15:43:06', '2025-05-07 15:43:06', 2),
+(55, 1, '', 1, '2025-05-07 16:06:06', '2025-05-07 16:06:06', 2),
+(56, 1, '', 1, '2025-05-08 08:27:35', '2025-05-08 08:27:35', 1),
+(57, 1, '', 1, '2025-05-08 08:34:39', '2025-05-08 08:34:39', 1);
 
 -- --------------------------------------------------------
 
@@ -272,8 +281,8 @@ INSERT INTO `orders_status` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Order Placed', '2025-03-30 12:27:11', '2025-03-30 12:27:11'),
 (2, 'Order Paid', '2025-03-30 12:27:11', '2025-03-30 12:27:11'),
 (3, 'Order Shipped Out', '2025-03-30 12:27:11', '2025-03-30 12:27:11'),
-(4, 'Order Received', '2025-03-30 12:27:11', '2025-03-30 12:27:11'),
-(5, 'Order Rated', '2025-03-30 12:27:11', '2025-03-30 12:27:11');
+(4, 'Order Canceled', '2025-03-30 12:27:11', '2025-03-30 12:27:11'),
+(5, 'Order Received', '2025-03-30 12:27:11', '2025-03-30 12:27:11');
 
 -- --------------------------------------------------------
 
@@ -297,6 +306,25 @@ INSERT INTO `orders_status_detail` (`order_id`, `status_id`, `created_at`, `upda
 (2, 2, '2025-03-30 12:28:51', '2025-03-30 12:28:51'),
 (3, 3, '2025-03-30 12:28:51', '2025-03-30 12:28:51'),
 (4, 4, '2025-03-30 12:28:51', '2025-03-30 12:28:51');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `payment_method`
+--
+
+CREATE TABLE `payment_method` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `payment_method`
+--
+
+INSERT INTO `payment_method` (`id`, `name`) VALUES
+(1, 'Online'),
+(2, 'Cash');
 
 -- --------------------------------------------------------
 
@@ -362,7 +390,8 @@ INSERT INTO `product` (`id`, `name`, `thumbnail`, `supplier_id`, `category_id`, 
 (7, 'Formal Shoes', 'formal_shoes.jpg', 1, 1, 0, '2025-03-30 11:46:32', '2025-03-30 11:46:32'),
 (8, 'T-shirt', 'tshirt.jpg', 1, 1, 0, '2025-03-30 11:46:32', '2025-03-30 11:46:32'),
 (9, 'Sports Shorts', 'sports_shorts.jpg', 1, 1, 0, '2025-03-30 11:46:32', '2025-03-30 11:46:32'),
-(10, 'Casual Sneakers', 'casual_sneakers.jpg', 1, 1, 0, '2025-03-30 11:46:32', '2025-03-30 11:46:32');
+(10, 'Casual Sneakers', 'casual_sneakers.jpg', 1, 1, 0, '2025-03-30 11:46:32', '2025-03-30 11:46:32'),
+(11, 'SHOES TEST', 's', 1, 1, 0, '2025-03-30 11:46:32', '2025-03-30 11:46:32');
 
 -- --------------------------------------------------------
 
@@ -389,16 +418,18 @@ CREATE TABLE `productdetail` (
 --
 
 INSERT INTO `productdetail` (`id`, `product_id`, `description`, `quantity`, `size`, `color`, `material`, `brand`, `price`, `created_at`, `updated_at`) VALUES
-(1, 1, '', 50, '42', 'Đen', 'Da tổng hợp', 'Nike', 1500000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
+(1, 1, '', 18, '42', 'Đen', 'Da tổng hợp', 'Nike', 1500000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
 (2, 2, '', 30, '41', 'Xanh', 'Lưới', 'Adidas', 1200000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
 (3, 3, '', 40, '40', 'Trắng', 'Vải', 'Puma', 1100000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
 (4, 4, '', 20, '43', 'Nâu', 'Da thật', 'Gucci', 5000000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
-(5, 5, '', 25, '39', 'Đỏ', 'Da lộn', 'Dr. Martens', 2500000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
+(5, 5, '', 20, '39', 'Đỏ', 'Da lộn', 'Dr. Martens', 2500000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
 (6, 6, '', 35, '42', 'Xám', 'Da tổng hợp', 'Lacoste', 1800000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
 (7, 7, '', 60, '44', 'Đen', 'Cao su', 'Crocs', 500000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
 (8, 8, '', 45, '38', 'Be', 'Da PU', 'Charles & Keith', 1600000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
 (9, 9, '', 20, '37', 'Hồng', 'Da thật', 'Dior', 5500000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
-(10, 10, '', 15, '44', 'Xanh rêu', 'Vải chống nước', 'Columbia', 3200000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00');
+(10, 10, '', 15, '44', 'Xanh rêu', 'Vải chống nước', 'Columbia', 3200000.00, '2025-03-30 12:36:00', '2025-03-30 12:36:00'),
+(11, 1, 'Insert Chay', 40, '42', 'Đỏ', 'Da', 'Adidas Nike', 3200000.00, NULL, NULL),
+(12, 11, 'Lorem ispum test te tes', 5, '40', 'Gray', 'Leatha', 'Nike', 569000.00, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -472,6 +503,8 @@ INSERT INTO `rolepermission` (`id`, `role_id`, `permission_id`, `created_at`, `u
 CREATE TABLE `supplier` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `phone` varchar(15) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `phone` varchar(15) NOT NULL,
   `email` varchar(255) NOT NULL,
   `address` varchar(255) NOT NULL,
@@ -559,8 +592,7 @@ ALTER TABLE `category`
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `user_id` (`user_id`),
-  ADD UNIQUE KEY `phone` (`phone`),
-  ADD UNIQUE KEY `gmail` (`gmail`);
+  ADD UNIQUE KEY `phone` (`phone`);
 
 --
 -- Chỉ mục cho bảng `employee`
@@ -569,21 +601,6 @@ ALTER TABLE `employee`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `user_id` (`user_id`),
   ADD UNIQUE KEY `phone` (`phone`);
-
---
--- Chỉ mục cho bảng `importreceipt`
---
-ALTER TABLE `importreceipt`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `supplier_id` (`supplier_id`);
-
---
--- Chỉ mục cho bảng `importreceiptdetail`
---
-ALTER TABLE `importreceiptdetail`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
 
 --
 -- Chỉ mục cho bảng `orderdetail`
@@ -598,7 +615,8 @@ ALTER TABLE `orderdetail`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `fk_payment_method` (`paymethod`);
 
 --
 -- Chỉ mục cho bảng `orders_status`
@@ -612,6 +630,12 @@ ALTER TABLE `orders_status`
 ALTER TABLE `orders_status_detail`
   ADD PRIMARY KEY (`order_id`),
   ADD KEY `status_id` (`status_id`);
+
+--
+-- Chỉ mục cho bảng `payment_method`
+--
+ALTER TABLE `payment_method`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `permission`
@@ -675,13 +699,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT cho bảng `cartdetail`
 --
 ALTER TABLE `cartdetail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -702,28 +726,28 @@ ALTER TABLE `employee`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT cho bảng `importreceipt`
---
-ALTER TABLE `importreceipt`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT cho bảng `orderdetail`
 --
 ALTER TABLE `orderdetail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT cho bảng `orders_status_detail`
 --
 ALTER TABLE `orders_status_detail`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `payment_method`
+--
+ALTER TABLE `payment_method`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `permission`
@@ -735,13 +759,13 @@ ALTER TABLE `permission`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `productdetail`
 --
 ALTER TABLE `productdetail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `role`
@@ -785,20 +809,6 @@ ALTER TABLE `cartdetail`
   ADD CONSTRAINT `cartdetail_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
--- Các ràng buộc cho bảng `importreceipt`
---
-ALTER TABLE `importreceipt`
-  ADD CONSTRAINT `importreceipt_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  ADD CONSTRAINT `importreceipt_ibfk_2` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`);
-
---
--- Các ràng buộc cho bảng `importreceiptdetail`
---
-ALTER TABLE `importreceiptdetail`
-  ADD CONSTRAINT `importreceiptdetail_ibfk_1` FOREIGN KEY (`id`) REFERENCES `importreceipt` (`id`),
-  ADD CONSTRAINT `importreceiptdetail_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
-
---
 -- Các ràng buộc cho bảng `orderdetail`
 --
 ALTER TABLE `orderdetail`
@@ -809,8 +819,46 @@ ALTER TABLE `orderdetail`
 -- Các ràng buộc cho bảng `orders`
 --
 ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_payment_method` FOREIGN KEY (`paymethod`) REFERENCES `payment_method` (`id`),
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
+--
+-- Các ràng buộc cho bảng `orders_status_detail`
+--
+ALTER TABLE `orders_status_detail`
+  ADD CONSTRAINT `orders_status_detail_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `orders_status_detail_ibfk_2` FOREIGN KEY (`status_id`) REFERENCES `orders_status` (`id`);
+
+--
+-- Các ràng buộc cho bảng `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`),
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`);
+
+--
+-- Các ràng buộc cho bảng `productdetail`
+--
+ALTER TABLE `productdetail`
+  ADD CONSTRAINT `productdetail_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+
+--
+-- Các ràng buộc cho bảng `rolepermission`
+--
+ALTER TABLE `rolepermission`
+  ADD CONSTRAINT `rolepermission_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`),
+  ADD CONSTRAINT `rolepermission_ibfk_2` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`);
+
+--
+-- Các ràng buộc cho bảng `user`
+--
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 --
 -- Các ràng buộc cho bảng `orders_status_detail`
 --
