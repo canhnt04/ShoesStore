@@ -3,16 +3,19 @@ require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Cart.php";
 require_once __DIR__ . "/BaseController.php";
 
-class CartController extends BaseController{
+class CartController extends BaseController
+{
     private $cartModel;
     private $productModel;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->cartModel = new Cart();
         $this->productModel = new Product();
     }
 
-    public function showCart($params) {
+    public function showCart($params)
+    {
         if (!isset($_SESSION["userId"])) {
             http_response_code(401);
             echo json_encode([
@@ -107,4 +110,3 @@ class CartController extends BaseController{
         }
     }
 }
-?>

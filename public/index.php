@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -15,9 +15,9 @@
 
 <body>
     <?php
-    include "./user/view/Login.php";
+    include "./user/view/Route.php";
     ?>
-    <script src="./assets/js/login.js"></script>
+    <script src="./assets/js/auth.js"></script>
 </body>
 
-</html>
+</html> -->
