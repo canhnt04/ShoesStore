@@ -20,7 +20,7 @@
 }
 
 .auth__body {
-  /* background: linear-gradient(to right, #e6f9ee, #c8f4dc); */
+  background: linear-gradient(to right, #e6f9ee, #c8f4dc);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -230,25 +230,4 @@
   line-height: 20px;
   letter-spacing: 0.3px;
   text-align: center;
-}
-
-/* Notification */
-.alert {
-  padding: 12px;
-  margin-bottom: 16px;
-  border-radius: 4px;
-  font-size: 14px;
-  text-align: center;
-}
-
-.alert-error {
-  background-color: #f8d7da;
-  color: #842029;
-  border: 1px solid #f5c2c7;
-}
-
-.alert-success {
-  background-color: #d1e7dd;
-  color: #0f5132;
-  border: 1px solid #badbcc;
 }

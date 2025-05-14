@@ -23,7 +23,7 @@ class User
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if (password_verify($password, $user['password'])) {
-                return true;
+                return $user;
             }
         }
         return false;
@@ -34,7 +34,7 @@ class User
         // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         $hashPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO user (username, email, password, role_id) VALUES (?, ?, ?, 4)";
+        $sql = "INSERT INTO user (username, email, password, role_id, status, created_at) VALUES (?, ?, ?, 4,1, NOW())";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sss", $username, $email, $hashPassword);
 

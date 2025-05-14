@@ -22,55 +22,74 @@ $(document).ready(function () {
     form.querySelectorAll("input").forEach((input) => {
       input.value = "";
     });
-    form.querySelectorAll(".alert-error").forEach((e) => {
-      e.remove();
-    });
   }
 
-  signUpForm.addEventListener("submit", (e) => {
-    if (!container.classList.contains("active")) {
-      e.preventDefault();
-    }
+  $("#loginForm").on("submit", function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: "../../../user/controller/AuthController.php",
+      method: "POST",
+      data: $(this).serialize() + "&action=login",
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          $("#ajaxLink").remove();
+          alert(response.message);
+          history.pushState(null, "", response.redirect);
+        }
+        if (response.error) {
+          alert(response.error);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Lỗi AJAX:", xhr, status, error);
+      },
+      complete: function () {
+        setTimeout(function () {
+          enableForm(signInForm);
+        }, 1000);
+      },
+    });
   });
 
-  signInForm.addEventListener("submit", (e) => {
-    if (container.classList.contains("active")) {
-      e.preventDefault();
-    }
+  $("#registerForm").submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: "../../../user/controller/AuthController.php",
+      method: "POST",
+      data: $(this).serialize() + "&action=register",
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          clearForm(signUpForm);
+          alert(response.message);
+        }
+        if (response.error) {
+          alert(response.error);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Lỗi AJAX:", xhr, status, error);
+      },
+      complete: function () {
+        setTimeout(function () {
+          enableForm(signUpForm);
+        }, 1000);
+      },
+    });
   });
 
   registerBtn.addEventListener("click", () => {
     container.classList.add("active");
-    disableForm(signInForm);
     enableForm(signUpForm);
+    disableForm(signInForm);
     clearForm(signInForm);
   });
 
   loginBtn.addEventListener("click", () => {
     container.classList.remove("active");
-    disableForm(signUpForm);
     enableForm(signInForm);
+    disableForm(signUpForm);
     clearForm(signUpForm);
   });
-
-  function submitForm(form, action) {
-    const formData = new FormData(form[0]);
-    formData.append("action", action);
-
-    $.ajax({
-      url: "../../../user/controller/AuthController.php",
-      method: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      dataType: "json",
-      success: (data) => {
-        clearForm(form);
-
-        if (data.error) {
-          $.each(data.error, (key, message) => {});
-        }
-      },
-    });
-  }
 });

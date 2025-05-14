@@ -12,66 +12,32 @@
             <div class="auth-form" id="container">
                 <div class="auth-form__container sign-up">
                     <!-- Form đăng ký -->
-                    <form class="auth-form__form" action="../../../user/controller/AuthController.php" method="POST">
+                    <form class="auth-form__form" id="registerForm" method="POST">
                         <h1 class="auth-form__heading">ĐĂNG KÝ</h1>
                         <span class="auth-form__title">Tạo tài khoản sử dụng cho riêng bạn</span>
-
-                        <?php if (!empty($error['register'])): ?>
-                            <div class="alert alert-error"><?= $error['register'] ?></div>
-                        <?php endif; ?>
-
-                        <input type="text" class="auth-form__input" name="username" placeholder="Nhập tên đăng nhập">
-                        <?php if (!empty($error['username'])): ?>
-                            <div class="alert alert-error"><?= $error['username'] ?></div>
-                        <?php endif; ?>
-
-                        <input type="email" class="auth-form__input" name="email" placeholder="Nhập email">
-                        <?php if (!empty($error['email'])): ?>
-                            <div class="alert alert-error"><?= $error['email'] ?></div>
-                        <?php endif; ?>
-
-                        <input type="password" class="auth-form__input" name="password" placeholder="Nhập mật khẩu">
-                        <?php if (!empty($error['password'])): ?>
-                            <div class="alert alert-error"><?= $error['password'] ?></div>
-                        <?php endif; ?>
-
-                        <input type="password" class="auth-form__input" name="repassword" placeholder="Nhập lại mật khẩu">
-                        <?php if (!empty($error['repassword'])): ?>
-                            <div class="alert alert-error"><?= $error['repassword'] ?></div>
-                        <?php endif; ?>
-
+                        <input type="text" class="auth-form__input" name="new-username" placeholder="Nhập tên đăng nhập">
+                        <input type="email" class="auth-form__input" name="new-email" placeholder="Nhập email">
+                        <input type="password" class="auth-form__input" name="new-password" placeholder="Nhập mật khẩu">
+                        <input type="password" class="auth-form__input" name="new-repassword" placeholder="Nhập lại mật khẩu">
                         <span class="auth-form__policy">Bằng việc tạo tài khoản, bạn đã đồng ý với
                             <a href="#" class="auth-form__link">Điều khoản dịch vụ</a> và
                             <a href="#" class="auth-form__link">Chính sách bảo mật</a>
                         </span>
                         <div class="auth-form__control">
-                            <button class="btn" type="submit" name="action" value="register">ĐĂNG KÝ</button>
+                            <button type="submit" class="btn">ĐĂNG KÝ</button>
                             <button type="button" class="btn auth-form__control-back">QUAY LẠI</button>
                         </div>
                     </form>
                 </div>
                 <!-- Form đăng nhập -->
                 <div class="auth-form__container sign-in">
-                    <form class="auth-form__form" action="../../../user/controller/AuthController.php" method="POST">
+                    <form class="auth-form__form" id="loginForm" method="POST">
                         <h1 class="auth-form__heading">ĐĂNG NHẬP</h1>
                         <span class="auth-form__title">Đăng nhập vào tài khoản của bạn</span>
-
-                        <?php if (!empty($error['login'])): ?>
-                            <div class="alert alert-error"><?= $error['login'] ?></div>
-                        <?php endif; ?>
-
-                        <input type="text" class="auth-form__input" name="username" value="<?= htmlspecialchars($_POST['username'] ?? '') ?>" placeholder="Nhập tên đăng nhập">
-                        <?php if (!empty($error['username'])): ?>
-                            <div class="alert alert-error"><?= $error['username'] ?></div>
-                        <?php endif; ?>
-
-                        <input type="password" class="auth-form__input" name="password" value="<?= htmlspecialchars($_POST['password'] ?? '') ?>" placeholder="Nhập mật khẩu">
-                        <?php if (!empty($error['password'])): ?>
-                            <div class="alert alert-error"><?= $error['password'] ?></div>
-                        <?php endif; ?>
-
+                        <input type="text" class="auth-form__input" name="username" placeholder="Nhập tên đăng nhập">
+                        <input type="password" class="auth-form__input" name="password" placeholder="Nhập mật khẩu">
                         <div class="auth-form__control">
-                            <button type="submit" class="btn" name="action" value="login">ĐĂNG NHẬP</button>
+                            <button type="submit" class="btn">ĐĂNG NHẬP</button>
                             <button type="button" class="btn auth-form__control-back">QUAY LẠI</button>
                         </div>
                     </form>
@@ -95,5 +61,7 @@
         </div>
     </div>
 </div>
+<script src="../../../public/assets/js/jquery-1.11.0.min.js"></script>
 <script src="../../../public/assets/js/jquery-3.7.1.min.js"></script>
+<script src="../../../public/assets/js/ajax.js"></script>
 <script src="../../../public/assets/js/auth.js"></script>
