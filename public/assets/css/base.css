@@ -21,6 +21,7 @@
   width: max-content;
   text-align: center;
   position: relative;
+  overflow-y: auto;
 }
 
 /* Close button */

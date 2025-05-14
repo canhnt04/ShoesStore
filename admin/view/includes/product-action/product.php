@@ -1,5 +1,8 @@
     <?php
     // Cài đặt phân trang
+
+    use function PHPSTORM_META\type;
+
     $page = isset($_GET['pagination']) ? (int)$_GET['pagination'] : 1;
     $limit = 5;
     $offset = ($page - 1) * $limit;
@@ -7,25 +10,30 @@
     $_SESSION['limit'] = $limit;
     $_SESSION['offset'] = $offset;
 
+    // Lấy danh sách danh mục
     $_GET['action'] = 'get_all_categorys';
     include __DIR__ . '/../../../controller/CategoryController.php';
     $categorys = $_SESSION['categorys'] ?? [];
     $categoryMap = [];
     foreach ($categorys as $category) {
-        if (method_exists($category, 'getId') && method_exists($category, 'getName')) {
-            $categoryMap[$category->getId()] = $category->getName();
-        }
+        $categoryMap[$category->getId()] = [
+            'id' => (int)$category->getId(),
+            'name' => $category->getName()
+        ];
     }
 
 
+
+    // Lấy danh sách nhà cung cấp
     $_GET['action'] = 'get_all_suppliers';
     include __DIR__ . '/../../../controller/SupplierController.php';
     $suppliers = $_SESSION['suppliers'] ?? [];
     $supplierMap = [];
     foreach ($suppliers as $supplier) {
-        if (method_exists($supplier, 'getId') && method_exists($supplier, 'getName')) {
-            $supplierMap[$supplier->getId()] = $supplier->getName();
-        }
+        $supplierMap[$supplier->getId()] = [
+            'id' => $supplier->getId(),
+            'name' => $supplier->getName()
+        ];
     }
 
     // Gọi 2 hành động trong controller
@@ -72,11 +80,11 @@
                     <td>
                         <img src="/DoAn/ShoesStore/admin/uploads/<?= htmlspecialchars($product->getThumbnail()) ?>"
                             alt="Hình ảnh sản phẩm"
-                            width="80"
+                            width="70"
                             onerror="this.onerror=null;this.src='/DoAn/ShoesStore/public/assets/images/no_image.png';">
                     </td>
-                    <td><?= htmlspecialchars($categoryMap[$product->getCategoryId()] ?? 'Không rõ') ?></td>
-                    <td><?= htmlspecialchars($supplierMap[$product->getSupplierId()] ?? 'Không rõ') ?></td>
+                    <td><?= ($categoryMap[$product->getCategoryId()]['name'] ?? 'Không rõ')  ?></td>
+                    <td><?= ($supplierMap[$product->getSupplierId()]['name'] ?? 'Không rõ') ?></td>
                     <td><?= htmlspecialchars($product->getStatus() == 0 ? "Đã ẩn" : "Đang bán")  ?></td>
                     <td class="table_col-action">
                         <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
@@ -135,14 +143,15 @@
                 <div class="form-group">
                     <label for="thumbnail">Tải hình ảnh sản phẩm</label>
                     <input type="file" class="form-control" id="thumbnail" name="thumbnail" required>
+                    <img id="preview_thumbnail" src="#" alt="Preview" style="display: none; margin-top: 10px;" width="150">
                 </div>
 
                 <div class="form-group">
                     <label for="category_id">Danh mục</label>
                     <select class="form-control" id="category_id" name="category_id" required>
                         <option value="">-- Chọn danh mục --</option>
-                        <?php foreach ($categoryMap as $id => $name): ?>
-                            <option value="<?= htmlspecialchars($id) ?>"><?= htmlspecialchars($name) ?></option>
+                        <?php foreach ($categoryMap as $id => $data): ?>
+                            <option value="<?= htmlspecialchars($data['id']) ?>"><?= htmlspecialchars($data['name']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -151,8 +160,8 @@
                     <label for="supplier_id">Nhà cung cấp</label>
                     <select class="form-control" id="supplier_id" name="supplier_id" required>
                         <option value="">-- Chọn nhà cung cấp --</option>
-                        <?php foreach ($supplierMap as $id => $name): ?>
-                            <option value="<?= htmlspecialchars($id) ?>"><?= htmlspecialchars($name) ?></option>
+                        <?php foreach ($supplierMap as $id => $data): ?>
+                            <option value="<?= htmlspecialchars($data['id']) ?>"><?= htmlspecialchars($data['name']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -162,7 +171,7 @@
                     <select class="form-control" id="status" name="status">
                         <option value="">-- Trạng thái --</option>
 
-                        <option value="0">Mở bán</option>
+                        <option value="1">Mở bán</option>
                         <option value="0">Ẩn</option>
                     </select>
                 </div>
@@ -200,3 +209,25 @@
             </form>
         </div>
     </div>
+
+
+    <script>
+        document.getElementById("thumbnail").addEventListener("change", function(event) {
+            const input = event.target;
+            const preview = document.getElementById("preview_thumbnail");
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = "#";
+                preview.style.display = "none";
+            }
+        });
+    </script>

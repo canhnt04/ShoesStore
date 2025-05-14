@@ -28,8 +28,8 @@ switch ($action) {
         break;
     case 'create_product':
         $name = $_POST['name'];
-        $supplier_id = $_POST['supplier_id'];
-        $category_id = $_POST['category_id'];
+        $supplier_id = (int)$_POST['supplier_id'];
+        $category_id = (int)$_POST['category_id'];
         $status = $_POST['status'];
         $pagination = $_POST['pagination'] ?? 1;
 

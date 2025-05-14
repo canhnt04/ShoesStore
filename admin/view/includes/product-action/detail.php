@@ -7,8 +7,29 @@
     $_SESSION['limit'] = $limit;
     $_SESSION['offset'] = $offset;
 
+    // Lấy danh sách danh mục
+    $_GET['action'] = 'get_all_categorys';
+    include __DIR__ . '/../../../controller/CategoryController.php';
+    $categorys = $_SESSION['categorys'] ?? [];
+    $categoryMap = [];
+    foreach ($categorys as $category) {
+        if (method_exists($category, 'getId') && method_exists($category, 'getName')) {
+            $categoryMap[$category->getId()] = $category->getName();
+        }
+    }
 
-    // Lấy danh sách sản phẩm để tiện cho việc lấy hình ảnh
+    // Lấy danh sách nhà cung cấp
+    $_GET['action'] = 'get_all_suppliers';
+    include __DIR__ . '/../../../controller/SupplierController.php';
+    $suppliers = $_SESSION['suppliers'] ?? [];
+    $supplierMap = [];
+    foreach ($suppliers as $supplier) {
+        if (method_exists($supplier, 'getId') && method_exists($supplier, 'getName')) {
+            $supplierMap[$supplier->getId()] = $supplier->getName();
+        }
+    }
+
+    // Lấy danh sách sản phẩm
     $_GET['action'] = 'get_product_without_pagination';
     include __DIR__ . '/../../../controller/ProductController.php';
     $products = $_SESSION['list_product'] ?? [];
@@ -37,6 +58,19 @@
     $totalCount = $_SESSION['count'] ?? 0;
     $totalPages = ceil($totalCount / $limit);
 
+    function formatPriceVND($price)
+    {
+        // Ép kiểu về float
+        $price = (float) $price;
+
+        // Định dạng: không hiển thị số lẻ, dùng dấu . ngăn cách hàng nghìn
+        $formattedPrice = number_format($price, 0, ',', '.');
+
+        // Thêm đơn vị VNĐ
+        return $formattedPrice . ' ₫';
+    }
+
+
     ?>
 
     <div class="account-action">
@@ -54,8 +88,8 @@
     <?php if (!empty($details)): ?>
         <table border='1'>
             <tr>
-                <th>ID sản phẩm</th>
-                <th>Hình ảnh</th>
+                <th>ID chi tiết</th>
+                <th>Tên sản phẩm</th>
                 <th>Số lượng</th>
                 <th>Size</th>
                 <th>Màu sắc</th>
@@ -67,11 +101,7 @@
             <?php foreach ($details as $detail): ?>
                 <tr>
                     <td><?= htmlspecialchars($detail->getProductId()) ?></td>
-                    <td>
-                        <img src="/DoAn/ShoesStore/admin/uploads/<?= htmlspecialchars($productMap[$detail->getProductId()]['thumbnail']) ?>"
-                            alt="Hình ảnh sản phẩm"
-                            width="80"
-                            onerror="this.onerror=null;this.src='/DoAn/ShoesStore/public/assets/images/no_image.png';">
+                    <td><?= htmlspecialchars($productMap[$detail->getProductId()]['name']) ?>
                     </td>
 
                     <td><?= htmlspecialchars($detail->getQuantity()) ?></td>
@@ -79,7 +109,7 @@
                     <td><?= htmlspecialchars($detail->getColor()) ?></td>
                     <td><?= htmlspecialchars($detail->getMaterial()) ?></td>
                     <td><?= htmlspecialchars($detail->getBrand()) ?></td>
-                    <td><?= htmlspecialchars($detail->getPrice()) ?></td>
+                    <td><?= formatPriceVND($detail->getPrice()) ?></td>
                     <td class="table_col-action">
                         <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
                         <span class="seperator"></span>
@@ -121,7 +151,7 @@
                 <div class="form-group">
                     <label for="name">Chọn sản phẩm muốn thêm chi tiết</label>
                     <select class="form-control" id="product_name" name="product_name">
-                        <option value="">-- Tên sản phẩm --</option>
+                        <option value="">-- Chọn sản phẩm cần thêm chi tiết --</option>
                         <?php foreach ($productMap as $id => $data): ?>
                             <option value="<?= htmlspecialchars($id) ?>">
                                 <?= htmlspecialchars($data['name']) ?>
