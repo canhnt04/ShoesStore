@@ -84,7 +84,7 @@
 </div>
 <script>
     function updateQuantity(cartDetailId, quanity, oldQuantity) {
-        if(oldQuantity + quanity <= 1) {
+        if(oldQuantity + quanity < 1) {
             removeFromCart(cartDetailId);
             return;
         }
