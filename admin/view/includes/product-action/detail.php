@@ -14,8 +14,16 @@
     $products = $_SESSION['list_product'] ?? [];
     $productMap = [];
     foreach ($products as $product) {
-        $productMap[$product->getId()] = $product->getThumbnail();
+        $productMap[$product->getId()] = [
+            'name' => $product->getName(),
+            'thumbnail' => $product->getThumbnail()
+        ];
     }
+
+    // echo '<pre>';
+    // print_r($productMap);
+    // echo '</pre>';
+
 
     // Gọi 2 hành động trong controller
     $_GET['action'] = 'count_list';
@@ -46,8 +54,8 @@
     <?php if (!empty($details)): ?>
         <table border='1'>
             <tr>
-                <th>ID</th>
-                <th>Id sản phẩm</th>
+                <th>ID sản phẩm</th>
+                <th>Hình ảnh</th>
                 <th>Số lượng</th>
                 <th>Size</th>
                 <th>Màu sắc</th>
@@ -58,13 +66,14 @@
             </tr>
             <?php foreach ($details as $detail): ?>
                 <tr>
-                    <td><?= htmlspecialchars($detail->getId()) ?></td>
+                    <td><?= htmlspecialchars($detail->getProductId()) ?></td>
                     <td>
-                        <img src="/DoAn/ShoesStore/admin/uploads/<?= htmlspecialchars($productMap[$detail->getProductId()]) ?>"
+                        <img src="/DoAn/ShoesStore/admin/uploads/<?= htmlspecialchars($productMap[$detail->getProductId()]['thumbnail']) ?>"
                             alt="Hình ảnh sản phẩm"
                             width="80"
                             onerror="this.onerror=null;this.src='/DoAn/ShoesStore/public/assets/images/no_image.png';">
                     </td>
+
                     <td><?= htmlspecialchars($detail->getQuantity()) ?></td>
                     <td><?= htmlspecialchars($detail->getSize()) ?></td>
                     <td><?= htmlspecialchars($detail->getColor()) ?></td>
@@ -100,3 +109,59 @@
     <?php else: ?>
         <p>Không có chi tiết sản phẩm nào.</p>
     <?php endif; ?>
+
+    <!-- Form thêm chi tiết sản phẩm mới -->
+    <div class="modal" id="modal-create">
+        <div class="modal-content">
+            <h2>Thêm chi tiết sản phẩm</h2>
+            <span class="close">&times;</span>
+            <form action="/DoAn/ShoesStore/admin/controller/ProductController.php" method="POST" enctype="multipart/form-data" class="form-create-user">
+                <input type="hidden" name="action" value="create_product">
+                <input type="hidden" name="pagination" value="<?= htmlspecialchars($totalPages) ?>">
+                <div class="form-group">
+                    <label for="name">Chọn sản phẩm muốn thêm chi tiết</label>
+                    <select class="form-control" id="product_name" name="product_name">
+                        <option value="">-- Tên sản phẩm --</option>
+                        <?php foreach ($productMap as $id => $data): ?>
+                            <option value="<?= htmlspecialchars($id) ?>">
+                                <?= htmlspecialchars($data['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="size">Danh mục</label>
+                    <select class="form-control" id="size" name="size" required>
+                        <option value="">-- SIZE --</option>
+                        <?php for ($i = 38; $i <= 50; $i++): ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="supplier_id">Nhà cung cấp</label>
+                    <select class="form-control" id="supplier_id" name="supplier_id" required>
+                        <option value="">-- Chọn nhà cung cấp --</option>
+                        <?php foreach ($supplierMap as $id => $name): ?>
+                            <option value="<?= htmlspecialchars($id) ?>"><?= htmlspecialchars($name) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Trạng thái</label>
+                    <select class="form-control" id="status" name="status">
+                        <option value="">-- Trạng thái --</option>
+
+                        <option value="0">Mở bán</option>
+                        <option value="0">Ẩn</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn">GỬI</button>
+            </form>
+
+        </div>
+    </div>

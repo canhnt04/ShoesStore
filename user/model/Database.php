@@ -1,16 +1,19 @@
 <?php
-class Database {
+class Database
+{
     private $conn;
-    private $servername = "localhost"; 
+    private $servername = "localhost";
     private $username = "root";
     private $password = "";
-    private $dbname = "shoesstore2";
+    private $dbname = "shoesstore";
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->connectDB();
     }
 
-    private function connectDB() {
+    private function connectDB()
+    {
         $this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 
         // Kiểm tra kết nối
@@ -19,8 +22,8 @@ class Database {
         }
     }
 
-    public function getConnection() {
+    public function getConnection()
+    {
         return $this->conn;
     }
 }
-?>
