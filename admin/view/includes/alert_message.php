@@ -1,8 +1,6 @@
 <?php
-// if (session_status() == PHP_SESSION_NONE) {
-//     session_start(); // Đảm bảo session được khởi động
-// }
 if (isset($_SESSION['message'])): ?>
+
     <div id="alert" class="alert <?php echo $_SESSION['message_type']; ?>">
         <?php
         if ($_SESSION['message_type'] == 'success') {

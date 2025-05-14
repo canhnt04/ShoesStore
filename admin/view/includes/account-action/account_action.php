@@ -19,7 +19,7 @@ $totalPages = ceil($totalUsers / $limit);
         <input type="text" class="input_search_account-action" placeholder="Tìm kiếm tài khoản" />
     </div>
     <div class="group-button_account-action">
-        <button class="button_account-action blue" id="add_user-btn">
+        <button class="button_account-action blue" id="open_modal-btn">
             <i class="fa-solid fa-user-plus"></i>
             <span>Thêm</span>
         </button>

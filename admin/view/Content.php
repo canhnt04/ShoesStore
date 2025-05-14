@@ -5,9 +5,6 @@
         if (isset($_GET['page'])) {
             $page = $_GET['page'];
             switch ($page) {
-                case 'account_manager':
-                    include './pages/role_manager.php';
-                    break;
                 case 'product_manager':
                     include './pages/product_manager.php';
                     break;
@@ -19,6 +16,13 @@
                     break;
                 case 'stats_customer':
                     include './pages/stats_customer.php';
+                    break;
+                case 'import_manager':
+                    include './pages/import_manager.php';
+                    break;
+
+                case 'supplier_manager':
+                    include './pages/supplier_manager.php';
                     break;
                 default:
                     include './pages/home.php';

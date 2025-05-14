@@ -24,5 +24,5 @@ if ($user) {
 }
 
 // Quay lại trang form
-header("Location: /DoAn/ShoesStore/admin/view/index.php?page=account_manager");
+header("Location: /DoAn/ShoesStore/admin/view/index.php?page=employee_manager");
 exit();
