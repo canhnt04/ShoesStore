@@ -43,8 +43,8 @@ class PaymentController extends BaseController
         $cart = $_SESSION["cartSession"];
 
         try{
-            $this->paymentModel->createOrder($userId,  $cart, $paymentMethod, $paymentAdress);
-            $this->render("Home.php");
+            $orderId = $this->paymentModel->createOrder($userId,  $cart, $paymentMethod, $paymentAdress);
+            $this->showorder(["id" => $orderId]);
         } catch (Exception $ex) {
             http_response_code(500);
             echo json_encode([
@@ -54,4 +54,52 @@ class PaymentController extends BaseController
             return;
         }
     }
+
+    public function showorder($params) {
+         if (!isset($_SESSION["userId"])) {
+            http_response_code(401);
+            echo json_encode([
+                "status" => 401,
+                "message" => "Bạn chưa đăng nhập!",
+            ]);
+            return;
+        }
+        $orderId = $params["id"];
+        try {
+            $orderDetail = $this->paymentModel->showOrderById($orderId);
+            $this->render("Order.php", ["orderDetails" => $orderDetail]);
+        }  
+        catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode([
+                "status" => 500,
+                "message" => $ex->getMessage(),
+            ]);
+            return;
+        }
+    }    
+
+    public function orderhistory($params) {
+        if (!isset($_SESSION["userId"])) {
+            http_response_code(401);
+            echo json_encode([
+                "status" => 401,
+                "message" => "Bạn chưa đăng nhập!",
+            ]);
+            return;
+        }
+        $userId = $_SESSION['userId'];
+        try {
+            $orderList = $this->paymentModel->showOrderList($userId);
+            $this->render("OrderHistory.php", ["orderList" => $orderList]);
+        }  
+        catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode([
+                "status" => 500,
+                "message" => $ex->getMessage(),
+            ]);
+            return;
+        }
+    } 
 }

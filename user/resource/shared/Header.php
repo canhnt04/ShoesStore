@@ -42,7 +42,7 @@
                             <a class="nav-link ajaxLink" id="headerShowList" href="Route.php?page=Product&action=showList&pageNumber=1">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link ajaxLink" id="headerAbout" href="Route.php?page=Home&action=about">About</a>
+                            <a class="nav-link ajaxLink" id="headerAbout" href="Route.php?page=Payment&action=orderhistory">Order History</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link ajaxLink" href="Route.php?page=Home&action=home">Contact</a>

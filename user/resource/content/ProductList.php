@@ -62,12 +62,15 @@
                                         <?php
                                         // Duyệt chi tiết sản phẩm
                                         if (isset($product->productDetailsList)) {
-                                            foreach ($product->productDetailsList as $detail) { ?>
-                                                <a href="Route.php?page=Product&action=showById&id=<?= $detail["product_id"] ?>&pr_id=<?= $detail["id"] ?>"
-                                                    class='text-muted mb-0 text-decoration-none'><?= $detail['color'] ?></a>
+                                            $colorList = [];
+                                            foreach ($product->productDetailsList as $detail) { 
+                                                if(!in_array($detail["color"], $colorList)) { 
+                                                    $colorList[] = $detail["color"];  ?>
+                                                    <a href="Route.php?page=Product&action=showById&id=<?= $detail["product_id"] ?>&pr_id=<?= $detail["id"] ?>"
+                                                        class='text-muted mb-0 text-decoration-none'><?= $detail['color'] ?></a>
 
-                                        <?php }
-                                        }
+                                        <?php }}
+                                        } 
                                         ?>
                                     </div>
                                 </div>

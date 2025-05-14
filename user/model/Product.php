@@ -68,19 +68,21 @@ class Product
         }
     }
 
-    public function getById($id)
+    public function getById1($id)
     {
         try {
             $sql = "SELECT *
                 FROM product p
-                WHERE p.id = " . (int)$id;
+                WHERE p.id = " . $id;
             $result = $this->con->query($sql);
 
             $product = null;
             if ($result->num_rows > 0) {
                 $product = $result->fetch_object();
 
-                $sqlDetails = "SELECT * FROM  productdetail pd WHERE pd.product_id = " . (int)$id;
+                $sqlDetails = "SELECT *
+                            FROM  productdetail pd
+                            WHERE pd.product_id = " . $id;
                 $resultDetails = $this->con->query($sqlDetails);
 
                 $product->productDetailsList = [];
@@ -92,6 +94,80 @@ class Product
             }
 
             return $product;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
+
+    public function getById($id, $productDetailsId)
+    {
+        try {
+            $sql = "SELECT *
+                FROM product p
+                WHERE p.id = " . $id;
+            $result = $this->con->query($sql);
+
+            $product = null;
+            if ($result->num_rows > 0) {
+                $product = $result->fetch_object();
+
+                $sqlDetails = "SELECT *
+                            FROM  productdetail pd
+                            WHERE pd.product_id = " . $id .
+                    " AND pd.id = " . $productDetailsId;
+                $resultDetails = $this->con->query($sqlDetails);
+
+                $product->productDetails = null;
+                if ($resultDetails->num_rows > 0) {
+                    while ($row = $resultDetails->fetch_object()) {
+                        $product->productDetails = $row;
+                    }
+                }
+            }
+
+            return $product;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
+
+    public function getSizeListByIdAndColor($productId, $productDetailsColor)
+    {
+        try {
+            $sql = "SELECT pd.size, pd.id
+                    FROM productdetail pd
+                    WHERE pd.product_id = " . $productId .
+                    " AND pd.color = '" . $productDetailsColor . "'";
+
+            $result = $this->con->query($sql);
+            $sizeList = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_object()) {
+                    $sizeList[] = $row;
+                }
+            }
+            return $sizeList;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
+
+    public function getColorListById($productId)
+    {
+        try {
+            $sql = "SELECT pd.color, pd.id
+                    FROM productdetail pd
+                    WHERE pd.product_id = " . $productId .
+                    " GROUP BY pd.color";
+
+            $result = $this->con->query($sql);
+            $colorList = [];
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_object()) {
+                    $colorList[] = $row;
+                }
+            }
+            return $colorList;
         } catch (Exception $ex) {
             throw new Exception("SQL Error: " . $ex->getMessage());
         }

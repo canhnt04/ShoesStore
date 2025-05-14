@@ -66,13 +66,13 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" disabled  placeholder="you@example.com" required>
-                                <!-- <div class="invalid-feedback">
+                                <div class="invalid-feedback">
                                     Please enter a valid email address for shipping updates.
-                                </div> -->
-                            </div>
+                                </div>
+                            </div> -->
 
                             <div class="mb-3">
                                 <label for="address">Address</label>
@@ -88,11 +88,11 @@
 
                             <div class="d-block my-3">
                                 <div class="custom-control custom-radio">
-                                    <input id="cash" name="paymentMethod" value="cash" type="radio" class="custom-control-input" checked required>
+                                    <input id="cash" name="paymentMethod" value="1" type="radio" class="custom-control-input" checked required>
                                     <label class="custom-control-label" for="cash">Cash</label>
                                 </div>
                                 <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" value="credit" type="radio" class="custom-control-input" required>
+                                    <input id="credit" name="paymentMethod" value="2" type="radio" class="custom-control-input" required>
                                     <label class="custom-control-label" for="credit">Credit card</label>
                                 </div>
                             </div>

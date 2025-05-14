@@ -46,21 +46,20 @@ class ProductController extends BaseController
         try {
             $id = $params["id"];
             $prDetailsID = $params["pr_id"];
-            $product = $this->productModel->getById($id);
-            $productDetailsSelected = null;
-            $color = "";
-            foreach ($product->productDetailsList as $productDetails) {
-                if ($productDetails->id === $prDetailsID) {
-                    $productDetailsSelected = $productDetails;
-                    $color =  $productDetails->color;
-                    break;
-                }
-            }
+            $product = $this->productModel->getById($id, $prDetailsID);
+            // Lấy danh sách Size theo Màu.
+            $sizeList = $this->productModel->getSizeListByIdAndColor($id, $product->productDetails->color);
+            // Lấy tất cả Màu theo sản phẩm cha để hiện lên color
+            $colorList = $this->productModel->getColorListById($id);
+            $productDetailsSelected = $product->productDetails;
+
             $this->render("ProductDetail.php", [
-                "id" => $id,
-                "color" => $color,
+                "id" => $id, // Xét theo id và productId
                 "product" => $product,
-                "productDetailsSelected" => $productDetailsSelected
+                "sizeList" => $sizeList,
+                "colorList" => $colorList,
+                "productDetailsSelected" => $productDetailsSelected,
+                "productDetailsId"
             ]);
         } catch (Exception $ex) {
             http_response_code(500);
