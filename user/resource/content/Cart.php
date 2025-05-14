@@ -22,7 +22,7 @@
                                             </div>
                                             <div class="cart_item_color cart_info_col">
                                                 <div class="cart_item_title">Color</div>
-                                                <div class="cart_item_text"><?php echo $cartDetail->color  . " - " .$cartDetail->size ?></div>
+                                                <div class="cart_item_text"><?php echo $cartDetail->color  . " - " . $cartDetail->size ?></div>
                                             </div>
                                             <div class="cart_item_quantity cart_info_col">
                                                 <div class="cart_item_title">Quantity</div>
@@ -38,7 +38,7 @@
                                             </div>
                                             <div class="cart_item_price cart_info_col">
                                                 <div class="cart_item_title">Total</div>
-                                                <div class="cart_item_text"><?php echo number_format($cartDetail->price*$cartDetail->quantity, 0, ',', '.') ?></div>
+                                                <div class="cart_item_text"><?php echo number_format($cartDetail->price * $cartDetail->quantity, 0, ',', '.') ?></div>
                                             </div>
                                             <div class="cart_item_select cart_info_col">
                                                 <div class="cart_item_title">Select</div>
@@ -84,7 +84,7 @@
 </div>
 <script>
     function updateQuantity(cartDetailId, quanity, oldQuantity) {
-        if(oldQuantity + quanity < 1) {
+        if (oldQuantity + quanity < 1) {
             removeFromCart(cartDetailId);
             return;
         }
@@ -100,10 +100,10 @@
             method: "POST",
             dataType: "html",
             data: data,
-            success: function (data) {
+            success: function(data) {
                 $('#ajaxLoad').html(data);
             },
-            error: function (xhr, ajaxOptions, thrownError) {
+            error: function(xhr, ajaxOptions, thrownError) {
                 var errorMessage = JSON.parse(xhr.responseText);
                 alert(errorMessage.message);
             }
@@ -122,10 +122,10 @@
             method: "POST",
             dataType: "html",
             data: data,
-            success: function (data) {
+            success: function(data) {
                 $('#ajaxLoad').html(data);
             },
-            error: function (xhr, ajaxOptions, thrownError) {
+            error: function(xhr, ajaxOptions, thrownError) {
                 var errorMessage = JSON.parse(xhr.responseText);
                 alert(errorMessage.message);
             }

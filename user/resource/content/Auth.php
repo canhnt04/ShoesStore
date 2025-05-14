@@ -1,7 +1,7 @@
 <head>
-    <link rel="stylesheet" href="../../../public/assets/css/reset.css">
-    <link rel="stylesheet" href="../../../public/assets/css/auth.css">
-    <link rel="stylesheet" href="../../../public/assets/fonts/fontawesome-free-6.7.2-web/css/all.min.css">
+    <link rel="stylesheet" href="/ShoesStore/public/assets/css/reset.css">
+    <link rel="stylesheet" href="/ShoesStore/public/assets/css/auth.css">
+    <link rel="stylesheet" href="/ShoesStore/public/assets/fonts/fontawesome-free-6.7.2-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,700&display=swap"
         rel="stylesheet">
 </head>
@@ -61,7 +61,7 @@
         </div>
     </div>
 </div>
-<script src="../../../public/assets/js/jquery-1.11.0.min.js"></script>
-<script src="../../../public/assets/js/jquery-3.7.1.min.js"></script>
-<script src="../../../public/assets/js/ajax.js"></script>
-<script src="../../../public/assets/js/auth.js"></script>
+<script src="/ShoesStore/public/assets/js/jquery-1.11.0.min.js"></script>
+<script src="/ShoesStore/public/assets/js/jquery-3.7.1.min.js"></script>
+<script src="/ShoesStore/public/assets/js/ajax.js"></script>
+<script src="/ShoesStore/public/assets/js/auth.js"></script>

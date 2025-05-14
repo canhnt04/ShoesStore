@@ -3,7 +3,6 @@ require_once __DIR__ . "/BaseController.php";
 require_once  __DIR__ . '/../model/User.php';
 require_once __DIR__ . "../../../public/assets/helper/validator.php";
 
-
 class AuthController extends BaseController
 {
     private $userModel;
@@ -32,6 +31,8 @@ class AuthController extends BaseController
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
         $error = [];
+        $redirectUser = null;
+        $redirectAdmin = null;
 
         if (!Validator::required($username)) {
             $error['username'] = "Vui lòng nhập tên đăng nhập.";
@@ -54,13 +55,16 @@ class AuthController extends BaseController
                     ? "Chào mừng người dùng $username đã đăng nhập!"
                     : "Chào mừng quản trị viên $username!";
 
-                $redirect = $user['role_id'] == 4
-                    ? "../../../user/router.php?page=ProductList&action=showList"
-                    : "../../admin/view";
+                if ($user['role_id'] == 4) {
+                    $redirectUser = "../../../ShoesStore/user/Route.php?page=ProductList&action=showList";
+                } else {
+                    $redirectAdmin =  "../../../ShoesStore/admin/view/";
+                }
                 echo json_encode([
                     'success' => true,
                     'message' => $message,
-                    'redirect' => $redirect
+                    'redirectUser' => $redirectUser,
+                    'redirectAdmin' => $redirectAdmin
                 ]);
                 exit;
             } else {

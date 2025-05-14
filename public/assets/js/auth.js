@@ -27,7 +27,7 @@ $(document).ready(function () {
   $("#loginForm").on("submit", function (e) {
     e.preventDefault();
     $.ajax({
-      url: "../../../user/controller/AuthController.php",
+      url: "/ShoesStore/user/controller/AuthController.php",
       method: "POST",
       data: $(this).serialize() + "&action=login",
       dataType: "json",
@@ -35,7 +35,11 @@ $(document).ready(function () {
         if (response.success) {
           $("#ajaxLink").remove();
           alert(response.message);
-          history.pushState(null, "", response.redirect);
+          if (response.redirectUser) {
+            history.pushState(null, "", response.redirectUser);
+          } else {
+            window.location.href = response.redirectAdmin;
+          }
         }
         if (response.error) {
           alert(response.error);
@@ -55,7 +59,7 @@ $(document).ready(function () {
   $("#registerForm").submit(function (e) {
     e.preventDefault();
     $.ajax({
-      url: "../../../user/controller/AuthController.php",
+      url: "/ShoesStore/user/controller/AuthController.php",
       method: "POST",
       data: $(this).serialize() + "&action=register",
       dataType: "json",
