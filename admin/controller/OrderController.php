@@ -38,9 +38,19 @@ class OrderController
         // Gọi phương thức filterOrders từ Model_Order để lấy danh sách đơn hàng đã lọc
         return $this->orderModel->filterOrders($status, $beginDate,$endDate, $district,$province);
     }
-    public function getOrdersByOrderId($orderId)
+    public function getDetailsByOrderId($orderId)
     {
-        return $this->orderModel->getOrdersByOrderId($orderId);
+        return $this->orderModel->getDetailsByOrderId($orderId);
+    }
+    public function getProductQuantity($orderId){
+        return $this->orderModel->getProductQuantity($orderId);
+    }
+    public function updateAmountProduct($orderId){
+        return $this->orderModel->updateAmountProduct($orderId);
+    }
+    public function restoreAmountProduct($orderId)
+    {
+        return $this->orderModel->restoreAmountProduct($orderId);
     }
 }
 ?>

@@ -13,7 +13,11 @@ class Model_Customer
     }
     public function getAllCustomers()
     {
-        $query = "SELECT * FROM customer";
+        $query = "SELECT customer.*,
+        user.email AS email
+        FROM customer
+        LEFT JOIN user ON customer.user_id = user.id
+        ";
         $result = $this->connection->query($query);
 
         // Kiểm tra nếu truy vấn bị lỗi
@@ -24,22 +28,25 @@ class Model_Customer
 
         $customers = [];
         while ($row = $result->fetch_assoc()) {
-            $customer = new Customer(
-                id: $row['id'],
-                user_id: $row['user_id'],
-                fullname: $row['fullname'],
-                gmail: $row['gmail'],
-                phone: $row['phone'],
-                address: $row['address'],
-                created_at: $row['created_at'],
-                updated_at: $row['updated_at']
-            );
-            $customers[] = $customer;
+            $customerData = [
+                "customer" => new Customer(
+                    id: $row['id'],
+                    user_id: $row['user_id'],
+                    fullname: $row['fullname'],
+                    phone: $row['phone'],
+                    address: $row['address'],
+                    created_at: $row['created_at'],
+                    updated_at: $row['updated_at'],
+                ),
+                "email" => $row['email'],
+
+            ];
+            $customers[] = $customerData;
         }
 
         return $customers; // Nếu không có dữ liệu, sẽ trả về []
     }
-    public function getTopCustomers($startDate, $endDate, $sortOrder = 'DESC')
+    public function getTopCustomers($startDate, $endDate, $sortOrder)
     {
         // Bảo vệ sortOrder khỏi SQL Injection
         $sortOrder = strtoupper($sortOrder) === 'ASC' ? 'ASC' : 'DESC';
@@ -47,20 +54,18 @@ class Model_Customer
         $query = "SELECT *
         FROM (
             SELECT 
-                c.id AS user_id,
-                c.fullname AS customer_name,
+                customer.id AS user_id,
+                customer.fullname AS customer_name,
                 SUM(od.quantity * od.price) AS total_spent
-            FROM orders o
-            JOIN customer c ON o.user_id = c.id
-            JOIN orderdetail od ON o.id = od.order_id
-            WHERE o.created_at BETWEEN ? AND ?
-            GROUP BY c.id
+            FROM orders 
+            JOIN customer ON orders.user_id = customer.id
+            JOIN orderdetail od ON orders.id = od.order_id
+            WHERE orders.created_at BETWEEN ? AND ? AND orders.status_id =5
+            GROUP BY customer.id
             ORDER BY total_spent DESC
             LIMIT 5
         ) AS top_customers
-        ORDER BY total_spent $sortOrder"
-        
-    ;
+        ORDER BY total_spent $sortOrder";
 
 
         $stmt = $this->connection->prepare($query);
@@ -79,6 +84,4 @@ class Model_Customer
 
         return $customers;
     }
-
-
 }

@@ -23,7 +23,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
         <li class="menu-title">THỐNG KÊ</li>
 
         <li class="module-manager <?php echo ($page == 'stats_customer') ? 'active' : ''; ?>">
-            <a href="index.php?page=stats_customer"><i class="fas fa-chart-bar"></i> Thống kê khach hang</a>
+            <a href="index.php?page=stats_customer"><i class="fas fa-chart-bar"></i> Thống kê khách hàng</a>
         </li>
     </ul>
 </aside>
