@@ -77,7 +77,7 @@ class Payment
              JOIN payment_method pm ON pm.id = o.paymethod
              JOIN orderdetail od ON od.order_id = o.id
              WHERE o.user_id = $userId
-             GROUP BY o.id";
+             GROUP BY o.id ORDER BY o.created_at DESC";
             $result = $this->con->query($sql);
             $orderList = [];
             if($result->num_rows > 0) {
@@ -87,6 +87,47 @@ class Payment
             }
             return $orderList;
         } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
+
+    public function showOrderListByStatus($userId, $orderStatusId) 
+    {
+        try {
+            $sql = "SELECT o.id, o.user_id, o.note, o.created_at,
+                     os.name as status, pm.name as paymethod,
+                     SUM(od.price * od.quantity) AS total_price
+             FROM orders o
+             JOIN orders_status os ON os.id = o.status_id
+             JOIN payment_method pm ON pm.id = o.paymethod
+             JOIN orderdetail od ON od.order_id = o.id
+             WHERE o.user_id = $userId AND o.status_id = $orderStatusId
+             GROUP BY o.id ORDER BY o.created_at DESC";
+            $result = $this->con->query($sql);
+            $orderList = [];
+            if($result->num_rows > 0) {
+                while ($row = $result->fetch_object()) {
+                    $orderList[] = $row;
+                }
+            }
+            return $orderList;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
+
+    public function showOrderStatusList() {
+        try {
+            $sql = "SELECT os.id, os.name FROM orders_status os";
+            $result = $this->con->query($sql);
+            $orderStatusList = [];
+            if($result->num_rows > 0) {
+                while($row = $result->fetch_object()){
+                    $orderStatusList[] = $row;
+                }
+            }
+            return $orderStatusList;
+        } catch(Exception $ex) {
             throw new Exception("SQL Error: " . $ex->getMessage());
         }
     }

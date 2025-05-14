@@ -90,8 +90,13 @@ class PaymentController extends BaseController
         }
         $userId = $_SESSION['userId'];
         try {
-            $orderList = $this->paymentModel->showOrderList($userId);
-            $this->render("OrderHistory.php", ["orderList" => $orderList]);
+            $orderStatusList = $this->paymentModel->showOrderStatusList();
+            if(isset($params["status"])) {
+                $orderStatusId = $params["status"];
+                $orderList = $this->paymentModel->showOrderListByStatus($userId, $orderStatusId);
+            }
+            else $orderList = $this->paymentModel->showOrderList($userId);
+            $this->render("OrderHistory.php", ["orderList" => $orderList, "orderStatusList" => $orderStatusList]);
         }  
         catch (Exception $ex) {
             http_response_code(500);

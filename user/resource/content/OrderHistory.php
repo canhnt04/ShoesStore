@@ -1,12 +1,22 @@
 <div id="ajaxLoad">
 <div class="container my-5">
-<div class="card shadow-lg border-0 rounded-4">
+<div class="card shadow-lg border-0 rounded-4">  
 <div class="card-body">
+    <div>
+        <ul class="list-inline">
+        <li class="list-inline-item"><a class="nav-link ajaxLoad" href="Route.php?page=Payment&action=orderhistory">All</a></li>
+        <?php foreach($orderStatusList as $orderStatus) { ?>
+            <li class="list-inline-item">
+                <a class="nav-link ajaxLoad" href="Route.php?page=Payment&action=orderhistory&status=<?= $orderStatus->id?>"><?= $orderStatus->name ?></a>
+            </li>
+        <?php } ?>
+        <ul>
+    </div>
     <div class="card-header bg-gradient bg-dark text-success rounded-top-4 px-4 py-3">
-            <h4 class="mb-0 fw-bold">
-                Order History
-            </h4>
-        </div>
+        <h4 class="mb-0 fw-bold">
+            Order History
+        </h4>
+    </div>
     <table class="table table-hover table-sm align-middle text-center">
         <thead>
             <tr>
