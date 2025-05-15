@@ -16,6 +16,7 @@ $(document).ready(function () {
       },
       success: function (data) {
         $("#ajaxLoad").html(data);
+        // $("#header").load("/ShoesStore/user/resource/shared/Header.php");
         history.pushState({}, "", url);
       },
       error: function (xhr, ajaxOptions, thrownError) {
@@ -153,4 +154,22 @@ $(document).ready(function () {
   window.onload = function () {
     loadAjax(location.href);
   };
+
+  $(document).on("click", "#btnSearch", (e) => {
+    e.preventDefault();
+    const keyword = $("#searchInput").val().trim();
+    if (keyword !== "") {
+      loadAjax(
+        `Route.php?page=Product&action=search&keyword=${encodeURIComponent(
+          keyword
+        )}`
+      );
+    }
+
+    $("#searchInput").keypress((e) => {
+      if (e.which === 13) {
+        $("#btnSearch").click();
+      }
+    });
+  });
 });

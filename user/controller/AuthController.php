@@ -2,7 +2,6 @@
 require_once __DIR__ . "/BaseController.php";
 require_once  __DIR__ . '/../model/User.php';
 require_once __DIR__ . "../../../public/assets/helper/validator.php";
-
 class AuthController extends BaseController
 {
     private $userModel;
@@ -47,7 +46,8 @@ class AuthController extends BaseController
         if (empty($error)) {
             $user = $this->userModel->login($username, $password);
             if ($user) {
-                $_SESSION['username'] = $username;
+                $_SESSION['userId'] = $user['id'];
+                $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role_id'];
 
@@ -56,7 +56,7 @@ class AuthController extends BaseController
                     : "Chào mừng quản trị viên $username!";
 
                 if ($user['role_id'] == 4) {
-                    $redirectUser = "../../../ShoesStore/user/Route.php?page=ProductList&action=showList";
+                    $redirectUser = "../../../ShoesStore/user/Route.php?page=Product&action=showList&pageNumber=1";
                 } else {
                     $redirectAdmin =  "../../../ShoesStore/admin/view/";
                 }
@@ -127,20 +127,14 @@ class AuthController extends BaseController
         ]);
         exit;
     }
+
     public function logout()
     {
-        // Kiểm tra nếu người dùng đã đăng nhập
         if (isset($_SESSION['username'])) {
             // Xóa tất cả session liên quan đến người dùng
             session_unset(); // Xóa tất cả các biến session
             session_destroy(); // Hủy session
-
-            // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
-            header("Location: ../../../user/router.php?page=Auth&action=auth");
-            exit;
-        } else {
-            // Nếu chưa đăng nhập, có thể chuyển hướng đến trang đăng nhập
-            header("Location: ../../../user/router.php?page=Auth&action=auth");
+            header("Location: /ShoesStore/user/Route.php");
             exit;
         }
     }

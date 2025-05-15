@@ -3,6 +3,10 @@ $(document).ready(function () {
   const loginBtn = document.getElementById("toggleLogin");
   const registerBtn = document.getElementById("toggleRegister");
 
+  $(document).on("click", ".btn-back", function () {
+    window.location.href = "/ShoesStore/user/Route.php";
+  });
+
   const signInForm = container.querySelector(".sign-in form");
   const signUpForm = container.querySelector(".sign-up form");
 

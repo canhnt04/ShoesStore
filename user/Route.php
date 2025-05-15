@@ -2,10 +2,6 @@
 // File định tuyến router
 session_start();
 
-// $_SESSION['username'] = "HuyNek";
-// $_SESSION['password'] = "alibaba";
-// $_SESSION['userId'] = 1;
-// $_SESSION["email"] = "admin@example.com";
 // Lấy tên controller
 $controller = isset($_GET['page']) ? $_GET['page'] : 'Home';
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
