@@ -11,7 +11,7 @@ $(document).ready(function () {
                 $('#ajaxLoad').html(`
                     <div style="height:600px; display:flex; align-items:center; justify-content:center;">
                         <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="/public/assets/images/loading.gif" alt="Loading..." />
+                            src="ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
                     </div>
                 `);
             },
@@ -55,7 +55,7 @@ $(document).ready(function () {
                 $('#ajaxLoad').html(`
                     <div style="height:600px; display:flex; align-items:center; justify-content:center;">
                         <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="/public/assets/images/loading.gif" alt="Loading..." />
+                            src="ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
                     </div>
                 `);
             },
