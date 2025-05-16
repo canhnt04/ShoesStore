@@ -3,10 +3,6 @@ $(document).ready(function () {
   const loginBtn = document.getElementById("toggleLogin");
   const registerBtn = document.getElementById("toggleRegister");
 
-  $(document).on("click", ".btn-back", function () {
-    window.location.href = "/ShoesStore/user/Route.php";
-  });
-
   const signInForm = container.querySelector(".sign-in form");
   const signUpForm = container.querySelector(".sign-up form");
 
@@ -40,6 +36,7 @@ $(document).ready(function () {
           $("#ajaxLink").remove();
           alert(response.message);
           if (response.redirectUser) {
+            window.location.href = response.redirectUser;
             history.pushState(null, "", response.redirectUser);
           } else {
             window.location.href = response.redirectAdmin;

@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="/ShoesStore/public/assets/css/payment.css">
+    <link rel="stylesheet" href="../public/assets/css/payment.css">
 </head>
 <div id="ajaxLoad">
     <main id="main" role="main">
@@ -13,26 +13,26 @@
                                 <span class="badge badge-secondary badge-pill">3</span>
                             </h4>
                             <ul class="list-group mb-3">
-                            <?php $cart = isset($_SESSION["cartSession"]) ? $_SESSION["cartSession"] : []; ?>
+                                <?php $cart = isset($_SESSION["cartSession"]) ? $_SESSION["cartSession"] : []; ?>
                                 <?php foreach ($cart as $cartItem) { ?>
                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <div>
-                                        <h6 class="my-0"><?= $cartItem["product_name"] ?></h6>
-                                        <small class="text-muted">
-                                            Quanity: <?= $cartItem["quantity"] ?>
-                                        </small>
-                                        <small class="text-muted">
-                                             - Color: <?= $cartItem["color"] ?>
-                                        </small>
-                                    </div>
-                                    <span class="text-muted">
-                                       <?= number_format($cartItem["price"] * $cartItem["quantity"], 0, ',', '.') ?>
-                                    </span>
-                                </li>
+                                        <div>
+                                            <h6 class="my-0"><?= $cartItem["product_name"] ?></h6>
+                                            <small class="text-muted">
+                                                Quanity: <?= $cartItem["quantity"] ?>
+                                            </small>
+                                            <small class="text-muted">
+                                                - Color: <?= $cartItem["color"] ?>
+                                            </small>
+                                        </div>
+                                        <span class="text-muted">
+                                            <?= number_format($cartItem["price"] * $cartItem["quantity"], 0, ',', '.') ?>
+                                        </span>
+                                    </li>
                                 <?php } ?>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Total (VND)</span>
-                                    <strong><?= number_format(sum($cart), 0, "," , ".") ?></strong>
+                                    <strong><?= number_format(sum($cart), 0, ",", ".") ?></strong>
                                 </li>
                             </ul>
                             <button class="button payment_checkout" type="submit">Place Order</button>
@@ -101,7 +101,7 @@
                             <div id="creditDiv">
 
                             </div>
-                            
+
                             <hr class="mb-4">
                         </div>
                     </div>
@@ -111,7 +111,6 @@
     </main>
 </div>
 <script>
-
     document.getElementById("credit").addEventListener("change", creditChecked);
 
     function creditChecked() {
@@ -162,19 +161,21 @@
     }
 
     document.getElementById("cash").addEventListener("change", cashChecked);
+
     function cashChecked() {
         let isCashBtnChecked = document.getElementById("cash").checked;
-        if(isCashBtnChecked){
+        if (isCashBtnChecked) {
             document.getElementById("creditDiv").innerHTML = "";
         }
     }
 </script>
 <?php
-function sum($cart) {
+function sum($cart)
+{
     $sum = 0;
-    foreach($cart as $item) {
+    foreach ($cart as $item) {
         $sum += $item["price"] * $item["quantity"];
     }
     return $sum;
-} 
+}
 ?>

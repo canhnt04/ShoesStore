@@ -10,72 +10,18 @@ $(document).ready(function () {
         $("#ajaxLoad").html(`
                     <div style="height:600px; display:flex; align-items:center; justify-content:center;">
                         <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
+                            src="/ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
                     </div>
                 `);
-            },
-            success: function (data) {
-                // $('#ajaxLoad').html("<p>Hello World</p>");
-                $('#ajaxLoad').html(data);
-                history.pushState({}, '', url);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                var errorMessage = JSON.parse(xhr.responseText);
-                alert(errorMessage.message);
-            }
-        });
-    }
-
-    function callAPI(url, method = "GET", data = {}) {
-        $.ajax({
-            url: url,
-            method: method,
-            dataType: "json",
-            data: data,
-            success: function (data) {
-                console.log(data);
-                alert(data.message);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                var errorMessage = JSON.parse(xhr.responseText);
-                alert(errorMessage.message);
-            }
-        });
-    }
-
-    function submitForm(url, method = "GET", data = {}) {
-        $.ajax({
-            url: url,
-            method: method,
-            dataType: "html",
-            data: data,
-            beforeSend: function () {
-                $(window).scrollTop(0);
-                $('#ajaxLoad').html(`
-                    <div style="height:600px; display:flex; align-items:center; justify-content:center;">
-                        <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
-                    </div>
-                `);
-            },
-            success: function (data) {
-                // $('#ajaxLoad').html("<p>Hello World</p>");
-                $('#ajaxLoad').html(data);
-                alert("Your order is successful!")
-                history.pushState({}, '', "Route.php?page=Home&action=index");
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                var errorMessage = JSON.parse(xhr.responseText);
-                alert(errorMessage.message);
-            }
-        });
-    }
-
-    // GET
-    $(document).on("click", ".ajaxLink", function (e) {
-        e.preventDefault();
-        const url = $(this).attr("href");
-        loadAjax(url);
+      },
+      success: function (data) {
+        $("#ajaxLoad").html(data);
+        history.pushState({}, "", url);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        var errorMessage = JSON.parse(xhr.responseText);
+        alert(errorMessage.message);
+      },
     });
   }
 
@@ -107,7 +53,7 @@ $(document).ready(function () {
         $("#ajaxLoad").html(`
                     <div style="height:600px; display:flex; align-items:center; justify-content:center;">
                         <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="/public/assets/images/loading.gif" alt="Loading..." />
+                            src="/ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
                     </div>
                 `);
       },
@@ -116,6 +62,28 @@ $(document).ready(function () {
         $("#ajaxLoad").html(data);
         alert("Your order is successful!");
         history.pushState({}, "", "Route.php?page=Home&action=index");
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        var errorMessage = JSON.parse(xhr.responseText);
+        alert(errorMessage.message);
+      },
+    });
+  }
+
+  function logOut(url) {
+    $.ajax({
+      url: url,
+      dataType: "html",
+      success: function (data) {
+        $("#ajaxLoad").html(data);
+        // Client -> Ajax catch -> Route -> controller -> Ajax sucsess -> Client
+        window.location.href =
+          "Route.php?page=Product&action=showList&pageNumber=1"; // Trick bẩn reload trang
+        history.pushState(
+          {},
+          "",
+          "Route.php?page=Product&action=showList&pageNumber=1"
+        );
       },
       error: function (xhr, ajaxOptions, thrownError) {
         var errorMessage = JSON.parse(xhr.responseText);
@@ -198,6 +166,14 @@ $(document).ready(function () {
     submitForm(url, "POST", data);
   });
 
+  $(document).on("click", "#headerLogout", function (e) {
+    e.preventDefault();
+    const url = $(this).attr("href");
+    if (confirm("Confrim logout?")) {
+      logOut(url);
+    }
+  });
+
   // Khi bấm nút back/forward trình duyệt
   window.onpopstate = function () {
     loadAjax(location.href);
@@ -207,22 +183,4 @@ $(document).ready(function () {
   window.onload = function () {
     loadAjax(location.href);
   };
-
-  $(document).on("click", "#btnSearch", (e) => {
-    e.preventDefault();
-    const keyword = $("#searchInput").val().trim();
-    if (keyword !== "") {
-      loadAjax(
-        `Route.php?page=Product&action=search&keyword=${encodeURIComponent(
-          keyword
-        )}`
-      );
-    }
-
-    $("#searchInput").keypress((e) => {
-      if (e.which === 13) {
-        $("#btnSearch").click();
-      }
-    });
-  });
 });

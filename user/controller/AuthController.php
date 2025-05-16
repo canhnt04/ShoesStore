@@ -2,6 +2,7 @@
 require_once __DIR__ . "/BaseController.php";
 require_once  __DIR__ . '/../model/User.php';
 require_once __DIR__ . "../../../public/assets/helper/validator.php";
+
 class AuthController extends BaseController
 {
     private $userModel;
@@ -46,13 +47,15 @@ class AuthController extends BaseController
         if (empty($error)) {
             $user = $this->userModel->login($username, $password);
             if ($user) {
-                $_SESSION['userId'] = $user['id'];
-                $_SESSION['username'] = $user['username'];
+                session_start();
+                $_SESSION["userId"] = $user["id"];
+                $_SESSION['username'] = $username;
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role_id'];
 
+                $userId = $_SESSION['userId'];
                 $message = $user['role_id'] == 4
-                    ? "Chào mừng người dùng $username đã đăng nhập!"
+                    ? "Chào mừng người dùng $username id $userId đã đăng nhập!"
                     : "Chào mừng quản trị viên $username!";
 
                 if ($user['role_id'] == 4) {
@@ -66,7 +69,7 @@ class AuthController extends BaseController
                     'redirectUser' => $redirectUser,
                     'redirectAdmin' => $redirectAdmin
                 ]);
-                exit;
+                return;
             } else {
                 $error['login'] = "Tài khoản hoặc mật khẩu không đúng.";
             }
@@ -127,14 +130,24 @@ class AuthController extends BaseController
         ]);
         exit;
     }
-
     public function logout()
     {
-        if (isset($_SESSION['username'])) {
+        // Kiểm tra nếu người dùng đã đăng nhập
+        if (isset($_SESSION['userId'])) {
             // Xóa tất cả session liên quan đến người dùng
             session_unset(); // Xóa tất cả các biến session
             session_destroy(); // Hủy session
-            header("Location: /ShoesStore/user/Route.php");
+
+            // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
+            // header("Location: ../../../../ShoesStore/user/Route.php");
+
+            $this->render("ProductList.php");
+
+            exit;
+        } else {
+            // Nếu chưa đăng nhập, có thể chuyển hướng đến trang đăng nhập
+            // header("Location: ../../../user/router.php?page=Auth&action=auth");
+            $this->render("Auth.php");
             exit;
         }
     }

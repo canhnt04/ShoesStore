@@ -7,7 +7,7 @@
 </head>
 
 <div id="ajaxLink">
-    <div class="auth">
+    <div class="auth ajaxLoad">
         <div class="auth__body">
             <div class="auth-form" id="container">
                 <div class="auth-form__container sign-up">
@@ -25,7 +25,7 @@
                         </span>
                         <div class="auth-form__control">
                             <button type="submit" class="btn">ĐĂNG KÝ</button>
-                            <button type="button" class="btn auth-form__control-back btn-back">QUAY LẠI</button>
+                            <button type="button" class="btn auth-form__control-back">QUAY LẠI</button>
                         </div>
                     </form>
                 </div>
@@ -38,7 +38,7 @@
                         <input type="password" class="auth-form__input" name="password" placeholder="Nhập mật khẩu">
                         <div class="auth-form__control">
                             <button type="submit" class="btn">ĐĂNG NHẬP</button>
-                            <button type="button" class="btn auth-form__control-back btn-back">QUAY LẠI</button>
+                            <button type="button" class="btn auth-form__control-back">QUAY LẠI</button>
                         </div>
                     </form>
                 </div>

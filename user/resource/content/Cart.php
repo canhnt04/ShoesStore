@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="/ShoesStore/public/assets/css/cart.css">
+    <link rel="stylesheet" href="../public/assets/css/cart.css">
 </head>
 <div id="ajaxLoad">
     <div class="cart_section" id="cartDetail">
@@ -13,7 +13,7 @@
                                 <?php foreach ($cart->cartDetailList as $cartDetail) { ?>
                                     <li class="cart_item clearfix">
                                         <div class="cart_item_image">
-                                            <img class="img-fluid object-fit" src="../../../public/assets/images/test2.jpg" alt="">
+                                            <img class="img-fluid object-fit" src="../public/assets/images/test2.jpg" alt="">
                                         </div>
                                         <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
                                             <div class="cart_item_name cart_info_col">

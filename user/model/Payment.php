@@ -51,22 +51,21 @@ class Payment
              FROM orderdetail od
              JOIN product pd on pd.id = od.product_id
              WHERE od.order_id = $orderId";
-            
+
             $result = $this->con->query($sql);
             $orderDetailList = [];
-            if($result->num_rows > 0) {
+            if ($result->num_rows > 0) {
                 while ($row = $result->fetch_object()) {
                     $orderDetailList[] = $row;
                 }
             }
             return $orderDetailList;
-        }
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new Exception("SQL Error: " . $ex->getMessage());
         }
     }
 
-    public function showOrderList($userId) 
+    public function showOrderList($userId)
     {
         try {
             $sql = "SELECT o.id, o.user_id, o.note, o.created_at,
@@ -77,10 +76,10 @@ class Payment
              JOIN payment_method pm ON pm.id = o.paymethod
              JOIN orderdetail od ON od.order_id = o.id
              WHERE o.user_id = $userId
-             GROUP BY o.id ORDER BY o.created_at DESC";
+             GROUP BY o.id";
             $result = $this->con->query($sql);
             $orderList = [];
-            if($result->num_rows > 0) {
+            if ($result->num_rows > 0) {
                 while ($row = $result->fetch_object()) {
                     $orderList[] = $row;
                 }
@@ -91,7 +90,7 @@ class Payment
         }
     }
 
-    public function showOrderListByStatus($userId, $orderStatusId) 
+    public function showOrderListByStatus($userId, $orderStatusId)
     {
         try {
             $sql = "SELECT o.id, o.user_id, o.note, o.created_at,
@@ -105,7 +104,7 @@ class Payment
              GROUP BY o.id ORDER BY o.created_at DESC";
             $result = $this->con->query($sql);
             $orderList = [];
-            if($result->num_rows > 0) {
+            if ($result->num_rows > 0) {
                 while ($row = $result->fetch_object()) {
                     $orderList[] = $row;
                 }
@@ -116,18 +115,20 @@ class Payment
         }
     }
 
-    public function showOrderStatusList() {
+
+    public function showOrderStatusList()
+    {
         try {
             $sql = "SELECT os.id, os.name FROM orders_status os";
             $result = $this->con->query($sql);
             $orderStatusList = [];
-            if($result->num_rows > 0) {
-                while($row = $result->fetch_object()){
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_object()) {
                     $orderStatusList[] = $row;
                 }
             }
             return $orderStatusList;
-        } catch(Exception $ex) {
+        } catch (Exception $ex) {
             throw new Exception("SQL Error: " . $ex->getMessage());
         }
     }
