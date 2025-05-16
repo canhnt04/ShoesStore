@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="../../../public/assets/css/cart.css">
+    <link rel="stylesheet" href="/ShoesStore/public/assets/css/cart.css">
 </head>
 <div id="ajaxLoad">
     <div class="cart_section" id="cartDetail">

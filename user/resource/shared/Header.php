@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="/ShoesStore/public/assets/images/apple-icon.png">
-    <link rel="shortcut icon" type="images/x-icon" href="/ShoesStore/public/assets/images/favicon.ico">
+    <link rel="shortcut icon" type="images/x-icon" href=/ShoesStore/public/assets/images/favicon.ico">
+
     <link rel="stylesheet" href="/ShoesStore/public/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="/ShoesStore/public/assets/css/templatemo.css">
     <link rel="stylesheet" href="/ShoesStore/public/assets/css/custom.css">

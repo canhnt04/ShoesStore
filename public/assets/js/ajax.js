@@ -10,19 +10,72 @@ $(document).ready(function () {
         $("#ajaxLoad").html(`
                     <div style="height:600px; display:flex; align-items:center; justify-content:center;">
                         <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="/public/assets/images/loading.gif" alt="Loading..." />
+                            src="ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
                     </div>
                 `);
-      },
-      success: function (data) {
-        $("#ajaxLoad").html(data);
-        // $("#header").load("/ShoesStore/user/resource/shared/Header.php");
-        history.pushState({}, "", url);
-      },
-      error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
-      },
+            },
+            success: function (data) {
+                // $('#ajaxLoad').html("<p>Hello World</p>");
+                $('#ajaxLoad').html(data);
+                history.pushState({}, '', url);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var errorMessage = JSON.parse(xhr.responseText);
+                alert(errorMessage.message);
+            }
+        });
+    }
+
+    function callAPI(url, method = "GET", data = {}) {
+        $.ajax({
+            url: url,
+            method: method,
+            dataType: "json",
+            data: data,
+            success: function (data) {
+                console.log(data);
+                alert(data.message);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var errorMessage = JSON.parse(xhr.responseText);
+                alert(errorMessage.message);
+            }
+        });
+    }
+
+    function submitForm(url, method = "GET", data = {}) {
+        $.ajax({
+            url: url,
+            method: method,
+            dataType: "html",
+            data: data,
+            beforeSend: function () {
+                $(window).scrollTop(0);
+                $('#ajaxLoad').html(`
+                    <div style="height:600px; display:flex; align-items:center; justify-content:center;">
+                        <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
+                            src="ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
+                    </div>
+                `);
+            },
+            success: function (data) {
+                // $('#ajaxLoad').html("<p>Hello World</p>");
+                $('#ajaxLoad').html(data);
+                alert("Your order is successful!")
+                history.pushState({}, '', "Route.php?page=Home&action=index");
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var errorMessage = JSON.parse(xhr.responseText);
+                alert(errorMessage.message);
+            }
+        });
+    }
+
+    // GET
+    $(document).on("click", ".ajaxLink", function (e) {
+        e.preventDefault();
+        const url = $(this).attr("href");
+        loadAjax(url);
     });
   }
 
