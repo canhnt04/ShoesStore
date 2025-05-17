@@ -1,6 +1,6 @@
 <?php
 session_start(); // Bắt đầu phiên làm việc
-include_once __DIR__ . '/../includes/alert_message.php';
+include __DIR__ . '/../includes/product-action/handle.php';
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'product';
 ?>
 
@@ -10,8 +10,6 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : 'product';
     <a class="<?php echo ($tab == 'product') ? 'active' : '' ?>" href="index.php?page=product_manager&tab=product">Quản lý sản phẩm</a>
     <span>/</span>
     <a class="<?php echo ($tab == 'detail') ? 'active' : '' ?>" href="index.php?page=product_manager&tab=detail">Quản lý chi tiết sản phẩm</a>
-    <span>/</span>
-    <a class="<?php echo ($tab == 'category') ? 'active' : '' ?>" href="index.php?page=product_manager&tab=category">Quản lý danh mục</a>
 
 </header>
 

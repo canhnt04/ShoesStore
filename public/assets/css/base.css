@@ -22,6 +22,7 @@
   text-align: center;
   position: relative;
   overflow-y: auto;
+  max-height: 50vh;
 }
 
 /* Close button */

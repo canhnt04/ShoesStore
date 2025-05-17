@@ -6,21 +6,24 @@ class Product
     private $thumbnail;
     private $supplier_id;
     private $category_id;
+    private $brand;
     private $status;
     private $created_at;
     private $updated_at;
 
-    public function __construct($id, $name, $thumbnail, $category_id, $supplier_id, $status, $created_at, $updated_at)
+    public function __construct($id, $name, $thumbnail, $category_id, $supplier_id, $brand, $status, $created_at, $updated_at)
     {
         $this->id = $id;
         $this->name = $name;
         $this->thumbnail = $thumbnail;
         $this->category_id = $category_id;
         $this->supplier_id = $supplier_id;
+        $this->brand = $brand;
         $this->status = $status;
         $this->created_at = $created_at;
         $this->updated_at = $updated_at;
     }
+
 
     // Getter methods
     public function getId()
@@ -46,6 +49,11 @@ class Product
     public function getCategoryId()
     {
         return $this->category_id;
+    }
+
+    public function getBrand()
+    {
+        return $this->brand;
     }
 
     public function getStatus()
@@ -87,6 +95,11 @@ class Product
     public function setCategoryId($category_id)
     {
         $this->category_id = $category_id;
+    }
+
+    public function setBrand($brand)
+    {
+        $this->brand = $brand;
     }
 
     public function setStatus($status)

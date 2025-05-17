@@ -164,12 +164,17 @@
 .modal-content {
   background-color: #fff;
   padding: 30px 25px;
-  border-radius: 10px;  max-width: 90%;
+  border-radius: 10px;
+  max-width: 90%;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: relative;
   animation: fadeIn 0.3s ease;
+}
+
+.modal-content.phuc {
+  max-height: 60vh;
 }
 .btn-close:hover {
   background-color: rgb(225, 11, 11);

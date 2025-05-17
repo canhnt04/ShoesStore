@@ -2,36 +2,40 @@
 include_once __DIR__ . '/../../config/database/ConnectDB.php';
 include_once __DIR__ . '/../model/Model/Model_Product.php';
 
-$model_product = new Model_Product($connection);
+class ProductController
+{
+    private $model_product;
+    private $model_product_detail;
+    private $model_product_category;
+    private $model_product_supplier;
 
-$action = $_POST['action'] ?? $_GET['action'] ?? null;
+    public function __construct($connection)
+    {
+        $this->model_product = new Model_Product($connection);
+    }
 
-$limit = $_SESSION['limit'];
-$offset = $_SESSION['offset'];
+    public function countList(): int
+    {
+        return $this->model_product->countProducts();
+    }
 
-switch ($action) {
-    case 'count_list':
-        $count = $model_product->countProducts();
-        if ($count) {
-            $_SESSION['count'] = $count;
-        } else {
-            $count = 0;
-        }
-        break;
-    case 'render_view':
-        $list = $model_product->getAllProducts($limit, $offset);
-        if ($list) {
-            $_SESSION['product_view'] = $list;
-        } else {
-            $_SESSION['product_view'] = [];
-        }
-        break;
-    case 'create_product':
-        $name = $_POST['name'];
-        $supplier_id = (int)$_POST['supplier_id'];
-        $category_id = (int)$_POST['category_id'];
-        $status = $_POST['status'];
-        $pagination = $_POST['pagination'] ?? 1;
+    public function getAllWithoutPagination()
+    {
+        return $this->model_product->getAllProductsWithoutPagination();
+    }
+
+    public function getAllPaginated(int $limit, int $offset): array
+    {
+        return $this->model_product->getAllProducts($limit, $offset);
+    }
+
+    public function create($data)
+    {
+        $name = $data['name'] ?? null;
+        $category_id = $data['category_id'] ?? null;
+        $supplier_id = $data['supplier_id'] ?? null;
+        $brand = $data['brand'] ?? "";
+        $status = $data['status'] ?? 1;
 
         // Xử lý hình ảnh upload
         $thumbnail = '';
@@ -49,16 +53,15 @@ switch ($action) {
         }
 
         // Gọi model để lưu sản phẩm
-        $product = $model_product->createProduct($name, $thumbnail, $supplier_id, $category_id, $status);
+        return $this->model_product->createProduct($name, $thumbnail, $category_id, $supplier_id, $brand, $status);
+    }
 
-        header("Location: /DoAn/ShoesStore/admin/view/index.php?page=product_manager&tab=product&pagination=$pagination");
-        exit();
-        break;
-    case 'update_product':
-        $id = $_POST['id'];
-        $name = $_POST['name'];
-        $pagination = $_POST['pagination'] ?? 1;
-        $oldThumbnail = $_POST['old_thumbnail'] ?? '';
+    public function update($data)
+    {
+        $id = $data['id'];
+        $name = $data['name'];
+        $category_id = $data['category_id'];
+        $oldThumbnail = $data['old_thumbnail'] ?? '';
         $thumbnail = $oldThumbnail; // mặc định giữ ảnh cũ
 
         // Kiểm tra nếu người dùng upload ảnh mới
@@ -87,50 +90,35 @@ switch ($action) {
         }
 
         // Gọi model để cập nhật
-        $updated = $model_product->updateProduct($id, $name, $thumbnail);
+        $this->model_product->updateProduct($id, $name, $thumbnail, $category_id);
+    }
 
-        header("Location: /DoAn/ShoesStore/admin/view/index.php?page=product_manager&tab=product&pagination=$pagination");
-        exit();
-        break;
-    case 'delete_product':
-        $id = $_POST['id'];
-        $pagination = $_POST['pagination'] ?? 1;
-        $dispatch = $_POST['dispatch'] ?? null;
-        if ($dispatch == 'lock') {
-            $value = 0; // Ẩn sản phẩm
-        } else {
-            $value = 1; // Hiện sản phẩm
+    public function toggleStatus(int $id, bool $dispatch)
+    {
+        if ($dispatch == 1) {
+            return $this->model_product->deleteProduct($id, 0);
         }
-        // Gọi model để xóa sản phẩm
-        $deleted = $model_product->deleteProduct($id, $value);
+        return $this->model_product->deleteProduct($id, 1);
+    }
 
-        header("Location: /DoAn/ShoesStore/admin/view/index.php?page=product_manager&tab=product&pagination=$pagination");
-        exit();
-        break;
-    case 'get_product_without_pagination':
-        $list = $model_product->getAllProductsWithoutPagination();
-        if ($list) {
-            $_SESSION['list_product'] = $list;
-        } else {
-            $_SESSION['list_product'] = [];
+    private function handleUpload(array $file, string $oldFile = ''): string
+    {
+        $uploadDir = __DIR__ . '/../uploads/';
+        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = uniqid('product_', true) . '.' . $ext;
+        $uploadPath = $uploadDir . $filename;
+
+        if (!file_exists($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
         }
-        break;
-    case 'get_product_id':
-        $id = $_SESSION['product_id'] ?? null;
-        if ($id) {
-            $product = $model_product->getProductById($id);
-            if ($product) {
-                $_SESSION['product'] = $product;
-            } else {
-                $_SESSION['message'] = "Không tìm thấy sản phẩm!";
-                $_SESSION['message_type'] = "error";
+
+        if (move_uploaded_file($file['tmp_name'], $uploadPath)) {
+            if ($oldFile && file_exists($uploadDir . $oldFile)) {
+                unlink($uploadDir . $oldFile);
             }
-        } else {
-            $_SESSION['message'] = "ID sản phẩm không hợp lệ!";
-            $_SESSION['message_type'] = "error";
+            return $filename;
         }
-        break;
-    default:
-        $_SESSION['message'] = "Hành động không hợp lệ!";
-        $_SESSION['message_type'] = "error";
+
+        return $oldFile ?: 'no_image.png';
+    }
 }

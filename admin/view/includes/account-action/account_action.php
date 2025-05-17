@@ -72,7 +72,7 @@ $totalPages = ceil($totalUsers / $limit);
     <p>Không có người dùng nào.</p>
 <?php endif; ?>
 
-<div class="modal" id="myModal">
+<div class="modal" id="myModal" style="display: none; opacity: 0;">
     <div class="modal-content">
         <h2>Thêm tài khoản nhân viên</h2>
         <span class="close">&times;</span>

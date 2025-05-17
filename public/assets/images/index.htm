@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../public/assets/css/admin_style/index.css">
+    <link rel="stylesheet" href="../../public/assets/css/base.css">
+    <link rel="stylesheet" href="../../public/assets/css/reset.css">
+    <link rel="stylesheet" href="../../public/assets/css/admin_style/header.css">
+    <link rel="stylesheet" href="../../public/assets/css/admin_style/dashboard.css">
+    <link rel="stylesheet" href="../../public/assets/css/admin_style/content.css">
+    <link rel="stylesheet" href="./css/account_manager.css">
+    <link rel="stylesheet" href="./css/customer_manager.css">
+    <link rel="stylesheet" href="./css/stats.css">
+
+    <!-- Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <header class="header">
+    <div class="header__logo">
+        <a href="index.php" class="header__logo-link">Shoes Store</a>
+    </div>
+
+    <div class="header_account">
+        <a href="" class="header_user-link">
+            <i class="fa-solid fa-user"></i>
+        </a>
+        <div class="header_account-popup">
+            <ul class="header_account-popup__list">
+                <li class="header_account-popup__item">
+                    <i class="fa-solid fa-user"></i>
+                    <a href="" class="header_account-popup__link">Phúc Lê</a>
+                </li>
+                <li class="header_account-popup__item">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <a href="" class="header_account-popup__link">Đăng xuất</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</header>    <div class="container">
+        
+<aside class="sidebar">
+    <ul class="menu">
+        <li class="module-manager ">
+            <a href="index.php?page=home"><i class="fas fa-home"></i> Trang chủ</a>
+        </li>
+        <li class="menu-title">QUẢN LÝ</li>
+        <li class="module-manager active">
+            <a href="index.php?page=product_manager"><i class="fas fa-box"></i> Sản phẩm</a>
+        </li>
+        <li class="module-manager ">
+            <a href="index.php?page=employee_manager"><i class="fas fa-users"></i> Nhân viên</a>
+        </li>
+        <li class="module-manager ">
+            <a href="index.php?page=customer_manager"><i class="fas fa-user-friends"></i> Khách hàng</a>
+        </li>
+
+
+        <li class="module-manager ">
+            <a href="index.php?page=import_manager"><i class="fa-solid fa-file-import"></i></i>Nhập hàng</a>
+        </li>
+
+
+        <li class="module-manager ">
+            <a href="index.php?page=supplier_manager"><i class="fa-solid fa-truck-field"></i></i>Nhà cung cấp</a>
+        </li>
+
+        <li class="menu-title">THỐNG KÊ</li>
+
+        <li class="module-manager ">
+            <a href="index.php?page=stats_customer"><i class="fas fa-chart-bar"></i> Thống kê khách hàng</a>
+        </li>
+    </ul>
+</aside><div class="main-content">
+
+    <div class="content">
+        
+
+<header class="header_account-page">
+
+    <a class="" href="index.php?page=product_manager&tab=product">Quản lý sản phẩm</a>
+    <span>/</span>
+    <a class="active" href="index.php?page=product_manager&tab=detail">Quản lý chi tiết sản phẩm</a>
+
+</header>
+
+
+<div class="content_account-page">
+    <div class="tab-content">
+
+            
+    <div class="account-action">
+        <div class="search-box">
+            <input type="text" class="input_search_account-action" placeholder="Tìm kiếm chi tiết" />
+        </div>
+        <div class="group-button_account-action">
+            <button class="button_account-action blue" id="open_modal-create-btn">
+                <i class="fa-solid fa-plus"></i>
+                <span>Thêm</span>
+            </button>
+        </div>
+    </div>
+
+            <table border='1'>
+            <tr>
+                <th>ID chi tiết</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Size</th>
+                <th>Màu sắc</th>
+                <th>Chất liệu</th>
+                <th>Giá</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+                            <tr>
+                    <td>1</td>
+                    <td>Running Shoes 1                    </td>
+
+                    <td>18</td>
+                    <td>42</td>
+                    <td>Đen</td>
+                    <td>Da tổng hợp</td>
+                    <td>1.500.000 ₫</td>
+                    <td>                             <span style="background-color: green; color: white; font-size: 14px; padding: 2px 4px; border-radius: 4px;">Đang bán</span>
+                                            </td>
+                    <td class="table_col-action">
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
+                        <span class="seperator"></span>
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-eye"></i></span>
+                        <span class="seperator"></span>
+                        <span>
+                            <form method="POST" onsubmit="return confirmLock(this);">
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                                            <i class="fa-solid fa-lock"></i>
+                                                                    </button>
+                            </form>
+                        </span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td>2</td>
+                    <td>Running Shoes 1                    </td>
+
+                    <td>30</td>
+                    <td>41</td>
+                    <td>Xanh</td>
+                    <td>Lưới</td>
+                    <td>1.200.000 ₫</td>
+                    <td>                             <span style="background-color: red; color: white; font-size: 14px; padding: 2px 4px; border-radius: 4px;">Đã ẩn</span>
+                                            </td>
+                    <td class="table_col-action">
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
+                        <span class="seperator"></span>
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-eye"></i></span>
+                        <span class="seperator"></span>
+                        <span>
+                            <form method="POST" onsubmit="return confirmLock(this);">
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                                            <i class="fa-solid fa-lock-open"></i>
+                                                                    </button>
+                            </form>
+                        </span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td>3</td>
+                    <td>Sunglasses                    </td>
+
+                    <td>40</td>
+                    <td>40</td>
+                    <td>Trắng</td>
+                    <td>Vải</td>
+                    <td>1.100.000 ₫</td>
+                    <td>                             <span style="background-color: green; color: white; font-size: 14px; padding: 2px 4px; border-radius: 4px;">Đang bán</span>
+                                            </td>
+                    <td class="table_col-action">
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
+                        <span class="seperator"></span>
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-eye"></i></span>
+                        <span class="seperator"></span>
+                        <span>
+                            <form method="POST" onsubmit="return confirmLock(this);">
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                                            <i class="fa-solid fa-lock"></i>
+                                                                    </button>
+                            </form>
+                        </span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td>4</td>
+                    <td>Backpack                    </td>
+
+                    <td>20</td>
+                    <td>43</td>
+                    <td>Nâu</td>
+                    <td>Da thật</td>
+                    <td>5.000.000 ₫</td>
+                    <td>                             <span style="background-color: green; color: white; font-size: 14px; padding: 2px 4px; border-radius: 4px;">Đang bán</span>
+                                            </td>
+                    <td class="table_col-action">
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
+                        <span class="seperator"></span>
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-eye"></i></span>
+                        <span class="seperator"></span>
+                        <span>
+                            <form method="POST" onsubmit="return confirmLock(this);">
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                                            <i class="fa-solid fa-lock"></i>
+                                                                    </button>
+                            </form>
+                        </span>
+                    </td>
+                </tr>
+                            <tr>
+                    <td>5</td>
+                    <td>Smartwatch                    </td>
+
+                    <td>20</td>
+                    <td>39</td>
+                    <td>Đỏ</td>
+                    <td>Da lộn</td>
+                    <td>2.500.000 ₫</td>
+                    <td>                             <span style="background-color: green; color: white; font-size: 14px; padding: 2px 4px; border-radius: 4px;">Đang bán</span>
+                                            </td>
+                    <td class="table_col-action">
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
+                        <span class="seperator"></span>
+                        <span class="open_modal-edit-btn"><i class="fa-solid fa-eye"></i></span>
+                        <span class="seperator"></span>
+                        <span>
+                            <form method="POST" onsubmit="return confirmLock(this);">
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                                                            <i class="fa-solid fa-lock"></i>
+                                                                    </button>
+                            </form>
+                        </span>
+                    </td>
+                </tr>
+                    </table>
+
+        <!-- Phân trang -->
+        <div class="pagination">
+            
+                            <a href="index.php?page=product_manager&tab=detail&pagination=1" class="active">1</a>
+                            <a href="index.php?page=product_manager&tab=detail&pagination=2" class="">2</a>
+                            <a href="index.php?page=product_manager&tab=detail&pagination=3" class="">3</a>
+            
+                            <a href="index.php?page=product_manager&tab=detail&pagination=2">Tiếp »</a>
+                    </div>
+    
+    <!-- Form thêm chi tiết sản phẩm mới -->
+    <div class="modal" id="modal-create" style="display: none; opacity: 0;">
+        <div class="modal-content phuc">
+            <h2>Thêm chi tiết sản phẩm</h2>
+            <span class="close">&times;</span>
+            <form method="POST" class="form-create-user">
+                <input type="hidden" name="action" value="create_detail_product">
+                <input type="hidden" name="pagination" value="3">
+                <div class="form-group phuc">
+                    <label for="product_id">Chọn sản phẩm muốn thêm chi tiết</label>
+                    <select class="form-control" id="product_id" name="product_id">
+                        <option value="">-- Chọn sản phẩm cần thêm chi tiết --</option>
+                                                    <option value="1">
+                                Running Shoes 1                            </option>
+                                                    <option value="2">
+                                Leather Jacket                            </option>
+                                                    <option value="3">
+                                Sunglasses                            </option>
+                                                    <option value="4">
+                                Backpack                            </option>
+                                                    <option value="5">
+                                Smartwatch                            </option>
+                                                    <option value="6">
+                                Gold Necklace                            </option>
+                                                    <option value="7">
+                                Formal Shoes                            </option>
+                                                    <option value="8">
+                                T-shirt                            </option>
+                                                    <option value="9">
+                                Sports Shorts                            </option>
+                                                    <option value="23">
+                                sdascacxscsdf                            </option>
+                                                    <option value="24">
+                                Brand V2 Aufla                            </option>
+                                                    <option value="25">
+                                No Name                            </option>
+                                            </select>
+                </div>
+
+
+                <div class="form-group phuc">
+                    <label for="size">Size</label>
+                    <select class="form-control" id="size" name="size" required>
+                        <option value="">-- SIZE --</option>
+                                                    <option value="38">38</option>
+                                                    <option value="39">39</option>
+                                                    <option value="40">40</option>
+                                                    <option value="41">41</option>
+                                                    <option value="42">42</option>
+                                                    <option value="43">43</option>
+                                                    <option value="44">44</option>
+                                                    <option value="45">45</option>
+                                                    <option value="46">46</option>
+                                                    <option value="47">47</option>
+                                                    <option value="48">48</option>
+                                                    <option value="49">49</option>
+                                                    <option value="50">50</option>
+                                            </select>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="quantity">Số lượng</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="color">Màu sắc</label>
+                    <input type="text" class="form-control" id="color" name="color" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="material">Chất liệu</label>
+                    <input type="text" class="form-control" id="material" name="material" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="price">Giá bán</label>
+                    <input type="text" class="form-control" id="price" name="price" required>
+                </div>
+
+                <button type="submit" class="btn">GỬI</button>
+            </form>
+
+        </div>
+    </div>
+    </div>    </div>
+
+</div>    </div>
+</body>
+<script src="../../public/assets/js/modal.js"></script>
+
+</html>
