@@ -64,6 +64,49 @@ class Model_ProductDetail
         return $productDetails;
     }
 
+    public function getAllDetailsByProductId($productId)
+    {
+        $query = "SELECT pd.* 
+              FROM productdetail pd
+              JOIN product p ON pd.product_id = p.id
+              WHERE p.id = ?";
+
+        $stmt = $this->connection->prepare($query);
+
+        if (!$stmt) {
+            error_log("Lỗi chuẩn bị truy vấn: " . $this->connection->error);
+            return [];
+        }
+
+        $stmt->bind_param("i", $productId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        if (!$result) {
+            error_log("Lỗi truy vấn: " . $this->connection->error);
+            return [];
+        }
+
+        $productDetails = [];
+        while ($row = $result->fetch_assoc()) {
+            $detail = new ProductDetail(
+                $row['id'],
+                $row['product_id'],
+                $row['description'],
+                $row['quantity'],
+                $row['size'],
+                $row['color'],
+                $row['material'],
+                $row['price'],
+                $row['status'],
+                $row['updated_at']
+            );
+            $productDetails[] = $detail;
+        }
+
+        return $productDetails;
+    }
+
     public function createProductDetail($product_id, $description, $quantity, $size, $color, $material, $price)
     {
         $created_at = date('Y-m-d H:i:s');
@@ -100,12 +143,32 @@ class Model_ProductDetail
             return false;
         }
 
-        $stmt->bind_param("ssissdi", $size, $quantity, $color, $material, $price, $id);
+        $stmt->bind_param("sissdi", $size, $quantity, $color, $material, $price, $id);
 
         if ($stmt->execute()) {
             return true;
         } else {
             error_log("Lỗi khi cập nhật sản phẩm: " . $stmt->error);
+            return false;
+        }
+    }
+
+    public function deleteProductDetail($id, $value)
+    {
+        $query = "UPDATE productdetail SET status = $value WHERE id = ?";
+        $stmt = $this->connection->prepare($query);
+
+        if (!$stmt) {
+            error_log("Lỗi chuẩn bị truy vấn: " . $this->connection->error);
+            return false;
+        }
+
+        $stmt->bind_param("i", $id);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            error_log("Lỗi khi cập nhật trạng thái chi tiết sản phẩm: " . $stmt->error);
             return false;
         }
     }

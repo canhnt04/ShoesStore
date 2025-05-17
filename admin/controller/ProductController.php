@@ -29,6 +29,11 @@ class ProductController
         return $this->model_product->getAllProducts($limit, $offset);
     }
 
+    public function getProductById($productId)
+    {
+        return $this->model_product->getProductById($productId);
+    }
+
     public function create($data)
     {
         $name = $data['name'] ?? null;

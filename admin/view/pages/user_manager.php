@@ -5,9 +5,9 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : 'account';
 ?>
 <header class="header_account-page">
 
-    <a class="<?php echo ($tab == 'account') ? 'active' : '' ?>" href="index.php?page=employee_manager&tab=account">Tài khoản nhân viên</a>
+    <a class="<?php echo ($tab == 'account') ? 'active' : '' ?>" href="index.php?page=user_manager&tab=account">Tài khoản nhân viên</a>
     <span>/</span>
-    <a class="<?php echo ($tab == 'detail') ? 'active' : '' ?>" href="index.php?page=employee_manager&tab=detail">Thông tin nhân viên</a>
+    <a class="<?php echo ($tab == 'detail') ? 'active' : '' ?>" href="index.php?page=user_manager&tab=detail">Thông tin nhân viên</a>
 
 </header>
 
@@ -15,7 +15,7 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : 'account';
     <div class="tab-content">
 
         <?php
-        if (isset($_GET['page']) && $_GET['page'] === 'employee_manager' && isset($_GET['tab'])) {
+        if (isset($_GET['page']) && $_GET['page'] === 'user_manager' && isset($_GET['tab'])) {
             $tab = $_GET['tab'];
             switch ($tab) {
                 case 'account':

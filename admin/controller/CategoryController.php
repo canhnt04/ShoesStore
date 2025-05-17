@@ -12,6 +12,11 @@ class CategoryController
         $this->model_category = new Model_Category($connection);
     }
 
+    public function countList(): int
+    {
+        return $this->model_category->countCategory();
+    }
+
     public function getAllCategories()
     {
         return  $this->model_category->getAllCategories();

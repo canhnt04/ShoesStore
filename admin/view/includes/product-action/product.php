@@ -1,6 +1,7 @@
     <?php
     // Cài đặt phân trang
     include __DIR__ . '/../../../controller/ProductController.php';
+    include __DIR__ . '/../../../controller/ProductDetailController.php';
     include __DIR__ . '/../../../controller/CategoryController.php';
     include __DIR__ . '/../../../controller/SupplierController.php';
 
@@ -15,6 +16,9 @@
     $supplierController = new SupplierController($connection);
 
     $products = $productController->getAllPaginated($limit, $offset);
+    // echo '<pre>';
+    // print_r($products);
+    // echo '</pre>';
 
     $totalCount = $productController->countList();
     $totalPages = ceil($totalCount / $limit);
@@ -45,7 +49,7 @@
     }
 
     // echo '<pre>';
-    // print_r($products);
+    // print_r($supplierMap);
     // echo '</pre>';
 
     ?>
@@ -74,11 +78,12 @@
                 <th>Thao tác</th>
             </tr>
             <?php foreach ($products as $product): ?>
-                <tr>
+                <tr data-product-id="<?= $product->getId() ?>"
+                    data-category-id="<?= ($categoryMap[$product->getCategoryId()]['id']) ?>">
                     <td><?= htmlspecialchars($product->getId()) ?></td>
                     <td><?= htmlspecialchars($product->getName()) ?></td>
                     <td>
-                        <img src="/DoAn/ShoesStore/admin/uploads/<?= htmlspecialchars($product->getThumbnail()) ?>"
+                        <img src="/ShoesStore/admin/uploads/<?= htmlspecialchars($product->getThumbnail()) ?>"
                             alt="Hình ảnh sản phẩm"
                             width="70"
                             onerror="this.onerror=null;this.src='/DoAn/ShoesStore/public/assets/images/no_image.png';">
@@ -96,6 +101,8 @@
                     </td>
                     <td class="table_col-action">
                         <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
+                        <span class="seperator"></span>
+                        <span class="open_modal-detail-btn"><i class="fa-solid fa-eye"></i></span>
                         <span class="seperator"></span>
                         <span>
                             <form method="POST" onsubmit="return confirmLock(this);">
@@ -216,7 +223,7 @@
                     <label for="edit-category">Danh mục</label>
                     <select class="form-control" id="edit-category" name="category_id" required>
                         <?php foreach ($categoryMap as $id => $data): ?>
-                            <option value="<?= htmlspecialchars($data['id']) ?>"><?= htmlspecialchars($data['name']) ?></option>
+                            <option value="<?= (string) $data['id'] ?>"><?= htmlspecialchars($data['name']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -235,6 +242,17 @@
         </div>
     </div>
 
+    <!-- Modal xem chi tiết sản phẩm -->
+    <div id="order-modal" style="display:none;" class="modal">
+        <div class="modal-content">
+            <h2>Chi tiết sản phẩm</h2>
+            <span class="close close-detail-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         document.getElementById("thumbnail").addEventListener("change", function(event) {
@@ -261,4 +279,34 @@
             const message = isLocked ? "Bạn có chắc chắn muốn ẩn sản phẩm này?" : "Bạn có chắc chắn muốn mở bán lại sản phẩm này?";
             return confirm(message);
         }
+
+        // Mở modal xem chi tiết sản phẩm
+        document.querySelectorAll(".open_modal-detail-btn").forEach((btn) => {
+            btn.addEventListener("click", function() {
+                const productId = this.closest("tr").dataset.productId;
+
+                $.ajax({
+                    url: "ajax-php/get_product_detail.php",
+                    method: "POST",
+                    data: {
+                        productId: productId
+                    },
+                    success: function(html) {
+                        $('#modal-body').html(html);
+                        $('#order-modal').fadeIn(50, 'linear')
+                    },
+                    error: function() {
+                        $('#modal-body').html('<p>Lỗi khi tải dữ liệu.</p>');
+                        $('#order-modal').fadeIn()
+                    }
+                });
+            });
+        });
+
+        // Đóng modal xem chi tiết
+        document.querySelector('.close-detail-modal').addEventListener('click', function() {
+            $('#order-modal').fadeOut(100, function() {
+                $('#modal-body').html(''); // Xóa nội dung khi đóng để tránh lỗi hoặc trùng ID
+            });
+        });
     </script>

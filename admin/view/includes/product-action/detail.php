@@ -91,10 +91,14 @@
                     <td class="table_col-action">
                         <span class="open_modal-edit-btn-detail"><i class="fa-solid fa-pen"></i></span>
                         <span class="seperator"></span>
-                        <span class="open_modal-edit-btn"><i class="fa-solid fa-eye"></i></span>
-                        <span class="seperator"></span>
                         <span>
                             <form method="POST" onsubmit="return confirmLock(this);">
+
+                                <input type="hidden" name="action" value="delete_detail_product">
+                                <input type="hidden" name="id" value="<?= $detail->getId() ?>">
+                                <input type="hidden" name="pagination" value="<?= htmlspecialchars($_GET['pagination'] ?? 1) ?>">
+                                <input type="hidden" name="dispatch" value="<?= $detail->getStatus() ?>">
+
                                 <button type="submit" style="border: none; background: none; cursor: pointer;">
                                     <?php if ($detail->getStatus() == 1): ?>
                                         <i class="fa-solid fa-lock"></i>
@@ -102,6 +106,7 @@
                                         <i class="fa-solid fa-lock-open"></i>
                                     <?php endif; ?>
                                 </button>
+
                             </form>
                         </span>
                     </td>
@@ -191,8 +196,8 @@
             <span class="close">&times;</span>
             <form method="POST" class="form-create-user">
                 <input type="hidden" name="action" value="update_detail_product">
-                <input type="hidden" name="pagination" value="<?= htmlspecialchars($totalPages) ?>">
-                <input type="hidden" name="edit-id">
+                <input type="hidden" name="pagination" value="<?= htmlspecialchars($page) ?>">
+                <input type="hidden" id="edit-id" name="id">
 
                 <div class="form-group phuc">
                     <label for="product-name">Tên sản phẩm</label>

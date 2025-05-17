@@ -87,8 +87,8 @@ class Model_Product
                 $row['id'],
                 $row['name'],
                 $row['thumbnail'],
-                $row['supplier_id'],
                 $row['category_id'],
+                $row['supplier_id'],
                 $row['brand'],
                 $row['status'],
                 $row['created_at'],
@@ -161,7 +161,7 @@ class Model_Product
     {
         $updated_at = date('Y-m-d H:i:s');
 
-        $query = "UPDATE product SET name = ?, thumbnail = ?, category_id = ?, updated_at = ? WHERE id = ?";
+        $query = "UPDATE product SET name = ?, thumbnail = ?, category_id = ? WHERE id = ?";
         $stmt = $this->connection->prepare($query);
 
         if (!$stmt) {
@@ -169,7 +169,7 @@ class Model_Product
             return false;
         }
 
-        $stmt->bind_param("sssi", $name, $thumbnail, $category_id, $updated_at, $id);
+        $stmt->bind_param("sssi", $name, $thumbnail, $category_id, $id);
 
         if ($stmt->execute()) {
             return true;

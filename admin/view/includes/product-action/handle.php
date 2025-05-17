@@ -30,5 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $controllerProductDetail->updateProductDetail($_POST);
             header("Location: index.php?page=product_manager&tab=detail&pagination=" . ($_POST['pagination'] ?? 1));
             exit;
+        case 'delete_detail_product':
+            $controllerProductDetail->toggleDetailProduct($_POST['id'], $_POST['dispatch']);
+            header("Location: index.php?page=product_manager&tab=detail&pagination=" . ($_POST['pagination'] ?? 1));
+            exit;
     }
 }

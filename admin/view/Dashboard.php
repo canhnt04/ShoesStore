@@ -11,8 +11,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
         <li class="module-manager <?php echo ($page == 'product_manager') ? 'active' : ''; ?>">
             <a href="index.php?page=product_manager"><i class="fas fa-box"></i> Sản phẩm</a>
         </li>
-        <li class="module-manager <?php echo ($page == 'employee_manager') ? 'active' : ''; ?>">
-            <a href="index.php?page=employee_manager"><i class="fas fa-users"></i> Nhân viên</a>
+        <li class="module-manager <?php echo ($page == 'user_manager') ? 'active' : ''; ?>">
+            <a href="index.php?page=user_manager"><i class="fas fa-users"></i> Tài khoản</a>
         </li>
         <li class="module-manager <?php echo ($page == 'customer_manager') ? 'active' : ''; ?>">
             <a href="index.php?page=customer_manager"><i class="fas fa-user-friends"></i> Khách hàng</a>

@@ -7,7 +7,7 @@ $offset = ($page - 1) * $limit;
 
 $employeeController = new EmployeeController();
 
-// Lấy danh sách nhân và van tổng số nhân viên
+// Lấy danh sách nhân và van tổng số nhân viên  
 $employees = $employeeController->listEmployees($limit, $offset);
 $totalEmployees = $employeeController->countEmployees();
 $totalPages = ceil($totalEmployees / $limit);

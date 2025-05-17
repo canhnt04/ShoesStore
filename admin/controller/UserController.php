@@ -11,14 +11,14 @@ class UserController
         $this->userModel = new Model_User($connection);
     }
 
-    public function listUsers($limit, $offset)
-    {
-        return $this->userModel->getAllUsers($limit, $offset);
-    }
-
     public function countUsers()
     {
         return $this->userModel->countUsers();
+    }
+
+    public function listUsers($limit, $offset)
+    {
+        return $this->userModel->getAllUsers($limit, $offset);
     }
 
     // public function listUsers()

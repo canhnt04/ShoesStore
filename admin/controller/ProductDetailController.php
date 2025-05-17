@@ -22,6 +22,12 @@ class ProductDetailController
         return $this->model_product_detail->getAllProductDetails($limit, $offset);
     }
 
+    // Hàm lấy danh sách chi tiết sản phẩm theo id
+    public function getAllDetailsByProductId($productId)
+    {
+        return $this->model_product_detail->getAllDetailsByProductId($productId);
+    }
+
     // Hàm tạo một chi tiết sản phẩm mới
     public function createProductDetail($data)
     {
@@ -46,6 +52,15 @@ class ProductDetailController
         $material = $data['material'];
         $price = $data['price'];
 
-        return $this->model_product_detail->updateProductDetail($size, $quantity,  $color, $material, $price, $id);
+        return $this->model_product_detail->updateProductDetail($size, $quantity, $color, $material, $price, $id);
+    }
+
+    // Ẩn hiện sản phẩm
+    public function toggleDetailProduct($id, $dispatch)
+    {
+        if ($dispatch == 1) {
+            return $this->model_product_detail->deleteProductDetail($id, 0);
+        }
+        return $this->model_product_detail->deleteProductDetail($id, 1);
     }
 }

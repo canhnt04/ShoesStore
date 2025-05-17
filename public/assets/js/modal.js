@@ -59,19 +59,20 @@ openEditBtns.forEach((btn) => {
 
     // Nếu cần lấy dữ liệu từ hàng chứa nút được click
     const row = btn.closest("tr");
-    const id = row.children[0].innerText;
+
+    const id = row.dataset.productId;
+    const categoryId = row.dataset.categoryId;
+
+    // Lấy các giá trị khác từ DOM
     const name = row.children[1].innerText;
-    const category = row.children[3].innerText;
     const imgSrc = row.querySelector("img").getAttribute("src");
     const thumbnail = imgSrc.split("/").pop();
 
-    console.log(document.getElementById("edit-category").value);
-
-    // Gán dữ liệu vào form cập nhật
+    // Gán dữ liệu vào form
     document.getElementById("edit_id").value = id;
     document.getElementById("edit_name").value = name;
+    document.getElementById("edit-category").value = String(categoryId);
     document.getElementById("current_thumbnail").src = imgSrc;
-    document.getElementById("edit-category").value = category;
     document.getElementById("old_thumbnail").value = thumbnail;
   });
 });
@@ -102,7 +103,7 @@ window.onclick = function (event) {
 };
 
 document
-  .getElementById("thu  mbnail")
+  .getElementById("thumbnail")
   .addEventListener("change", function (event) {
     const input = event.target;
     const preview = document.getElementById("preview_thumbnail");

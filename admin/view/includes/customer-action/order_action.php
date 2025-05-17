@@ -179,8 +179,7 @@ $orders = $orderController->listOrders();
                         alert("Không lấy được thông tin đơn hàng!");
                     }
                 }, "json");
-            } 
-            else if (action === "cancel_order" || action === "confirm_delivery") {
+            } else if (action === "cancel_order" || action === "confirm_delivery") {
                 // Với hủy hoặc xác nhận giao: gọi luôn, không qua modal
                 sendUpdateRequest(orderId, action);
             }
