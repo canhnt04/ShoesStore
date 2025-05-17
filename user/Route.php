@@ -1,11 +1,17 @@
 <?php
 require_once __DIR__ . "/../config/init.php";
 
-// Lấy tên controller
+// Điều hướng mặc định nếu không có page và action
+if (!isset($_GET['page']) && !isset($_GET['action'])) {
+    header('Location: /ShoesStore/public/index.php?page=Product&action=showList&pageNumber=1');
+    exit();
+}
+
+// Lấy tên controller và action
 $controller = $_GET['page'] ?? 'Home';
 $action = $_GET['action'] ?? 'index';
 
-// Tạo mảng để lấy tham số
+// Gom các tham số phụ
 $params = [];
 foreach ($_REQUEST as $key => $value) {
     if ($key !== 'page' && $key !== 'action') {
@@ -13,28 +19,25 @@ foreach ($_REQUEST as $key => $value) {
     }
 }
 
-// Load controller class
+// Định nghĩa tên class controller
 $controllerName = ucfirst($controller) . 'Controller';
-$controllerFile =  __DIR__ . "/controller/{$controllerName}.php";
 
-if (!file_exists($controllerFile)) {
+// Kiểm tra xem file controller có tồn tại không
+$controllerPath = __DIR__ . "/controller/{$controllerName}.php";
+if (!file_exists($controllerPath)) {
     header('Location: /ShoesStore/public/404.php');
     exit();
 }
+require_once $controllerPath;
 
-require_once $controllerFile;
-
-if (!class_exists($controllerName)) {
-    header('Location: /ShoesStore/public/404.php');
-    exit();
-}
-
-// Khởi tạo controller và gọi phương thức tại file này
+// Tạo instance
 $controllerInstance = new $controllerName();
 
+// Kiểm tra phương thức tồn tại trước khi gọi
 if (!method_exists($controllerInstance, $action)) {
     header('Location: /ShoesStore/public/404.php');
     exit();
 }
 
+// Gọi action
 $controllerInstance->$action($params);

@@ -1,28 +1,7 @@
 <?php
-session_start();
-// if (
-//     !isset($_SERVER['HTTP_X_REQUESTED_WITH']) ||
-//     strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest'
-// ) {
-//     header("Location: ../index.php");
-//     exit;
-// }
-
-// Autoload class
-// spl_autoload_register(function ($className) {
-//     $paths = [
-//         __DIR__ . "/user/controller/{$className}/php",
-//         __DIR__ . "/user/model/$className}php",
-//     ];
-//     foreach ($paths as $path) {
-//         if (file_exists($path)) {
-//             require_once $path;
-//             return;
-//         }
-//     }
-// });
-
-// Connect Database
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 class Database
 {
     private $conn;

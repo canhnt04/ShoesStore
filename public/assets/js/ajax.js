@@ -19,8 +19,8 @@ $(document).ready(function () {
         history.pushState({}, "", url);
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        // var errorMessage = JSON.parse(xhr.responseText);
-        // alert(errorMessage.message);
+        var errorMessage = JSON.parse(xhr.responseText);
+        alert(errorMessage.message);
       },
     });
   }
@@ -36,8 +36,8 @@ $(document).ready(function () {
         alert(data.message);
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        // var errorMessage = JSON.parse(xhr.responseText);
-        // alert(errorMessage.message);
+        var errorMessage = JSON.parse(xhr.responseText);
+        alert(errorMessage.message);
       },
     });
   }

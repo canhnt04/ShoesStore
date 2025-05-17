@@ -6,17 +6,20 @@ $(function () {
   const signUpForm = container.querySelector(".sign-up form");
 
   $(".auth-form__control-back").on("click", function (e) {
+    e.preventDefault();
     window.location.href = "/ShoesStore/public/index.php";
   });
 
   function disableForm(form) {
     form.querySelectorAll("input, button").forEach((e) => {
+      e.preventDefault();
       e.disabled = true;
     });
   }
 
   function enableForm(form) {
     form.querySelectorAll("input, button").forEach((e) => {
+      e.preventDefault();
       e.disabled = false;
     });
   }
@@ -34,23 +37,19 @@ $(function () {
       method: "POST",
       data: $(this).serialize() + "&action=login",
       dataType: "json",
-      success: function (response) {
-        if (response.success) {
+      success: function (res) {
+        if (res.success) {
+          alert(res.message);
           $("#ajaxLink").remove();
-          alert(response.message);
-          if (response.redirectUser) {
-            window.location.href = response.redirectUser;
-            history.pushState(null, "", response.redirectUser);
-          } else {
-            window.location.href = response.redirectAdmin;
-          }
-        }
-        if (response.error) {
-          alert(response.error);
+          // history.pushState({}, "", res.redirect);
+          window.location.href = res.redirect;
+        } else {
+          alert(res.error);
         }
       },
       error: function (xhr, status, error) {
         console.error("Lỗi AJAX:", xhr, status, error);
+        console.error("error:", xhr.responseText);
       },
       complete: function () {
         setTimeout(function () {
@@ -67,17 +66,18 @@ $(function () {
       method: "POST",
       data: $(this).serialize() + "&action=register",
       dataType: "json",
-      success: function (response) {
-        if (response.success) {
+      success: function (res) {
+        if (res.success) {
           clearForm(signUpForm);
-          alert(response.message);
+          alert(res.message);
         }
-        if (response.error) {
-          alert(response.error);
+        if (res.error) {
+          alert(res.error);
         }
       },
       error: function (xhr, status, error) {
         console.error("Lỗi AJAX:", xhr, status, error);
+        console.error("error:", xhr.responseText);
       },
       complete: function () {
         setTimeout(function () {

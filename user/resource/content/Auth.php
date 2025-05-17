@@ -1,5 +1,5 @@
 <div id="ajaxLink">
-    <div class="auth ajaxLoad">
+    <div class="auth">
         <div class="auth__body">
             <div class="auth-form" id="container">
                 <div class="auth-form__container sign-up">
@@ -82,5 +82,4 @@
     </div>
 </div>
 <script src="/ShoesStore/public/assets/js/jquery-3.7.1.min.js"></script>
-<script src="/ShoesStore/public/assets/js/ajax.js"></script>
-<script src="/ShoesStore/public/assets/js/auth.js"></script>
+<script src="/ShoesStore/public/assets/js/jquery-migrate-1.2.1.min.js"></script>

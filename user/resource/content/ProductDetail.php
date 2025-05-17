@@ -104,7 +104,3 @@
     </section>
     <!-- Close Content -->
 </div>
-<footer>
-    <script src="ShoesStore/public/assets/js/templatemo.js"></script>
-    <script src="ShoesStore/public/assets/js/custom.js"></script>
-</footer>

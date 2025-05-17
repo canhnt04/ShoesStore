@@ -1,8 +1,23 @@
+<?php
+require_once __DIR__ . "/../../../config/init.php";
+?>
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/reset.css">
+<link rel="apple-touch-icon" href="/ShoesStore/public/assets/images/apple-icon.png">
+<link rel="shortcut icon" type="images/x-icon" href="/ShoesStore/public/assets/images/favicon.ico">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/fontawesome.min.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/templatemo.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/custom.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/cart.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/auth.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/base.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/payment.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
 <div id="header">
     <nav class=" navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
 
-            <a class="navbar-brand text-success logo h2 align-self-center" href="index.php?page=Product&action=showList&pageNumber=1">
+            <a class="navbar-brand text-success logo h2 align-self-center ajaxLink" href="index.php?page=Product&action=showList&pageNumber=1">
                 Shoes Store
             </a>
 
@@ -86,8 +101,8 @@
                     <i class="fa fa-fw fa-cart-arrow-down text-dark" style="font-size: 24px; margin-top: 6px;"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                 </a>
-                <?php echo $_SESSION['username'];
-                if (isset($_SESSION['username'])): ?>
+                <?php
+                if (isset($_SESSION['userId'])): ?>
                     <!-- Nếu người dùng đã đăng nhập, hiển thị icon logout -->
                     <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle nav-icon text-decoration-none" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -101,7 +116,7 @@
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a id="headerLogout" class="dropdown-item ajaxLink" href="index.php?page=Auth&action=logout">Log out</a>
+                                <a class="dropdown-item" href="/ShoesStore/user/resource/content/Logout.php">Log out</a>
                             </li>
                         </ul>
                     </div>

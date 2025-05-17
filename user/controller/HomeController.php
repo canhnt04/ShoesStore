@@ -14,7 +14,6 @@ class HomeController extends BaseController
 
     public function index()
     {
-        // Gọi view Home.php
         $this->render("Home.php");
     }
 

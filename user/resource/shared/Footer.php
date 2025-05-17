@@ -90,3 +90,9 @@
         </div>
     </div>
 </footer>
+<script src="/ShoesStore/public/assets/js/jquery-3.7.1.min.js"></script>
+<script src="/ShoesStore/public/assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/ShoesStore/public/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/ShoesStore/public/assets/js/templatemo.js"></script>
+<script src="/ShoesStore/public/assets/js/ajax.js"></script>
+<script src="/ShoesStore/public/assets/js/auth.js"></script>
