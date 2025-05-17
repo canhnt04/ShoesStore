@@ -1,14 +1,9 @@
 <?php
-// File định tuyến router
-session_start();
+require_once __DIR__ . "/../config/init.php";
 
 // Lấy tên controller
-$controller = isset($_GET['page']) ? $_GET['page'] : 'Home';
-$action = isset($_GET['action']) ? $_GET['action'] : 'index';
-
-// Tham số động
-// $pageNumber = isset($_GET['pageNumber']) ? $_GET['pageNumber'] : 1;
-// $id = isset($_GET['id']) ? $_GET['id'] : null;
+$controller = $_GET['page'] ?? 'Home';
+$action = $_GET['action'] ?? 'index';
 
 // Tạo mảng để lấy tham số
 $params = [];
@@ -20,11 +15,26 @@ foreach ($_REQUEST as $key => $value) {
 
 // Load controller class
 $controllerName = ucfirst($controller) . 'Controller';
-require_once __DIR__ . "/controller/{$controllerName}.php";
+$controllerFile =  __DIR__ . "/controller/{$controllerName}.php";
+
+if (!file_exists($controllerFile)) {
+    header('Location: /ShoesStore/public/404.php');
+    exit();
+}
+
+require_once $controllerFile;
+
+if (!class_exists($controllerName)) {
+    header('Location: /ShoesStore/public/404.php');
+    exit();
+}
 
 // Khởi tạo controller và gọi phương thức tại file này
 $controllerInstance = new $controllerName();
-$controllerInstance->$action($params);
 
-// session_unset();
-// session_destroy();
+if (!method_exists($controllerInstance, $action)) {
+    header('Location: /ShoesStore/public/404.php');
+    exit();
+}
+
+$controllerInstance->$action($params);

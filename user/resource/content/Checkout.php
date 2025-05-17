@@ -1,10 +1,7 @@
-<head>
-    <link rel="stylesheet" href="../public/assets/css/payment.css">
-</head>
 <div id="ajaxLoad">
     <main id="main" role="main">
         <section id="checkout-container">
-            <form class="needs-validation" id="submitForm" action="Route.php?page=Payment&action=placeorder" method="POST">
+            <form class="needs-validation" id="submitForm" action="index.php?page=Payment&action=placeorder" method="POST">
                 <div class="container">
                     <div class="row py-5">
                         <div class="sticky-top col-md-4 order-md-2 mb-4">

@@ -19,8 +19,8 @@ $(document).ready(function () {
         history.pushState({}, "", url);
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
+        // var errorMessage = JSON.parse(xhr.responseText);
+        // alert(errorMessage.message);
       },
     });
   }
@@ -36,8 +36,8 @@ $(document).ready(function () {
         alert(data.message);
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
+        // var errorMessage = JSON.parse(xhr.responseText);
+        // alert(errorMessage.message);
       },
     });
   }
@@ -61,11 +61,11 @@ $(document).ready(function () {
         // $('#ajaxLoad').html("<p>Hello World</p>");
         $("#ajaxLoad").html(data);
         alert("Your order is successful!");
-        history.pushState({}, "", "Route.php?page=Home&action=index");
+        history.pushState({}, "", "index.php?page=Home&action=index");
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
+        // var errorMessage = JSON.parse(xhr.responseText);
+        // alert(errorMessage.message);
       },
     });
   }
@@ -78,16 +78,16 @@ $(document).ready(function () {
         $("#ajaxLoad").html(data);
         // Client -> Ajax catch -> Route -> controller -> Ajax sucsess -> Client
         window.location.href =
-          "Route.php?page=Product&action=showList&pageNumber=1"; // Trick bẩn reload trang
+          "index.php?page=Product&action=showList&pageNumber=1"; // Trick bẩn reload trang
         history.pushState(
           {},
           "",
-          "Route.php?page=Product&action=showList&pageNumber=1"
+          "index.php?page=Product&action=showList&pageNumber=1"
         );
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
+        // var errorMessage = JSON.parse(xhr.responseText);
+        // alert(errorMessage.message);
       },
     });
   }

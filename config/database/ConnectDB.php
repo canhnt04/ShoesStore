@@ -1,16 +1,29 @@
 <?php
+class Database
+{
+    private $conn;
+    private $servername = "localhost";
+    private $username = "root";
+    private $password = "";
+    private $dbname = "shoesstore";
 
-$db_server = "localhost";
-$db_user = "root";
-$db_pass = "";
-$db_name = "shoesstore";
+    public function __construct()
+    {
+        $this->connectDB();
+    }
 
-// Kết nối đến database
-$connection = mysqli_connect($db_server, $db_user, $db_pass, $db_name);
+    private function connectDB()
+    {
+        $this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
 
-// // Kiểm tra kết nối
-// if (!$connection) {
-//     die("Connection failed: " . mysqli_connect_error());
-// } else {
-//     // echo "Connected successfully";
-// }
+        // Kiểm tra kết nối
+        if ($this->conn->connect_error) {
+            die("Kết nối thất bại: " . $this->conn->connect_error);
+        }
+    }
+
+    public function getConnection()
+    {
+        return $this->conn;
+    }
+}

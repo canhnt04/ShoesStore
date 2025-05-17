@@ -1,10 +1,13 @@
-$(document).ready(function () {
+$(function () {
   const container = document.getElementById("container");
   const loginBtn = document.getElementById("toggleLogin");
   const registerBtn = document.getElementById("toggleRegister");
-
   const signInForm = container.querySelector(".sign-in form");
   const signUpForm = container.querySelector(".sign-up form");
+
+  $(".auth-form__control-back").on("click", function (e) {
+    window.location.href = "/ShoesStore/public/index.php";
+  });
 
   function disableForm(form) {
     form.querySelectorAll("input, button").forEach((e) => {

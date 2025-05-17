@@ -1,5 +1,5 @@
 <?php
-require_once("Database.php");
+require_once __DIR__ . "/../../config/init.php";
 require_once("Product.php");
 require_once("Cart.php");
 

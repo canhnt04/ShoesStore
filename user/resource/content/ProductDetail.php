@@ -5,7 +5,7 @@
             <div class="row" id="loadProductDetails">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid" src="../../../public/assets/images/test2.jpg" alt="Card image cap" id="product-detail">
+                        <img class="card-img img-fluid" src="/ShoesStore/public/assets/images/test2.jpg" alt="Card image cap" id="product-detail">
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@
                                     <?php foreach ($sizeList as $item) {
                                         $class = "text-decoration-none ";
                                         $class .= $item->id == $productDetailsSelected->id ? "text-white btn btn-success" : "text-muted" ?>
-                                        <a href='Route.php?page=Product&action=showById&id=<?php echo $product->id ?>&pr_id=<?php echo $item->id ?>' class='<?php echo $class ?>'><strong><?php echo $item->size ?></strong></a>
+                                        <a href='index.php?page=Product&action=showById&id=<?php echo $product->id ?>&pr_id=<?php echo $item->id ?>' class='<?php echo $class ?>'><strong><?php echo $item->size ?></strong></a>
                                     <?php } ?>
                                 </li>
                             </ul>
@@ -55,7 +55,7 @@
                                     <?php foreach ($colorList as $item) {
                                         $class = "text-decoration-none ";
                                         $class .= $item->color == $productDetailsSelected->color ? "text-white btn btn-success" : "text-muted" ?>
-                                        <a href='Route.php?page=Product&action=showById&id=<?php echo $product->id ?>&pr_id=<?php echo $item->id ?>' class='<?php echo $class ?>'><strong><?php echo $item->color ?></strong></a>
+                                        <a href='index.php?page=Product&action=showById&id=<?php echo $product->id ?>&pr_id=<?php echo $item->id ?>' class='<?php echo $class ?>'><strong><?php echo $item->color ?></strong></a>
                                     <?php } ?>
                                 </li>
                             </ul>
@@ -68,7 +68,7 @@
                                 </li>
                             </ul>
 
-                            <form id="buyProductForm" action="Route.php?page=Cart&action=buyProduct" method="POST">
+                            <form id="buyProductForm" action="index.php?page=Cart&action=buyProduct" method="POST">
                                 <input type="hidden" name="page" value="Product">
                                 <input type="hidden" name="pr_id" id="pr_id" value="<?php echo $product->id ?>">
                                 <input type="hidden" name="prdetail_id" id="prdetail_id" value="<?php echo $productDetailsSelected->id ?>">
@@ -90,7 +90,7 @@
                                         <button id="buyProductBtn" type="submit" class="btn btn-success btn-lg" name="action" value="buyProduct">Buy</button>
                                     </div>
                                     <div class="col d-grid">
-                                        <a id="addToCartBtn" href="Route.php?page=Cart&action=addToCart"
+                                        <a id="addToCartBtn" href="index.php?page=Cart&action=addToCart"
                                             class="btn btn-success btn-lg">Add To Cart</a>
                                     </div>
                                 </div>
@@ -105,6 +105,6 @@
     <!-- Close Content -->
 </div>
 <footer>
-    <script src="../../../public/assets/js/templatemo.js"></script>
-    <script src="../../../public/assets/js/custom.js"></script>
+    <script src="ShoesStore/public/assets/js/templatemo.js"></script>
+    <script src="ShoesStore/public/assets/js/custom.js"></script>
 </footer>

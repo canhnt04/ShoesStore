@@ -1,8 +1,7 @@
 <?php
 require_once __DIR__ . "/BaseController.php";
 require_once  __DIR__ . '/../model/User.php';
-require_once __DIR__ . "../../../public/assets/helper/validator.php";
-
+require_once __DIR__ . "/../../public/assets/helper/validator.php";
 class AuthController extends BaseController
 {
     private $userModel;
@@ -47,7 +46,6 @@ class AuthController extends BaseController
         if (empty($error)) {
             $user = $this->userModel->login($username, $password);
             if ($user) {
-                session_start();
                 $_SESSION["userId"] = $user["id"];
                 $_SESSION['username'] = $username;
                 $_SESSION['email'] = $user['email'];
@@ -55,13 +53,13 @@ class AuthController extends BaseController
 
                 $userId = $_SESSION['userId'];
                 $message = $user['role_id'] == 4
-                    ? "Chào mừng người dùng $username id $userId đã đăng nhập!"
+                    ? "Chào mừng người dùng $username đã đăng nhập!"
                     : "Chào mừng quản trị viên $username!";
 
                 if ($user['role_id'] == 4) {
-                    $redirectUser = "../../../ShoesStore/user/Route.php?page=Product&action=showList&pageNumber=1";
+                    $redirectUser = "../../ShoesStore/public/index.php?page=Product&action=showList&pageNumber=1";
                 } else {
-                    $redirectAdmin =  "../../../ShoesStore/admin/view/";
+                    $redirectAdmin =  "../../ShoesStore/admin/view/";
                 }
                 echo json_encode([
                     'success' => true,
@@ -130,6 +128,7 @@ class AuthController extends BaseController
         ]);
         exit;
     }
+
     public function logout()
     {
         // Kiểm tra nếu người dùng đã đăng nhập
@@ -160,5 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $authController->login();
     } elseif ($action === 'register') {
         $authController->register();
+    } else {
+        $authController->auth();
     }
 }

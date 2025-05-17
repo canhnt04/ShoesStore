@@ -1,16 +1,20 @@
 <?php
-require_once("Database.php");
+require_once __DIR__ . "/../../config/init.php";
+
+
 
 class Category
 {
     private $con;
 
-    public function __construct() {
+    public function __construct()
+    {
         $db = new Database();
         $this->con = $db->getConnection(); // Gán vào thuộc tính của class
     }
 
-    public function getAll() {
+    public function getAll()
+    {
         $sql = "SELECT * FROM category";
         $result = $this->con->query($sql);
 
@@ -24,4 +28,3 @@ class Category
         return $result;
     }
 }
-?>
