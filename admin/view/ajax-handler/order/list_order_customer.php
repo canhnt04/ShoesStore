@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../../controller/OrderController.php';
+include_once __DIR__ . '/../../../controller/OrderController.php';
 
 $customerId = $_GET['user_id'] ?? null;
 $beginDate = $_GET['begin_date'] ?? null;
@@ -32,7 +32,6 @@ if (!$orders || count($orders) === 0) {
             <th>Sản phẩm</th>
             <th>Số lượng</th>
             <th>Tổng tiền</th>
-
         </tr>
     </thead>
     <tbody>

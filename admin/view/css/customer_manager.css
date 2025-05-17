@@ -180,3 +180,46 @@
   background-color: rgb(225, 11, 11);
   color: #ddd;
 }
+/* Container phân trang */
+#pagination.pagination-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  gap: 8px;
+}
+
+/* Link trang */
+.page-link {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+/* Hover trạng thái */
+.page-link:hover {
+  background-color: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #1a202c;
+}
+
+/* Trang hiện tại */
+.page-link.active-page {
+  background-color: #3182ce;
+  border-color: #2b6cb0;
+  color: #fff;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Nếu muốn disable nút trước/sau */
+.page-link.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}

@@ -24,7 +24,6 @@ switch ($action) {
 
         header("Location: /DoAn/ShoesStore/admin/view/index.php?page=product_manager&tab=product&pagination=$pagination");
         exit();
-        break;
     case 'get_product_without_pagination':
         $list = $model_product->getAllProductsWithoutPagination();
         if ($list) {

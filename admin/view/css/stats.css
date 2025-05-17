@@ -18,7 +18,7 @@ h2 {
   box-sizing: border-box;
 }
 
-.form-group {
+.form-group-stats {
   display: flex;
   flex-direction: column;
   width: calc(33.333% - 16px);
@@ -26,25 +26,19 @@ h2 {
   min-width: 200px;
 }
 
-.form-group label {
+.form-group-stats label {
   font-weight: 600;
   margin-bottom: 6px;
 }
 
-.form-group input,
-.form-group select {
+.form-group-stats input,
+.form-group-stats select {
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
-}
-
-.form-group.phuc {
-  display: flex;
-  flex-direction: column;
-  width: 100% !important;
 }
 
 #statistic-form button {

@@ -11,34 +11,85 @@ class Model_Order
         $this->connection = $connection;
     }
 
-    public function getAllOrders()
+    public function getOrdersPaginated(array $filters = [], int $limit = 5, int $offset = 0)
     {
-        $query = "SELECT orders.*, 
-                  customer.fullname AS customer_name,
-                  customer.phone AS customer_phone, 
-                  customer.address AS customer_address,
-                  orders_status.name AS status_name,
-                  product.name AS product_name,
-                  orderdetail.quantity AS quantity,
-                  payment_method.name AS payment_method,
-                  SUM(orderdetail.quantity * orderdetail.price) AS total_price
-                  FROM orders 
-                  LEFT JOIN customer ON orders.user_id  = customer.id
-                  LEFT JOIN orders_status ON orders.status_id = orders_status.id
-                  LEFT JOIN orderdetail ON orders.id = orderdetail.order_id
-                  LEFT JOIN product ON orderdetail.product_id = product.id
-                  LEFT JOIN payment_method ON orders.paymethod = payment_method.id
-                  GROUP BY orders.id
-                  ";
+        $conn = $this->connection;
+        $params = [];
+        $types = '';
+        $where = [];
 
-        $result = $this->connection->query($query);
-        if (!$result) {
-            die("Lỗi truy vấn: " . $this->connection->error);
+        // Lọc theo trạng thái đơn hàng
+        if (!empty($filters['status'])) {
+            $where[] = "orders.status_id = ?";
+            $params[] = $filters['status'];
+            $types .= 'i';
         }
 
+        // Lọc theo ngày bắt đầu
+        if (!empty($filters['begin_date'])) {
+            $where[] = "(orders.created_at) >= ?";
+            $params[] = $filters['begin_date'];
+            $types .= 's';
+        }
+
+        // Lọc theo ngày kết thúc
+        if (!empty($filters['end_date'])) {
+            $where[] = "(orders.updated_at) <= ?";
+            $params[] = $filters['end_date'];
+            $types .= 's';
+        }
+
+        // Lọc theo quận/huyện
+        if (!empty($filters['district'])) {
+            $where[] = "customer.address LIKE ?";
+            $params[] = '%' . $filters['district'] . '%';
+            $types .= 's';
+        }
+
+        // Lọc theo tỉnh/thành phố
+        if (!empty($filters['province'])) {
+            $where[] = "customer.address LIKE ?";
+            $params[] = '%' . $filters['province'] . '%';
+            $types .= 's';
+        }
+
+        // Xây dựng phần WHERE của câu truy vấn
+        $whereSql = count($where) ? "WHERE " . implode(" AND ", $where) : "";
+
+        // Câu truy vấn SQL
+        $query = "SELECT orders.*, 
+                         customer.fullname AS customer_name,
+                         customer.phone AS customer_phone, 
+                         customer.address AS customer_address,
+                         orders_status.name AS status_name,
+                         SUM(orderdetail.quantity * orderdetail.price) AS total_price
+                  FROM orders
+                  LEFT JOIN customer ON orders.user_id = customer.id
+                  LEFT JOIN orders_status ON orders.status_id = orders_status.id
+                  LEFT JOIN orderdetail ON orders.id = orderdetail.order_id
+                  $whereSql
+                  GROUP BY orders.id
+                  ORDER BY orders.created_at DESC
+                  LIMIT ? OFFSET ?";
+
+        // Thêm limit và offset vào tham số
+        $params[] = $limit;
+        $params[] = $offset;
+        $types .= 'ii';
+
+        // Chuẩn bị và thực thi câu truy vấn
+        $stmt = $conn->prepare($query);
+        if ($stmt === false) {
+            die("Lỗi chuẩn bị truy vấn: " . $conn->error);
+        }
+
+        $stmt->bind_param($types, ...$params);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
         $orders = [];
         while ($row = $result->fetch_assoc()) {
-            $orderData = [
+            $orders[] = [
                 "order" => new Order(
                     id: $row['id'],
                     user_id: $row['user_id'],
@@ -50,15 +101,97 @@ class Model_Order
                 "customer_phone" => $row['customer_phone'],
                 "customer_address" => $row['customer_address'],
                 "status_name" => $row['status_name'],
-                "product_name" => $row['product_name'],
-                "quantity" => $row['quantity'],
-                "payment_method" => $row['payment_method'],
                 "total_price" => $row['total_price']
             ];
-            $orders[] = $orderData;
         }
+
+        $stmt->close();
+
         return $orders;
     }
+
+
+    public function countFilteredOrders(array $filters = [])
+    {
+        $conn = $this->connection;
+        $params = [];
+        $types = '';
+        $where = [];
+
+        // Lọc theo trạng thái đơn hàng
+        if (!empty($filters['status'])) {
+            $where[] = "status_id = ?";
+            $params[] = $filters['status'];
+            $types .= 'i';
+        }
+
+        // Lọc theo ngày bắt đầu
+        if (!empty($filters['begin_date'])) {
+            $where[] = "DATE(orders.created_at) >= ?";
+            $params[] = $filters['begin_date'];
+            $types .= 's';
+        }
+
+        // Lọc theo ngày kết thúc
+        if (!empty($filters['end_date'])) {
+            $where[] = "DATE(orders.updated_at) <= ?";
+            $params[] = $filters['end_date'];
+            $types .= 's';
+        }
+
+        // Lọc theo quận/huyện
+        if (!empty($filters['district'])) {
+            $where[] = "customer.address LIKE ?";
+            $params[] = '%' . $filters['district'] . '%';
+            $types .= 's';
+        }
+
+        // Lọc theo tỉnh/thành phố
+        if (!empty($filters['province'])) {
+            $where[] = "customer.address LIKE ?";
+            $params[] = '%' . $filters['province'] . '%';
+            $types .= 's';
+        }
+
+        // Xây dựng phần WHERE của câu truy vấn
+        $whereSql = count($where) ? "WHERE " . implode(" AND ", $where) : "";
+
+        // Câu truy vấn SQL
+        $query = "SELECT COUNT(*) AS total 
+                  FROM orders
+                  LEFT JOIN customer ON orders.user_id = customer.id
+                  $whereSql";
+
+        // Chuẩn bị và thực thi câu truy vấn
+        $stmt = $conn->prepare($query);
+        if ($stmt === false) {
+            die("Lỗi chuẩn bị truy vấn: " . $conn->error);
+        }
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+
+        $stmt->close();
+
+        return (int)$row['total'];
+    }
+
+
+
+    public function countAllOrders(): int
+    {
+        $query = "SELECT COUNT(DISTINCT orders.id) AS total FROM orders";
+        $result = $this->connection->query($query);
+        $row = $result->fetch_assoc();
+        return $row['total'];
+    }
+
+
     public function getOrdersById($orderId)
     {
         $query = "SELECT orders.*, 
@@ -177,6 +310,9 @@ class Model_Order
 
         return $orders;
     }
+
+
+
 
     public function getOrdersByCustomerIdAndDateRange($userId, $beginDate, $endDate)
     {

@@ -286,7 +286,7 @@
                 const productId = this.closest("tr").dataset.productId;
 
                 $.ajax({
-                    url: "ajax-php/get_product_detail.php",
+                    url: "ajax-handler/order/get_product_detail.php",
                     method: "POST",
                     data: {
                         productId: productId

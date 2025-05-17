@@ -11,15 +11,15 @@
 <body>
     <h2>Thống kê khách hàng</h2>
     <form id="statistic-form" method="GET">
-        <div class="form-group">
+        <div class="form-group-stats">
             <label>Từ ngày:</label>
             <input type="datetime-local" name="begin_date" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-stats">
             <label>Đến ngày:</label>
             <input type="datetime-local" name="end_date" required>
         </div>
-        <div class="form-group">
+        <div class="form-group-stats">
             <label>Sắp xếp:</label>
             <select name="sort_order">
                 <option value="desc">Giảm dần</option>
@@ -52,7 +52,7 @@
                 e.preventDefault();
                 const formData = $(this).serialize();
                 $.ajax({
-                    url: "ajax-php/stats.php",
+                    url: "ajax-handler/stats.php",
                     method: "GET",
                     data: formData,
                     dataType: "json",

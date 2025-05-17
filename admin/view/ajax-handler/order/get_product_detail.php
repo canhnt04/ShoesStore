@@ -1,8 +1,8 @@
 <?php
-require_once __DIR__ . '/../../controller/ProductController.php';
-require_once __DIR__ . '/../../controller/ProductDetailController.php';
-require_once __DIR__ . '/../../controller/CategoryController.php';
-require_once __DIR__ . '/../../../config/database/ConnectDB.php';
+require_once __DIR__ . '/../../../controller/ProductController.php';
+require_once __DIR__ . '/../../../controller/ProductDetailController.php';
+require_once __DIR__ . '/../../../controller/CategoryController.php';
+require_once __DIR__ . '/../../../../config/database/ConnectDB.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $productId = $_POST["productId"];
