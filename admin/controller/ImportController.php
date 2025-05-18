@@ -1,7 +1,7 @@
 <?php
-include_once __DIR__ . '/../../config/database/ConnectDB.php';
 include_once __DIR__ . '/../model/Model/Model_Import.php';
 include_once __DIR__ . '/../model/Model/Model_ImportDetail.php';
+include_once __DIR__ . '/../../config/init.php';
 
 
 class ImportController
@@ -9,9 +9,8 @@ class ImportController
     private $importModel;
     private $importDetailModel;
 
-    public function __construct()
+    public function __construct($connection)
     {
-        global $connection;
         $this->importModel = new Model_import($connection);
         $this->importDetailModel = new Model_importdetail($connection);
     }

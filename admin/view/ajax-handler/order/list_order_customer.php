@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . '/../../../controller/OrderController.php';
-
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 $customerId = $_GET['user_id'] ?? null;
 $beginDate = $_GET['begin_date'] ?? null;
 $endDate = $_GET['end_date'] ?? null;
@@ -9,8 +11,7 @@ if (!$customerId || !$beginDate || !$endDate) {
     echo "Thiếu tham số customer_id, begin_date hoặc end_date.";
     exit;
 }
-
-$orderController = new OrderController();
+$orderController = new OrderController($connection);
 $orders = $orderController->getOrdersByCustomerIdAndDateRange($customerId, $beginDate, $endDate);
 
 if (!$orders || count($orders) === 0) {

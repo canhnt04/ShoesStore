@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../Entity/Order.php';
 include_once __DIR__ . '/../Entity/OrderDetail.php';
-include_once __DIR__ . '/../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../../config/init.php';
 
 class Model_Order
 {

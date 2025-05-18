@@ -1,5 +1,9 @@
 <?php
 include_once __DIR__ . '/../../../controller/ImportController.php';
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
+$userId = $_SESSION['userId'];
 $supplier_id = $_POST['supplier_id'] ?? null;
 $details_json = $_POST['details'] ?? null;
 
@@ -15,8 +19,8 @@ if ($details === null) {
     exit;
 }
 
-$importController = new ImportController();
-$result = $importController->saveImportReceipt(1, $supplier_id, $details, $created_at, $updated_at);
+$importController = new ImportController($connection);
+$result = $importController->saveImportReceipt($userId, $supplier_id, $details, $created_at, $updated_at);
 
 if ($result['success']) {
     echo json_encode(['success' => true, 'import_id' => $result['import_id']]);

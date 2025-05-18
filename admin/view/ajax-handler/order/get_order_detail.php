@@ -1,12 +1,14 @@
 <?php
 include_once __DIR__ . '/../../../controller/OrderController.php';
-
-$orders = []; 
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
+$orders = [];
 
 if (isset($_GET['id'])) {
-    $orderId =$_GET['id'];
-    $orderModel = new OrderController();
-    $orders = $orderModel->getDetailsByOrderId($orderId) ?? []; 
+    $orderId = $_GET['id'];
+    $orderModel = new OrderController($connection);
+    $orders = $orderModel->getDetailsByOrderId($orderId) ?? [];
 }
 ?>
 <table border="1" cellpadding="8" cellspacing="0" style="width: 100%;">

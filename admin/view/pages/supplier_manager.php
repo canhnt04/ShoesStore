@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . '/../../controller/SupplierController.php';
-
+include_once __DIR__ . '/../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 $limit = 5;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 

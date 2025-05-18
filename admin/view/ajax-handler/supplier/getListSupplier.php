@@ -1,5 +1,8 @@
 <?php
 include_once __DIR__ . '/../../../controller/SupplierController.php';
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 header('Content-Type: application/json');
 
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
@@ -8,7 +11,7 @@ $filters = [
     'name' => isset($_GET['name']) ? trim($_GET['name']) : '',
 ];
 
-$supplierController = new SupplierController($filters);
+$supplierController = new SupplierController($connection);
 $data = $supplierController->getListSuppliers($filters, $perPage, $page);
 
 $suppliers = $data['suppliers'];

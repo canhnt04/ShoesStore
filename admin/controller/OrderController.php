@@ -1,15 +1,14 @@
 <?php
-include_once __DIR__ . '/../../config/database/ConnectDB.php';
 include_once __DIR__ . '/../model/Model/Model_Order.php';
+include_once __DIR__ . '/../../config/init.php';
 
 
 class OrderController
 {
     private $orderModel;
 
-    public function __construct()
+    public function __construct($connection)
     {
-        global $connection; // Sử dụng biến toàn cục
         $this->orderModel = new Model_Order($connection);
     }
 

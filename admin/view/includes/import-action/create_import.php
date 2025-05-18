@@ -9,7 +9,7 @@ $filters = [
     'end_date' => $_GET['end_date'] ?? null,
 ];
 
-$importController = new ImportController();
+$importController = new ImportController($connection);
 $importData = $importController->getListImports($filters, $limit, $page);
 $imports = $importData['imports'];
 $totalPages = $importData['totalPages'];

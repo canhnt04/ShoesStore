@@ -1,8 +1,12 @@
 <?php
 include_once __DIR__ . '/../../controller/CustomerController.php';
 header('Content-Type: application/json');
+include_once __DIR__ . '/../../../config/init.php';
 
-$customerController = new CustomerController();
+
+$database = new Database();
+$connection = $database->getConnection();
+$customerController = new CustomerController($connection);
 
 $beginDateInput = $_GET['begin_date'] ?? '';
 $endDateInput = $_GET['end_date'] ?? '';

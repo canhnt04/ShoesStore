@@ -1,7 +1,8 @@
 <?php
 include_once __DIR__ . '/../../../controller/ProductController.php';
-include_once __DIR__ . '/../../../model/Model/Model_Product.php';
-
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 $productController = new ProductController($connection);
 
 // Xác định số sản phẩm trên mỗi trang

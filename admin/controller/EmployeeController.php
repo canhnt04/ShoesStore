@@ -1,6 +1,6 @@
 <?php
-include_once __DIR__ . '/../../config/database/ConnectDB.php';
 include_once __DIR__ . '/../model/Model/Model_Employee.php';
+include_once __DIR__ . '/../../config/init.php';
 
 class EmployeeController
 {

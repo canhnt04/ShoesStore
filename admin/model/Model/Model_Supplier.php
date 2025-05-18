@@ -138,11 +138,13 @@ class Model_Supplier
         }
 
         $sql = "SELECT COUNT(*) as total FROM supplier $where";
+
         $stmt = $this->connection->prepare($sql);
+      
+
         if (!$stmt) {
             die("COUNT SQL error: " . $this->connection->error);
         }
-
         if ($types) {
             $stmt->bind_param($types, ...$params);
         }
@@ -153,7 +155,7 @@ class Model_Supplier
 
         $stmt->close();
 
-        return (int)($row['total'] ?? 0);
+        return (int) $row['total'];
     }
 
 

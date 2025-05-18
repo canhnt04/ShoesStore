@@ -1,5 +1,8 @@
 <?php
 include_once __DIR__ . '/../../../controller/OrderController.php';
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 header('Content-Type: application/json');
 
 // 1) Trang hiện tại và kích thước
@@ -17,7 +20,7 @@ $filters = [
 
 
 
-$orderController = new OrderController();
+$orderController = new OrderController($connection);
 $data  = $orderController->listOrders($filters, $perPage, $page);
 
 $orders     = $data['orders'];

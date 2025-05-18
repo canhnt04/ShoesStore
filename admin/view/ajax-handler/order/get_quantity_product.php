@@ -1,6 +1,8 @@
 <?php
 include_once __DIR__ . '/../../../controller/OrderController.php';
-
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -11,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $controller = new OrderController();
+    $controller = new OrderController($connection);
     $orderDetails = $controller->getProductQuantity($orderId);
 
     if ($orderDetails) {

@@ -5,11 +5,9 @@ include_once __DIR__ . '/../model/Model/Model_Supplier.php';
 class SupplierController
 {
     private $model_supplier;
-    private $connection;
 
     public function __construct($connection)
     {
-        global $connection;
         $this->model_supplier = new Model_Supplier($connection);
     }
 

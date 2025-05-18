@@ -1,7 +1,6 @@
 <?php
 include_once __DIR__ . '/../Entity/Customer.php';
-include_once __DIR__ . '/../../../config/database/ConnectDB.php';
-
+include_once __DIR__ . '/../../../config/init.php';
 class Model_Customer
 {
 
@@ -18,14 +17,20 @@ class Model_Customer
         FROM customer
         LEFT JOIN user ON customer.user_id = user.id
         ";
-        $result = $this->connection->query($query);
+        $stmt = $this->connection->prepare($query);
 
         // Kiểm tra nếu truy vấn bị lỗi
-        if (!$result) {
+        if (!$stmt) {
             error_log("Lỗi truy vấn: " . $this->connection->error); // Ghi log lỗi
             return []; // Trả về mảng rỗng thay vì null
         }
+        $stmt->execute();
+        $result = $stmt->get_result();
 
+        if (!$result) {
+            error_log("Lỗi truy vấn: " . $this->connection->error);
+            return [];
+        }
         $customers = [];
         while ($row = $result->fetch_assoc()) {
             $customerData = [
