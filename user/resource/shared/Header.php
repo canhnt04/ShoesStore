@@ -111,7 +111,7 @@ require_once __DIR__ . "/../../../config/init.php";
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" style="z-index: 9999;">
                             <li>
-                                <a class="dropdown-item ajaxLink" href="index.php?page=User&action=profile">Profile</a>
+                                <a class="dropdown-item ajaxLink" href="index.php?page=Profile&action=profile">Profile</a>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">

@@ -49,7 +49,7 @@ $(document).ready(function () {
     });
   }
 
-  function submitForm(url, method = "GET", data = {}) {
+  function submitForm(url, method = "POST", data = {}) {
     $.ajax({
       url: url,
       method: method,
@@ -71,6 +71,50 @@ $(document).ready(function () {
       error: function (xhr, ajaxOptions, thrownError) {
         // var errorMessage = JSON.parse(xhr.responseText);
         // alert(errorMessage.message);
+      },
+    });
+  }
+
+  function submitFormProfile(url, data = {}) {
+    $.ajax({
+      url: url,
+      method: "POST",
+      dataType: "html",
+      data: data,
+      beforeSend: function () {
+        $(window).scrollTop(0);
+        $("#ajaxLoad").html(`
+                    <div style="height:600px; display:flex; align-items:center; justify-content:center;">
+                        <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
+                            src="/ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
+                    </div>
+                `);
+      },
+      success: function (data) {
+        $("#ajaxLoad").html(data);
+        // $("input[name='fullname']").attr(
+        //   "data-old",
+        //   $("input[name='fullname']").val()
+        // );
+        // $("input[name='phone']").attr(
+        //   "data-old",
+        //   $("input[name='phone']").val()
+        // );
+        // $("input[name='address']").attr(
+        //   "data-old",
+        //   $("input[name='address']").val()
+        // );
+        // history.pushState({}, "", url);
+        alert(123);
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        try {
+          var errorMessage = JSON.parse(xhr.responseText);
+          alert(errorMessage.message);
+        } catch (e) {
+          alert("Lỗi không xác định: " + thrownError);
+          console.error("Chi tiết lỗi:", xhr.responseText);
+        }
       },
     });
   }
@@ -107,6 +151,7 @@ $(document).ready(function () {
   // Search product
   $(document).on("click", "#btnSearch", function (e) {
     e.preventDefault();
+
     let baseUrl = $(this).data("url");
     const keyword = $("#searchInput").val().trim();
     const brand = $("select[name='brand']").val();
@@ -158,9 +203,10 @@ $(document).ready(function () {
       return;
     }
 
-    const url = $(this).attr("data-url");
+    const url = $(this).data("url");
     let data = $(this).serialize();
-    submitForm(url, "POST", data);
+    console.log(data);
+    submitFormProfile(url, data);
   });
 
   $(document).on("click", "#showById", function (e) {
