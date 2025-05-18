@@ -1,5 +1,5 @@
 <?php
-require_once("Database.php");
+require_once __DIR__ . "/../../config/init.php";
 
 class Product
 {
@@ -137,7 +137,7 @@ class Product
             $sql = "SELECT pd.size, pd.id
                     FROM productdetail pd
                     WHERE pd.product_id = " . $productId .
-                    " AND pd.color = '" . $productDetailsColor . "'";
+                " AND pd.color = '" . $productDetailsColor . "'";
 
             $result = $this->con->query($sql);
             $sizeList = [];
@@ -158,7 +158,7 @@ class Product
             $sql = "SELECT pd.color, pd.id
                     FROM productdetail pd
                     WHERE pd.product_id = " . $productId .
-                    " GROUP BY pd.color";
+                " GROUP BY pd.color";
 
             $result = $this->con->query($sql);
             $colorList = [];

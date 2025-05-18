@@ -1,6 +1,6 @@
 <?php
 /* Controller ProductController sẽ được gọi bởi router nếu đúng định tuyến uri */
-require_once(__DIR__ . "../BaseController.php");
+require_once __DIR__ . "/BaseController.php";
 require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Category.php";
 require_once __DIR__ . "/../model/Cart.php";
@@ -15,6 +15,40 @@ class ProductController extends BaseController
         $this->productModel = new Product();
         $this->categoryModel = new Category();
     }
+
+    // public function search()
+    // {
+    //     $keyword = $_GET['keyword'] ?? '';
+    //     $products = $this->productModel->searchProduct($keyword);
+    //     $categoryList = $this->categoryModel->getAll();
+
+    //     $this->render("ProductList.php", [
+    //         "productList" => $products,
+    //         "categoryList" => $categoryList,
+    //         "pageNumber" => 1,
+    //         "totalPage" => 1,
+    //         "paginationName" => "search"
+    //     ]);
+    // }
+
+    // public function searchAdvanced()
+    // {
+    //     $keyword = $_GET['keyword'] ?? '';
+    //     $categoryId = isset($_GET['category']) ? (int)$_GET['category'] : -1;
+    //     $minPrice = isset($_GET['min_price']) ? (int)$_GET['min_price'] : 0;
+    //     $maxPrice = isset($_GET['max_price']) ? (int)$_GET['max_price'] : PHP_INT_MAX;
+
+    //     $products = $this->productModel->searchProductAdvanced($keyword, $categoryId, $minPrice, $maxPrice);
+    //     $categoryList = $this->categoryModel->getAll();
+
+    //     $this->render("ProductList.php", [
+    //         "productList" => $products,
+    //         "categoryList" => $categoryList,
+    //         "pageNumber" => 1,
+    //         "totalPage" => 1,
+    //         "paginationName" => "searchAdvanced"
+    //     ]);
+    // }
 
     public function showList($params)
     {

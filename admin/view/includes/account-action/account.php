@@ -1,16 +1,32 @@
 <?php
 include_once __DIR__ . '/../../../controller/UserController.php';
+include_once __DIR__ . '/../../../controller/RoleController.php';
 
 $page = isset($_GET['pagination']) ? (int)$_GET['pagination'] : 1;
 $limit = 7; // Số lượng phần tử mỗi trang
 $offset = ($page - 1) * $limit;
 
 $userController = new UserController();
+$roleControler = new RoleController($connection);
 
 // Lấy danh sách user và tổng số user
 $users = $userController->listUsers($limit, $offset);
 $totalUsers = $userController->countUsers();
 $totalPages = ceil($totalUsers / $limit);
+
+// Lấy danh sách các role
+$roles = $roleControler->getAllRolesWithoutPagination();
+$roleMap = [];
+foreach ($roles as $role) {
+    $roleMap[$role->getId()] = [
+        'id' => (int)$role->getId(),
+        'name' => $role->getName()
+    ];
+}
+
+// echo '<pre>';
+// print_r($roleMap);
+// echo '</pre>';
 
 ?>
 
@@ -41,7 +57,7 @@ $totalPages = ceil($totalUsers / $limit);
                 <td><?= htmlspecialchars($user->getId()) ?></td>
                 <td><?= htmlspecialchars($user->getUsername()) ?></td>
                 <td><?= htmlspecialchars($user->getEmail()) ?></td>
-                <td><?= htmlspecialchars($user->getRoleId()) ?></td>
+                <td><?= htmlspecialchars($roleMap[$user->getRoleId()]['name']) ?></td>
                 <td><?= htmlspecialchars($user->getStatus()) ?></td>
                 <td class="table_col-action">
                     <span><i class="fa-solid fa-pen"></i></span>
@@ -57,15 +73,15 @@ $totalPages = ceil($totalUsers / $limit);
     <!-- Phân trang -->
     <div class="pagination">
         <?php if ($page > 1): ?>
-            <a href="index.php?page=employee_manager&tab=account&pagination=<?= $page - 1 ?>">« Trước</a>
+            <a href="index.php?page=user_manager&tab=account&pagination=<?= $page - 1 ?>">« Trước</a>
         <?php endif; ?>
 
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <a href="index.php?page=employee_manager&tab=account&pagination=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
+            <a href="index.php?page=user_manager&tab=account&pagination=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a>
         <?php endfor; ?>
 
         <?php if ($page < $totalPages): ?>
-            <a href="index.php?page=employee_manager&tab=account&pagination=<?= $page + 1 ?>">Tiếp »</a>
+            <a href="index.php?page=user_manager&tab=account&pagination=<?= $page + 1 ?>">Tiếp »</a>
         <?php endif; ?>
     </div>
 <?php else: ?>

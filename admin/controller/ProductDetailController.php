@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../config/init.php';
 include_once __DIR__ . '/../model/Model/Model_ProductDetail.php';
 
 class ProductDetailController

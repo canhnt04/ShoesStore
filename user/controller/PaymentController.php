@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "../BaseController.php");
+require_once __DIR__ . "/BaseController.php";
 require_once __DIR__ . "/../model/Payment.php";
 
 class PaymentController extends BaseController
@@ -36,13 +36,14 @@ class PaymentController extends BaseController
         $this->render("Checkout.php");
     }
 
-    public function placeorder($params) {
+    public function placeorder($params)
+    {
         $userId = $_SESSION['userId'];
         $paymentMethod = $params["paymentMethod"];
         $paymentAdress = $params["address"];
         $cart = $_SESSION["cartSession"];
 
-        try{
+        try {
             $orderId = $this->paymentModel->createOrder($userId,  $cart, $paymentMethod, $paymentAdress);
             $this->showorder(["id" => $orderId]);
         } catch (Exception $ex) {
@@ -55,8 +56,9 @@ class PaymentController extends BaseController
         }
     }
 
-    public function showorder($params) {
-         if (!isset($_SESSION["userId"])) {
+    public function showorder($params)
+    {
+        if (!isset($_SESSION["userId"])) {
             http_response_code(401);
             echo json_encode([
                 "status" => 401,
@@ -68,8 +70,7 @@ class PaymentController extends BaseController
         try {
             $orderDetail = $this->paymentModel->showOrderById($orderId);
             $this->render("Order.php", ["orderDetails" => $orderDetail]);
-        }  
-        catch (Exception $ex) {
+        } catch (Exception $ex) {
             http_response_code(500);
             echo json_encode([
                 "status" => 500,
@@ -77,9 +78,10 @@ class PaymentController extends BaseController
             ]);
             return;
         }
-    }    
+    }
 
-    public function orderhistory($params) {
+    public function orderhistory($params)
+    {
         if (!isset($_SESSION["userId"])) {
             http_response_code(401);
             echo json_encode([
@@ -90,10 +92,13 @@ class PaymentController extends BaseController
         }
         $userId = $_SESSION['userId'];
         try {
-            $orderList = $this->paymentModel->showOrderList($userId);
-            $this->render("OrderHistory.php", ["orderList" => $orderList]);
-        }  
-        catch (Exception $ex) {
+            $orderStatusList = $this->paymentModel->showOrderStatusList();
+            if (isset($params["status"])) {
+                $orderStatusId = $params["status"];
+                $orderList = $this->paymentModel->showOrderListByStatus($userId, $orderStatusId);
+            } else $orderList = $this->paymentModel->showOrderList($userId);
+            $this->render("OrderHistory.php", ["orderList" => $orderList, "orderStatusList" => $orderStatusList]);
+        } catch (Exception $ex) {
             http_response_code(500);
             echo json_encode([
                 "status" => 500,
@@ -101,5 +106,5 @@ class PaymentController extends BaseController
             ]);
             return;
         }
-    } 
+    }
 }

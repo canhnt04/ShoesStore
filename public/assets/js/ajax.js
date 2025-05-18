@@ -10,7 +10,7 @@ $(document).ready(function () {
         $("#ajaxLoad").html(`
                     <div style="height:600px; display:flex; align-items:center; justify-content:center;">
                         <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="/public/assets/images/loading.gif" alt="Loading..." />
+                            src="/ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
                     </div>
                 `);
       },
@@ -53,7 +53,7 @@ $(document).ready(function () {
         $("#ajaxLoad").html(`
                     <div style="height:600px; display:flex; align-items:center; justify-content:center;">
                         <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="/public/assets/images/loading.gif" alt="Loading..." />
+                            src="/ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
                     </div>
                 `);
       },
@@ -61,11 +61,33 @@ $(document).ready(function () {
         // $('#ajaxLoad').html("<p>Hello World</p>");
         $("#ajaxLoad").html(data);
         alert("Your order is successful!");
-        history.pushState({}, "", "Route.php?page=Home&action=index");
+        history.pushState({}, "", "index.php?page=Home&action=index");
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
+        // var errorMessage = JSON.parse(xhr.responseText);
+        // alert(errorMessage.message);
+      },
+    });
+  }
+
+  function logOut(url) {
+    $.ajax({
+      url: url,
+      dataType: "html",
+      success: function (data) {
+        $("#ajaxLoad").html(data);
+        // Client -> Ajax catch -> Route -> controller -> Ajax sucsess -> Client
+        window.location.href =
+          "index.php?page=Product&action=showList&pageNumber=1"; // Trick bẩn reload trang
+        history.pushState(
+          {},
+          "",
+          "index.php?page=Product&action=showList&pageNumber=1"
+        );
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        // var errorMessage = JSON.parse(xhr.responseText);
+        // alert(errorMessage.message);
       },
     });
   }
@@ -142,6 +164,14 @@ $(document).ready(function () {
 
     let data = $(this).serialize(); // Lấy hết dữ liệu post trong form
     submitForm(url, "POST", data);
+  });
+
+  $(document).on("click", "#headerLogout", function (e) {
+    e.preventDefault();
+    const url = $(this).attr("href");
+    if (confirm("Confrim logout?")) {
+      logOut(url);
+    }
   });
 
   // Khi bấm nút back/forward trình duyệt

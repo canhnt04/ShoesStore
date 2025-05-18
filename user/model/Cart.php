@@ -1,5 +1,5 @@
 <?php
-require_once("Database.php");
+require_once __DIR__ . "/../../config/init.php";
 
 class Cart
 {
@@ -32,7 +32,7 @@ class Cart
             $cartId = $cart->id;
 
             foreach ($cart->cartDetailList as $cartDetail) {
-                if($cartDetail->prdetail_id == $productDetails->id) {
+                if ($cartDetail->prdetail_id == $productDetails->id) {
                     if (!$this->checkQuantity($cartDetail->prdetail_id, $productDetails->quantity + $cartDetail->quantity)) {
                         throw new Exception("Giỏ hàng của bạn đã đầy.");
                     }
@@ -44,24 +44,22 @@ class Cart
             WHERE cd.product_detail_id = $productDetails->id AND cd.cart_id = $cartId";
             $resultCheck = $this->con->query($checkExist);
 
-            if($resultCheck->num_rows > 0) {
-               // Đã tồn tại -> update số lượng
+            if ($resultCheck->num_rows > 0) {
+                // Đã tồn tại -> update số lượng
                 $row = $resultCheck->fetch_object();
                 $newQuantity = $row->quantity + $productDetails->quantity;
                 $productDetailId = $row->product_detail_id;
-                $sqlUpdateCartDetails = 
+                $sqlUpdateCartDetails =
                     " UPDATE cartdetail 
                     SET quantity = $newQuantity, updated_at = NOW()
                     WHERE cart_id = $cartId AND product_detail_id = $productDetailId";
-                 $this->con->query($sqlUpdateCartDetails);
-            }
-            else {
-                 $sqlInsertCartDetails =
+                $this->con->query($sqlUpdateCartDetails);
+            } else {
+                $sqlInsertCartDetails =
                     "INSERT INTO cartdetail (cart_id, product_id, quantity, price, created_at, updated_at, product_detail_id, status)
                      VALUES ($cartId, $productDetails->product_id, $productDetails->quantity, $productDetails->price, NOW(), NOW(), $productDetails->id, 1)";
                 $this->con->query($sqlInsertCartDetails);
             }
-
         } catch (Exception $ex) {
             error_log($ex->getMessage());
             throw new Exception("Thêm giỏ hàng thất bại! Vui lòng thử lại sau. " . $ex->getMessage());
@@ -104,11 +102,12 @@ class Cart
         }
     }
 
-    public function removeFromCart($productDetailId, $userId) {
+    public function removeFromCart($productDetailId, $userId)
+    {
         try {
             $sqlGetCart = "SELECT id FROM cart WHERE user_id = $userId";
-            $result = $this->con->query($sqlGetCart); 
-            
+            $result = $this->con->query($sqlGetCart);
+
             if ($result->num_rows > 0) {
                 $cart = $result->fetch_assoc();
                 $cartId = $cart["id"];
@@ -116,19 +115,21 @@ class Cart
                 $this->con->query($sqlDeleteCartDetail);
             }
         } catch (Exception $ex) {
-            throw new Exception("SQl Error: " .$ex->getMessage());
+            throw new Exception("SQl Error: " . $ex->getMessage());
         }
     }
 
-    public function updateQuantity($cartDetailId, $quantity) {
-        $productID = -1; $oldQuantity = 0;
+    public function updateQuantity($cartDetailId, $quantity)
+    {
+        $productID = -1;
+        $oldQuantity = 0;
         $getProductId = "SELECT cd.product_detail_id, cd.quantity FROM cartdetail cd WHERE cd.id = $cartDetailId";
-        $result = $this->con->query($getProductId); 
+        $result = $this->con->query($getProductId);
         if ($result->num_rows > 0) {
-                $cart = $result->fetch_assoc();
-                $productID = $cart["product_detail_id"];
-                $oldQuantity= $cart["quantity"];
-         }
+            $cart = $result->fetch_assoc();
+            $productID = $cart["product_detail_id"];
+            $oldQuantity = $cart["quantity"];
+        }
         if (!$this->checkQuantity($productID, $oldQuantity + $quantity)) {
             throw new Exception("Sản phẩm bạn thêm không đủ số lượng!");
         }
@@ -137,22 +138,23 @@ class Cart
             $sqlCart = "UPDATE cartdetail
                         SET quantity = quantity + $quantity
                         WHERE id = $cartDetailId";
-            $result = $this->con->query($sqlCart); 
+            $result = $this->con->query($sqlCart);
 
             return true;
         } catch (Exception $ex) {
-            throw new Exception("SQl Error: " .$ex->getMessage());
+            throw new Exception("SQl Error: " . $ex->getMessage());
         }
     }
 
-    public function removeFromCartDetail($cartDetailId) {
+    public function removeFromCartDetail($cartDetailId)
+    {
         try {
             $sqlCart = "DELETE FROM cartdetail WHERE id = $cartDetailId";
-            $result = $this->con->query($sqlCart); 
+            $result = $this->con->query($sqlCart);
 
             return true;
         } catch (Exception $ex) {
-            throw new Exception("SQl Error: " .$ex->getMessage());
+            throw new Exception("SQl Error: " . $ex->getMessage());
         }
     }
 }

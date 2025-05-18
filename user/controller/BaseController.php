@@ -5,9 +5,9 @@ class BaseController
     {
         extract($data);
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
-            include(__DIR__ . "../../resource/content/" . $pageName);
+            include __DIR__ . "/../resource/content/{$pageName}";
         } else {
-            include(__DIR__ . "../../view/" . $pageName);
+            include __DIR__ . "/../view/{$pageName}";
         }
     }
 }
