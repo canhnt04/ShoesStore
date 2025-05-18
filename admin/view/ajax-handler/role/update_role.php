@@ -2,12 +2,12 @@
 include_once __DIR__ . '/../../../controller/RoleController.php';
 include_once __DIR__ . '/../../../../config/init.php';
 
+header('Content-Type: application/json');
+
 $database = new Database();
 $connection = $database->getConnection();
 $roleController = new RoleController($connection);
 
-
-// --- 2. Hiển thị form nếu nhận được roleId (load từ modal)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['roleId'])) {
     $roleId = $_POST['roleId'];
     $role = $roleController->getRoleById($roleId);

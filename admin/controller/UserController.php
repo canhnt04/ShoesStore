@@ -5,26 +5,48 @@ class UserController
 {
     private $userModel;
 
-    public function __construct()
+    public function __construct($connection)
     {
-        global $connection; // Sử dụng biến toàn cục
         $this->userModel = new Model_User($connection);
     }
 
-    public function countUsers()
+    public function countEmployeeUsers()
     {
-        return $this->userModel->countUsers();
+        return $this->userModel->countEmployeeUsers();
     }
 
-    public function listUsers($limit, $offset)
+    public function countCustomerUsers()
     {
-        return $this->userModel->getAllUsers($limit, $offset);
+        return $this->userModel->countCustomerUsers();
     }
 
-    // public function listUsers()
-    // {
-    //     // Lấy danh sách người dùng từ model
-    //     return  $this->userModel->getAllUsers();
-    //     // include __DIR__ . '/../view/includes/account-action/account_action.php';
-    // }
+    public function listEmployeeUsers($limit, $offset)
+    {
+        return $this->userModel->getAllEmployeeUser($limit, $offset);
+    }
+
+    public function listCustomerUsers($limit, $offset)
+    {
+        return $this->userModel->getAllCustomUser($limit, $offset);
+    }
+
+    public function createUser($username, $password, $email, $role_id)
+    {
+        return $this->userModel->createUser($username, $password, $email, $role_id, 1);
+    }
+
+    public function updateUser($id, $role_id)
+    {
+        return $this->userModel->updateUser($id, $role_id);
+    }
+
+    public function toggleUserStatus($id, $value)
+    {
+        return $this->userModel->deleteUser($id, $value);
+    }
+
+    public function getUserById($id)
+    {
+        return $this->userModel->getUserById($id);
+    }
 }
