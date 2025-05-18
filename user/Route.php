@@ -1,20 +1,18 @@
 <?php
-// File định tuyến router
-session_start();
+require_once __DIR__ . "/../config/init.php";
 
-// $_SESSION['username'] = "HuyNek";
-// $_SESSION['password'] = "alibaba";
-// $_SESSION['userId'] = 1;
-// $_SESSION["email"] = "admin@example.com";
-// Lấy tên controller
-$controller = isset($_GET['page']) ? $_GET['page'] : 'Home';
-$action = isset($_GET['action']) ? $_GET['action'] : 'index';
+// Điều hướng mặc định nếu không có page và action
+if (empty($_GET['page']) || empty($_GET['action'])) {
+    header('Location: /ShoesStore/public/index.php?page=Product&action=showList&pageNumber=1');
+    exit();
+}
 
-// Tham số động
-// $pageNumber = isset($_GET['pageNumber']) ? $_GET['pageNumber'] : 1;
-// $id = isset($_GET['id']) ? $_GET['id'] : null;
+// Lấy tên controller và action
+$controller = $_GET['page'] ?? 'Home';
+$action = $_GET['action'] ?? 'index';
 
-// Tạo mảng để lấy tham số
+
+// Gom các tham số phụ
 $params = [];
 foreach ($_REQUEST as $key => $value) {
     if ($key !== 'page' && $key !== 'action') {
@@ -22,13 +20,33 @@ foreach ($_REQUEST as $key => $value) {
     }
 }
 
-// Load controller class
+// Định nghĩa tên class controller
 $controllerName = ucfirst($controller) . 'Controller';
-require_once __DIR__ . "/controller/{$controllerName}.php";
 
-// Khởi tạo controller và gọi phương thức tại file này
+// Kiểm tra xem file controller có tồn tại không
+$controllerPath = __DIR__ . "/controller/{$controllerName}.php";
+if (!file_exists($controllerPath)) {
+    header('Location: /ShoesStore/public/404.php');
+    exit();
+}
+require_once $controllerPath;
+
+// Tạo instance
 $controllerInstance = new $controllerName();
-$controllerInstance->$action($params);
 
-// session_unset();
-// session_destroy();
+// Kiểm tra phương thức tồn tại trước khi gọi
+if (!method_exists($controllerInstance, $action)) {
+    header('Location: /ShoesStore/public/404.php');
+    exit();
+}
+
+// var_dump([
+//     'controller' => $controller,
+//     'action' => $action,
+//     'params' => $params,
+//     'full_GET' => $_GET
+// ]);
+// exit();
+
+// Gọi action
+$controllerInstance->$action($params);

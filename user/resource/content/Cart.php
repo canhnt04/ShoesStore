@@ -1,6 +1,3 @@
-<head>
-    <link rel="stylesheet" href="../../../public/assets/css/cart.css">
-</head>
 <div id="ajaxLoad">
     <div class="cart_section" id="cartDetail">
         <div class="container-fluid">
@@ -13,7 +10,7 @@
                                 <?php foreach ($cart->cartDetailList as $cartDetail) { ?>
                                     <li class="cart_item clearfix">
                                         <div class="cart_item_image">
-                                            <img class="img-fluid object-fit" src="../../../public/assets/images/test2.jpg" alt="">
+                                            <img class="img-fluid object-fit" src="/ShoesStore/public/assets/images/test2.jpg" alt="">
                                         </div>
                                         <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
                                             <div class="cart_item_name cart_info_col">
@@ -63,8 +60,8 @@
                             </div>
                         </div>
                         <div class="cart_buttons">
-                            <a href="Route.php?page=Product&action=showList&pageNumber=1" type="button" class="button cart_button_clear ajaxLink">Continue Shopping</a>
-                            <a href="Route.php?page=Payment&action=checkout" id="btnCheckout" type="button" class="button cart_button_checkout">Go To Payment</a>
+                            <a href="index.php?page=Product&action=showList&pageNumber=1" type="button" class="button cart_button_clear ajaxLink">Continue Shopping</a>
+                            <a href="index.php?page=Payment&action=checkout" id="btnCheckout" type="button" class="button cart_button_checkout">Go To Payment</a>
                         </div>
                     </div>
                 </div>
@@ -88,11 +85,11 @@
             removeFromCart(cartDetailId);
             return;
         }
-        let url = "Route.php?page=Cart&action=updateQuantity";
+        let url = "index.php?page=Cart&action=updateQuantity";
 
         let data = {
             cartDetail_id: cartDetailId,
-            quantity: quanity
+            quantity: quanity,
         };
 
         $.ajax({
@@ -101,17 +98,17 @@
             dataType: "html",
             data: data,
             success: function(data) {
-                $('#ajaxLoad').html(data);
+                $("#ajaxLoad").html(data);
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 var errorMessage = JSON.parse(xhr.responseText);
                 alert(errorMessage.message);
-            }
+            },
         });
     }
 
     function removeFromCart(cartDetailId) {
-        let url = "Route.php?page=Cart&action=removeFromCartDetail";
+        let url = "index.php?page=Cart&action=removeFromCartDetail";
 
         let data = {
             cartDetail_id: cartDetailId,
@@ -123,12 +120,12 @@
             dataType: "html",
             data: data,
             success: function(data) {
-                $('#ajaxLoad').html(data);
+                $("#ajaxLoad").html(data);
             },
             error: function(xhr, ajaxOptions, thrownError) {
                 var errorMessage = JSON.parse(xhr.responseText);
                 alert(errorMessage.message);
-            }
+            },
         });
     }
 </script>

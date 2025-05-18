@@ -1,11 +1,3 @@
-<head>
-    <link rel="stylesheet" href="/ShoesStore/public/assets/css/reset.css">
-    <link rel="stylesheet" href="/ShoesStore/public/assets/css/auth.css">
-    <link rel="stylesheet" href="/ShoesStore/public/assets/fonts/fontawesome-free-6.7.2-web/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,700&display=swap"
-        rel="stylesheet">
-</head>
-
 <div id="ajaxLink">
     <div class="auth">
         <div class="auth__body">
@@ -15,10 +7,29 @@
                     <form class="auth-form__form" id="registerForm" method="POST">
                         <h1 class="auth-form__heading">ĐĂNG KÝ</h1>
                         <span class="auth-form__title">Tạo tài khoản sử dụng cho riêng bạn</span>
-                        <input type="text" class="auth-form__input" name="new-username" placeholder="Nhập tên đăng nhập">
-                        <input type="email" class="auth-form__input" name="new-email" placeholder="Nhập email">
-                        <input type="password" class="auth-form__input" name="new-password" placeholder="Nhập mật khẩu">
-                        <input type="password" class="auth-form__input" name="new-repassword" placeholder="Nhập lại mật khẩu">
+                        <input
+                            type="text"
+                            class="auth-form__input"
+                            name="new-username"
+                            placeholder="Nhập tên đăng nhập">
+
+                        <input
+                            type="email"
+                            class="auth-form__input"
+                            name="new-email"
+                            placeholder="Nhập email">
+
+                        <input
+                            type="password"
+                            class="auth-form__input"
+                            name="new-password"
+                            placeholder="Nhập mật khẩu">
+
+                        <input
+                            type="password"
+                            class="auth-form__input"
+                            name="new-repassword"
+                            placeholder="Nhập lại mật khẩu">
                         <span class="auth-form__policy">Bằng việc tạo tài khoản, bạn đã đồng ý với
                             <a href="#" class="auth-form__link">Điều khoản dịch vụ</a> và
                             <a href="#" class="auth-form__link">Chính sách bảo mật</a>
@@ -34,8 +45,17 @@
                     <form class="auth-form__form" id="loginForm" method="POST">
                         <h1 class="auth-form__heading">ĐĂNG NHẬP</h1>
                         <span class="auth-form__title">Đăng nhập vào tài khoản của bạn</span>
-                        <input type="text" class="auth-form__input" name="username" placeholder="Nhập tên đăng nhập">
-                        <input type="password" class="auth-form__input" name="password" placeholder="Nhập mật khẩu">
+                        <input
+                            type="text"
+                            class="auth-form__input"
+                            name="username"
+                            placeholder="Nhập tên đăng nhập">
+
+                        <input
+                            type="password"
+                            class="auth-form__input"
+                            name="password"
+                            placeholder="Nhập mật khẩu">
                         <div class="auth-form__control">
                             <button type="submit" class="btn">ĐĂNG NHẬP</button>
                             <button type="button" class="btn auth-form__control-back">QUAY LẠI</button>
@@ -61,7 +81,5 @@
         </div>
     </div>
 </div>
-<script src="/ShoesStore/public/assets/js/jquery-1.11.0.min.js"></script>
 <script src="/ShoesStore/public/assets/js/jquery-3.7.1.min.js"></script>
-<script src="/ShoesStore/public/assets/js/ajax.js"></script>
-<script src="/ShoesStore/public/assets/js/auth.js"></script>
+<script src="/ShoesStore/public/assets/js/jquery-migrate-1.2.1.min.js"></script>

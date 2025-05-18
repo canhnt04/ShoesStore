@@ -1,8 +1,10 @@
 <?php
+require_once __DIR__ . '/../../../../config/init.php';
 require_once __DIR__ . '/../../../controller/ProductController.php';
 require_once __DIR__ . '/../../../controller/ProductDetailController.php';
 require_once __DIR__ . '/../../../controller/CategoryController.php';
-require_once __DIR__ . '/../../../../config/database/ConnectDB.php';
+$database = new Database();
+$connection = $database->getConnection();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $productId = $_POST["productId"];

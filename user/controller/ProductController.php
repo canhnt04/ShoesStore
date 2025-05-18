@@ -1,6 +1,6 @@
 <?php
-/* Controller ProductController sẽ được gọi bởi router nếu đúng định tuyến uri */
-require_once(__DIR__ . "../BaseController.php");
+require_once __DIR__ . '/../../config/init.php';
+require_once __DIR__ . "/BaseController.php";
 require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Category.php";
 require_once __DIR__ . "/../model/Cart.php";
@@ -16,12 +16,45 @@ class ProductController extends BaseController
         $this->categoryModel = new Category();
     }
 
+    public function searchProduct()
+    {
+        try {
+            $pageNumber = $_GET['pageNumber'] ?? 1;
+            $limit = 6;
+            $offset = ($pageNumber - 1) * $limit;
+
+            $keyword = $_GET['keyword'] ?? '';
+            $brand = $_GET['brand'] ?? '';
+            $price = $_GET['price'] ?? '';
+
+            $productList = $this->productModel->searchProduct($keyword, $brand, $price, $limit, $offset);
+            $totalPage = $this->productModel->getTotalPageSearch($keyword, $brand, $price);
+            $categoryList = $this->categoryModel->getAll();
+
+            $this->render("ProductList.php", [
+                'pageNumber' => $pageNumber,
+                "productList" => $productList,
+                "categoryList" => $categoryList,
+                'totalPage' => $totalPage,
+                'paginationName' => "searchProduct",
+                'keyword' => $keyword,
+                'brand' => $brand,
+                'price' => $price
+            ]);
+        } catch (Exception $ex) {
+            http_response_code(500);
+            echo json_encode(
+                ["message" => $ex->getMessage()]
+            );
+        }
+    }
+
     public function showList($params)
     {
-        $pageNumber = $params['pageNumber'];
-        $limit = 6;
-        $offset = ($pageNumber - 1) * $limit;
         try {
+            $pageNumber = $params['pageNumber'];
+            $limit = 6;
+            $offset = ($pageNumber - 1) * $limit;
             $totalPage = $this->productModel->getTotalPage();
             $productList = $this->productModel->getAll($limit, $offset);
             $categoryList = $this->categoryModel->getAll();

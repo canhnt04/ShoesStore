@@ -1,8 +1,8 @@
 <?php
+require_once __DIR__ . "/BaseController.php";
 require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Cart.php";
-require_once __DIR__ . "/BaseController.php";
-
+require_once __DIR__ . "/../../config/init.php";
 class CartController extends BaseController
 {
     private $cartModel;
@@ -138,7 +138,8 @@ class CartController extends BaseController
         }
     }
 
-    public function removeFromCartDetail($params) {
+    public function removeFromCartDetail($params)
+    {
         $userId = $_SESSION["userId"];
         $cartDetailId = $params["cartDetail_id"];
 

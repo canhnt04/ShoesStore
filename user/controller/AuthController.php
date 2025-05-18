@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . "/BaseController.php";
 require_once  __DIR__ . '/../model/User.php';
-require_once __DIR__ . "../../../public/assets/helper/validator.php";
+require_once __DIR__ . "/../../public/assets/helper/validator.php";
+require_once __DIR__ .  "/../../config/init.php";
 
 class AuthController extends BaseController
 {
@@ -14,12 +15,8 @@ class AuthController extends BaseController
 
     public function auth()
     {
-        // if (isset($_SESSION['auth_called']) && $_SESSION['auth_called'] === true) {
-        //     return;
-        // }
         try {
-            $this->render("Auth.php");
-            // $_SESSION['auth_called'] = true;
+            include_once  __DIR__ . '/../view/Auth.php';
         } catch (Exception $e) {
             echo ($e);
         }
@@ -31,8 +28,6 @@ class AuthController extends BaseController
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
         $error = [];
-        $redirectUser = null;
-        $redirectAdmin = null;
 
         if (!Validator::required($username)) {
             $error['username'] = "Vui lòng nhập tên đăng nhập.";
@@ -47,26 +42,30 @@ class AuthController extends BaseController
         if (empty($error)) {
             $user = $this->userModel->login($username, $password);
             if ($user) {
-                $_SESSION['username'] = $username;
-                $_SESSION['email'] = $user['email'];
+                $_SESSION['userId'] = $user['id'];
                 $_SESSION['role'] = $user['role_id'];
 
-                $message = $user['role_id'] == 4
-                    ? "Chào mừng người dùng $username đã đăng nhập!"
-                    : "Chào mừng quản trị viên $username!";
+                $redirectRoutes = [
+                    1 => "/ShoesStore/admin/view/",
+                    2 => "/ShoesStore/admin/view/",
+                    3 => "/ShoesStore/admin/view/",
+                    4 => '/ShoesStore/public/index.php?page=Product&action=showList&pageNumber=1'
+                ];
 
-                if ($user['role_id'] == 4) {
-                    $redirectUser = "../../../ShoesStore/user/Route.php?page=ProductList&action=showList";
-                } else {
-                    $redirectAdmin =  "../../../ShoesStore/admin/view/";
-                }
+                $messages = [
+                    1 => "Chào mừng quản trị viên $username!",
+                    2 => "Chào mừng nhân viên nhập hàng $username!",
+                    3 => "Chào mừng nhân viên bán hàng $username!",
+                    4 => "Chào mừng người dùng $username đã đăng nhập!"
+                ];
+
+                $role = $user['role_id'];
                 echo json_encode([
                     'success' => true,
-                    'message' => $message,
-                    'redirectUser' => $redirectUser,
-                    'redirectAdmin' => $redirectAdmin
+                    'message' => $messages[$role] ?? 'Xin chào',
+                    'redirect' => $redirectRoutes[$role] ?? '/ShoesStore/public/index.php?page=Product&action=showList&pageNumber=1'
                 ]);
-                exit;
+                exit();
             } else {
                 $error['login'] = "Tài khoản hoặc mật khẩu không đúng.";
             }
@@ -76,7 +75,7 @@ class AuthController extends BaseController
             'success' => false,
             'error' => reset($error)
         ]);
-        exit;
+        exit();
     }
 
     public function register()
@@ -115,7 +114,7 @@ class AuthController extends BaseController
                     'success' => true,
                     'message' => "Đăng ký thành công, hãy đăng nhập để sử dụng tài khoản."
                 ]);
-                exit;
+                return;
             } else {
                 $error['register'] = "Đăng ký thất bại, vui lòng thử lại.";
             }
@@ -125,33 +124,23 @@ class AuthController extends BaseController
             'success' => false,
             'error' => reset($error)
         ]);
-        exit;
-    }
-    public function logout()
-    {
-        // Kiểm tra nếu người dùng đã đăng nhập
-        if (isset($_SESSION['username'])) {
-            // Xóa tất cả session liên quan đến người dùng
-            session_unset(); // Xóa tất cả các biến session
-            session_destroy(); // Hủy session
-
-            // Chuyển hướng người dùng về trang đăng nhập hoặc trang chủ
-            header("Location: ../../../user/router.php?page=Auth&action=auth");
-            exit;
-        } else {
-            // Nếu chưa đăng nhập, có thể chuyển hướng đến trang đăng nhập
-            header("Location: ../../../user/router.php?page=Auth&action=auth");
-            exit;
-        }
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $authController = new AuthController();
     $action = $_POST['action'] ?? '';
-    if ($action === 'login') {
-        $authController->login();
-    } elseif ($action === 'register') {
-        $authController->register();
+    switch ($action) {
+        case 'login':
+            $authController->login();
+            break;
+        case 'register':
+            $authController->register();
+            break;
+        case 'auth':
+            $authController->auth();
+            break;
+        default:
+            break;
     }
 }

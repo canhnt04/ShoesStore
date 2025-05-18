@@ -1,7 +1,11 @@
 <?php
-session_start(); // Bắt đầu phiên làm việc
+include __DIR__ . '/../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
+
 include __DIR__ . '/../includes/product-action/handle.php';
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'product';
+
 ?>
 
 

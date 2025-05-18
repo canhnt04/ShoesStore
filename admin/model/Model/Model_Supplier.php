@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../Entity/Supplier.php';
-include_once __DIR__ . '/../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../../config/init.php';
 
 class Model_Supplier
 {

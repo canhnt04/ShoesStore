@@ -1,5 +1,5 @@
 <?php
-require_once("Database.php");
+require_once __DIR__ . "/../../config/init.php";
 
 class Product
 {
@@ -9,6 +9,101 @@ class Product
     {
         $db = new Database();
         $this->con = $db->getConnection();
+    }
+
+    public function searchProduct($keyword, $brand, $price, $limit, $offset)
+    {
+        try {
+            $sql = "SELECT DISTINCT p.* 
+                FROM product p 
+                JOIN productdetail pd ON p.id = pd.product_id 
+                WHERE p.name LIKE ?";
+
+            $params = ['%' . $keyword . '%'];
+            $types = "s";
+
+            if (!empty($brand)) {
+                $sql .= " AND p.brand = ?";
+                $params[] = $brand;
+                $types .= "s";
+            }
+
+            if (!empty($price)) {
+                if ($price === "low") {
+                    $sql .= " AND pd.price < 200000";
+                } elseif ($price === "medium") {
+                    $sql .= " AND pd.price BETWEEN 200000 AND 500000";
+                } elseif ($price === "high") {
+                    $sql .= " AND pd.price > 500000";
+                }
+            }
+
+            $sql .= " LIMIT ? OFFSET ?";
+            $params[] = $limit;
+            $params[] = $offset;
+            $types .= "ii";
+
+            $stmt = $this->con->prepare($sql);
+            $stmt->bind_param($types, ...$params);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            $products = [];
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
+
+            return $products;
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
+    }
+    public function getTotalPageSearch($keyword, $brand, $price)
+    {
+        try {
+            $sql = "SELECT COUNT(DISTINCT p.id) as total
+                FROM product p
+                JOIN productdetail pd ON p.id = pd.product_id
+                WHERE 1=1";
+            $params = [];
+            $types = "";
+
+            if (!empty($keyword)) {
+                $sql .= " AND p.name LIKE ?";
+                $params[] = "%$keyword%";
+                $types .= "s";
+            }
+
+            if (!empty($brand)) {
+                $sql .= " AND p.brand = ?";
+                $params[] = $brand;
+                $types .= "s";
+            }
+
+            if (!empty($price)) {
+                if ($price === "low") {
+                    $sql .= " AND pd.price < 200000";
+                } elseif ($price === "medium") {
+                    $sql .= " AND pd.price BETWEEN 200000 AND 500000";
+                } elseif ($price === "high") {
+                    $sql .= " AND pd.price > 500000";
+                }
+            }
+
+            $stmt = $this->con->prepare($sql);
+
+            if (!empty($params)) {
+                $stmt->bind_param($types, ...$params);
+            }
+
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
+
+            return ceil($row['total'] / 6);
+        } catch (Exception $ex) {
+            throw new Exception("SQL Error: " . $ex->getMessage());
+        }
     }
 
     public function getTotalPage($categoryId = -1)
@@ -39,12 +134,12 @@ class Product
 
             $productList = [];
             if ($result->num_rows > 0) {
-                while ($row = $result->fetch_object()) {
+                while ($row = $result->fetch_assoc()) {
                     // Gán dữ liệu product
                     $product = $row;
 
                     // Truy vấn chi tiết
-                    $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product->id;
+                    $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product['id'];
                     $resultDetails = $this->con->query($sqlDetails);
 
                     $productDetails = [];
@@ -55,7 +150,7 @@ class Product
                     }
 
                     // Gán mảng chi tiết vào product
-                    $product->productDetailsList = $productDetails;
+                    $product['productDetailsList'] = $productDetails;
 
                     // Thêm vào danh sách, mỗi phần tử là một object.
                     $productList[] = $product;
@@ -78,7 +173,7 @@ class Product
 
             $product = null;
             if ($result->num_rows > 0) {
-                $product = $result->fetch_object();
+                $product = $result->fetch_assoc();
 
                 $sqlDetails = "SELECT *
                             FROM  productdetail pd
@@ -87,7 +182,7 @@ class Product
 
                 $product->productDetailsList = [];
                 if ($resultDetails->num_rows > 0) {
-                    while ($row = $resultDetails->fetch_object()) {
+                    while ($row = $resultDetails->fetch_assoc()) {
                         $product->productDetailsList[] = $row;
                     }
                 }
@@ -109,7 +204,7 @@ class Product
 
             $product = null;
             if ($result->num_rows > 0) {
-                $product = $result->fetch_object();
+                $product = $result->fetch_assoc();
 
                 $sqlDetails = "SELECT *
                             FROM  productdetail pd
@@ -119,7 +214,7 @@ class Product
 
                 $product->productDetails = null;
                 if ($resultDetails->num_rows > 0) {
-                    while ($row = $resultDetails->fetch_object()) {
+                    while ($row = $resultDetails->fetch_assoc()) {
                         $product->productDetails = $row;
                     }
                 }
@@ -137,12 +232,12 @@ class Product
             $sql = "SELECT pd.size, pd.id
                     FROM productdetail pd
                     WHERE pd.product_id = " . $productId .
-                    " AND pd.color = '" . $productDetailsColor . "'";
+                " AND pd.color = '" . $productDetailsColor . "'";
 
             $result = $this->con->query($sql);
             $sizeList = [];
             if ($result->num_rows > 0) {
-                while ($row = $result->fetch_object()) {
+                while ($row = $result->fetch_assoc()) {
                     $sizeList[] = $row;
                 }
             }
@@ -158,12 +253,12 @@ class Product
             $sql = "SELECT pd.color, pd.id
                     FROM productdetail pd
                     WHERE pd.product_id = " . $productId .
-                    " GROUP BY pd.color";
+                " GROUP BY pd.color";
 
             $result = $this->con->query($sql);
             $colorList = [];
             if ($result->num_rows > 0) {
-                while ($row = $result->fetch_object()) {
+                while ($row = $result->fetch_assoc()) {
                     $colorList[] = $row;
                 }
             }
@@ -184,7 +279,7 @@ class Product
 
             $productList = [];
             if ($result->num_rows > 0) {
-                while ($row = $result->fetch_object()) {
+                while ($row = $result->fetch_assoc()) {
                     // Gán dữ liệu product
                     $product = $row;
 
@@ -223,7 +318,7 @@ class Product
 
             $productDetails = null;
             if ($result->num_rows > 0) {
-                $productDetails = $result->fetch_object();
+                $productDetails = $result->fetch_assoc();
             }
 
             return $productDetails;

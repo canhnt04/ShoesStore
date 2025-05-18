@@ -1,13 +1,17 @@
 <?php
 // session_start(); // Bắt đầu phiên làm việc
-include_once __DIR__ . '/../includes/alert_message.php';
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'account';
+
+include __DIR__ . '/../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
+
 ?>
 <header class="header_account-page">
 
-    <a class="<?php echo ($tab == 'account') ? 'active' : '' ?>" href="index.php?page=user_manager&tab=account">Tài khoản nhân viên</a>
+    <a class="<?php echo ($tab == 'account') ? 'active' : '' ?>" href="index.php?page=user_manager&tab=account">Tài khoản người dùng</a>
     <span>/</span>
-    <a class="<?php echo ($tab == 'detail') ? 'active' : '' ?>" href="index.php?page=user_manager&tab=detail">Thông tin nhân viên</a>
+    <a class="<?php echo ($tab == 'role') ? 'active' : '' ?>" href="index.php?page=user_manager&tab=role">Vai trò</a>
 
 </header>
 
@@ -19,22 +23,20 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : 'account';
             $tab = $_GET['tab'];
             switch ($tab) {
                 case 'account':
-                    include __DIR__ . '/../includes/account-action/account_action.php';
+                    include __DIR__ . '/../includes/account-action/account.php';
                     break;
-                case 'detail':
-                    include __DIR__ . '/../includes/account-action/detail_action.php';
+                case 'role':
+                    include __DIR__ . '/../includes/account-action/role.php';
                     break;
 
                 default:
-                    include '../includes/account-action/account_action.php';
+                    include '../includes/account-action/account.php';
                     break;
             }
         } else {
-            include __DIR__ . '/../includes/account-action/account_action.php';
+            include __DIR__ . '/../includes/account-action/account.php';
         }
         ?>
 
     </div>
-
-
-    <!--  -->
+</div>

@@ -15,7 +15,7 @@
                 </li>
                 <li class="header_account-popup__item">
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <a href="" class="header_account-popup__link">Đăng xuất</a>
+                    <a href="/ShoesStore/public/Logout.php" class="header_account-popup__link">Đăng xuất</a>
                 </li>
             </ul>
         </div>

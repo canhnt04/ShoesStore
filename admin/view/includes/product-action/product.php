@@ -1,9 +1,10 @@
     <?php
     // Cài đặt phân trang
-    include __DIR__ . '/../../../controller/ProductController.php';
-    include __DIR__ . '/../../../controller/ProductDetailController.php';
-    include __DIR__ . '/../../../controller/CategoryController.php';
-    include __DIR__ . '/../../../controller/SupplierController.php';
+
+    include_once __DIR__ . '/../../../controller/ProductController.php';
+    include_once __DIR__ . '/../../../controller/ProductDetailController.php';
+    include_once __DIR__ . '/../../../controller/CategoryController.php';
+    include_once __DIR__ . '/../../../controller/SupplierController.php';
 
     $page = isset($_GET['pagination']) ? (int)$_GET['pagination'] : 1;
     $limit = 5;

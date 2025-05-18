@@ -1,3 +1,9 @@
+<?php
+session_start(); // ✅ PHẢI có dòng này đầu tiên
+
+// Sau đó include header và các phần khác
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
