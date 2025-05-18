@@ -29,33 +29,33 @@ require_once __DIR__ . "/../../../config/init.php";
             <!-- Main Content -->
             <div class="profile-main">
                 <!-- Info Section -->
-                <form id="form-info" class="profile-content">
+                <form id="form-info" class="profile-content" data-url="index.php?Page=Profile&action=updateInfo">
                     <div class="profile-content-item">
                         <span>Fullname</span>
                         <input type="text" name="fullname"
-                            data-old="<?= htmlspecialchars($user['fullname']) ?>"
                             value="<?= htmlspecialchars($user['fullname']) ?>"
+                            data-old="<?= htmlspecialchars($user['fullname']) ?>"
                             placeholder="Fullname">
                     </div>
                     <div class="profile-content-item">
                         <span>Phone number</span>
                         <input type="phone" name="phone"
-                            data-old="<?= htmlspecialchars($user['phone']) ?>"
                             value="<?= htmlspecialchars($user['phone']) ?>"
+                            data-old="<?= htmlspecialchars($user['phone']) ?>"
                             placeholder="Phone number">
                     </div>
                     <div class="profile-content-item">
                         <span>Address</span>
                         <input type="text" name="address"
-                            data-old="<?= htmlspecialchars($user['address']) ?>"
                             value="<?= htmlspecialchars($user['address']) ?>"
+                            data-old="<?= htmlspecialchars($user['address']) ?>"
                             placeholder="Address">
                     </div>
-                    <button class="btnChange" type="submit" data-url="/ShoesStore/public/index.php?Page=Profile&action=updateInfo">Update info</button>
+                    <button class="btnChange" type="submit">Update info</button>
                 </form>
 
                 <!-- Password Section -->
-                <form id=" form-password" class="profile-content" style="display: none;">
+                <form id="form-password" class="profile-content" style="display: none;">
                     <div class="profile-content-item">
                         <span>Old password</span>
                         <input type="password" name="old_password" required>
