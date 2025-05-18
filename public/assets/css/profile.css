@@ -1,0 +1,139 @@
+.profile {
+  width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Layout chia trái - phải */
+.profile-body {
+  display: flex;
+  gap: 30px;
+}
+
+/* Sidebar bên trái */
+.profile-nav {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 10px;
+  border-right: 1px solid #ddd;
+  gap: 30px;
+}
+
+/* Avatar và tên */
+.profile-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.item-img img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.item-username h4 {
+  margin: 0;
+  color: #555;
+}
+
+/* Các nút điều hướng */
+.profile-links {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.profile-links a {
+  text-decoration: none;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: center;
+  background-color: #999;
+  font-weight: 600 !important;
+  color: black;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+.profile-links a.active {
+  background-color: #007bff;
+  color: white;
+}
+.profile-links a.active:hover {
+  background-color: #007bff;
+  color: white;
+  cursor: default;
+}
+
+.profile-links a:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+/* Nội dung bên phải */
+.profile-main {
+  flex: 1;
+}
+
+/* Phần nội dung form */
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-content-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-content-item span {
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-content-item input {
+  padding: 8px !important;
+  font-size: 14px !important;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.profile-content-item input:focus {
+  border-color: #007bff;
+}
+
+.btnChange {
+  align-self: flex-start;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btnChange:hover {
+  background-color: #0056b3;
+}

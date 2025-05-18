@@ -1,14 +1,17 @@
 <?php
 require_once __DIR__ . "/BaseController.php";
 require_once __DIR__ . "/../model/Payment.php";
+require_once __DIR__ . "/../model/User.php";
 require_once __DIR__ . "/../../config/init.php";
 class PaymentController extends BaseController
 {
     private $paymentModel;
+    private $userModel;
 
     public function __construct()
     {
         $this->paymentModel = new Payment();
+        $this->userModel = new User();
     }
 
     public function checkout($params)
@@ -33,7 +36,9 @@ class PaymentController extends BaseController
             }
         }
 
-        $this->render("Checkout.php");
+        $user = $this->userModel->getUserByid($_SESSION["userId"]);
+
+        $this->render("Checkout.php", ["user" => $user]);
     }
 
     public function placeorder($params)

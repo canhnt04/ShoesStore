@@ -19,8 +19,12 @@ $(document).ready(function () {
         history.pushState({}, "", url);
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
+        try {
+          var errorMessage = JSON.parse(xhr.responseText);
+          alert(errorMessage.message);
+        } catch (e) {
+          alert(thrownError);
+        }
       },
     });
   }
@@ -29,15 +33,18 @@ $(document).ready(function () {
     $.ajax({
       url: url,
       method: method,
-      dataType: "json",
+      dataType: "html",
       data: data,
       success: function (data) {
-        console.log(data);
-        alert(data.message);
+        alert("Thêm giỏ hàng thành công");
       },
       error: function (xhr, ajaxOptions, thrownError) {
-        var errorMessage = JSON.parse(xhr.responseText);
-        alert(errorMessage.message);
+        try {
+          var errorMessage = JSON.parse(xhr.responseText);
+          alert(errorMessage.message);
+        } catch (e) {
+          alert(thrownError);
+        }
       },
     });
   }
@@ -58,10 +65,8 @@ $(document).ready(function () {
                 `);
       },
       success: function (data) {
-        // $('#ajaxLoad').html("<p>Hello World</p>");
         $("#ajaxLoad").html(data);
-        alert("Your order is successful!");
-        history.pushState({}, "", "index.php?page=Home&action=index");
+        history.pushState({}, "", url);
       },
       error: function (xhr, ajaxOptions, thrownError) {
         // var errorMessage = JSON.parse(xhr.responseText);
@@ -99,7 +104,7 @@ $(document).ready(function () {
     loadAjax(url);
   });
 
-  // Search Product
+  // Search product
   $(document).on("click", "#btnSearch", function (e) {
     e.preventDefault();
     let baseUrl = $(this).data("url");
@@ -113,6 +118,49 @@ $(document).ready(function () {
     if (price) url.searchParams.set("price", price);
 
     loadAjax(url.toString());
+  });
+
+  // Update info profile
+  $(document).on("submit", "#form-info", function (e) {
+    e.preventDefault();
+
+    const fullnameInput = $("input[name='fullname']");
+    const phoneInput = $("input[name='phone']");
+    const addressInput = $("input[name='address']");
+
+    const fullname = fullnameInput.val().trim();
+    const phone = phoneInput.val().trim();
+    const address = addressInput.val().trim();
+
+    const oldFullname = fullnameInput.attr("data-old")?.trim();
+    const oldPhone = phoneInput.attr("data-old")?.trim();
+    const oldAddress = addressInput.attr("data-old")?.trim();
+
+    if (
+      fullname === oldFullname &&
+      phone === oldPhone &&
+      address === oldAddress
+    ) {
+      alert("Bạn chưa thay đổi thông tin nào.");
+      return;
+    }
+
+    if (fullname === "" || phone === "" || address === "") {
+      alert("Vui lòng điền đầy đủ thông tin.");
+      return;
+    }
+
+    const phoneRegex = /^0[0-9]{9}$/;
+    if (!phoneRegex.test(phone)) {
+      alert(
+        "Số điện thoại không hợp lệ! Số điện thoại bắt đầu từ 0 và gồm 10 chữ số."
+      );
+      return;
+    }
+
+    const url = $(this).attr("data-url");
+    let data = $(this).serialize();
+    submitForm(url, "POST", data);
   });
 
   $(document).on("click", "#showById", function (e) {

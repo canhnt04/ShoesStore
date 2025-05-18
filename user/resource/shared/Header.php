@@ -10,6 +10,7 @@ require_once __DIR__ . "/../../../config/init.php";
 <link rel="stylesheet" href="/ShoesStore/public/assets/css/custom.css">
 <link rel="stylesheet" href="/ShoesStore/public/assets/css/cart.css">
 <link rel="stylesheet" href="/ShoesStore/public/assets/css/auth.css">
+<link rel="stylesheet" href="/ShoesStore/public/assets/css/profile.css">
 <link rel="stylesheet" href="/ShoesStore/public/assets/css/base.css">
 <link rel="stylesheet" href="/ShoesStore/public/assets/css/payment.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
@@ -105,10 +106,15 @@ require_once __DIR__ . "/../../../config/init.php";
                 if (isset($_SESSION['userId'])): ?>
                     <!-- Nếu người dùng đã đăng nhập, hiển thị icon logout -->
                     <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle nav-icon text-decoration-none" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class=" nav-link dropdown-toggle nav-icon text-decoration-none" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fas fa-user text-dark" style="font-size: 24px; margin-top: 6px;"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu dropdown-menu-end" style="z-index: 9999;">
+                            <li>
+                                <a class="dropdown-item ajaxLink" href="index.php?page=User&action=profile">Profile</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
                             <li>
                                 <a class="dropdown-item ajaxLink" href="index.php?page=Payment&action=orderhistory">Order history</a>
                             </li>
