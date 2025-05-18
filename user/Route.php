@@ -2,7 +2,7 @@
 require_once __DIR__ . "/../config/init.php";
 
 // Điều hướng mặc định nếu không có page và action
-if (!isset($_GET['page']) && !isset($_GET['action'])) {
+if (empty($_GET['page']) || empty($_GET['action'])) {
     header('Location: /ShoesStore/public/index.php?page=Product&action=showList&pageNumber=1');
     exit();
 }
@@ -10,6 +10,7 @@ if (!isset($_GET['page']) && !isset($_GET['action'])) {
 // Lấy tên controller và action
 $controller = $_GET['page'] ?? 'Home';
 $action = $_GET['action'] ?? 'index';
+
 
 // Gom các tham số phụ
 $params = [];
@@ -38,6 +39,14 @@ if (!method_exists($controllerInstance, $action)) {
     header('Location: /ShoesStore/public/404.php');
     exit();
 }
+
+// var_dump([
+//     'controller' => $controller,
+//     'action' => $action,
+//     'params' => $params,
+//     'full_GET' => $_GET
+// ]);
+// exit();
 
 // Gọi action
 $controllerInstance->$action($params);

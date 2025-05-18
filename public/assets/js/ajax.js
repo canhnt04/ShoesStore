@@ -99,6 +99,22 @@ $(document).ready(function () {
     loadAjax(url);
   });
 
+  // Search Product
+  $(document).on("click", "#btnSearch", function (e) {
+    e.preventDefault();
+    let baseUrl = $(this).data("url");
+    const keyword = $("#searchInput").val().trim();
+    const brand = $("select[name='brand']").val();
+    const price = $("select[name='price']").val();
+    let url = new URL(baseUrl, window.location.origin);
+    url.searchParams.set("pageNumber", 1);
+    if (keyword) url.searchParams.set("keyword", keyword);
+    if (brand) url.searchParams.set("brand", brand);
+    if (price) url.searchParams.set("price", price);
+
+    loadAjax(url.toString());
+  });
+
   $(document).on("click", "#showById", function (e) {
     e.preventDefault();
     const url = $(this).attr("href");

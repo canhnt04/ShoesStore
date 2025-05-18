@@ -1,5 +1,4 @@
 <?php
-session_start(); // Bắt đầu phiên làm việc
 include __DIR__ . '/../../../config/init.php';
 $database = new Database();
 $connection = $database->getConnection();
