@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . "/../../../config/init.php";
+?>
+
 <div id="ajaxLoad">
     <main id="main" role="main">
         <section id="checkout-container">

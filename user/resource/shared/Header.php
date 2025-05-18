@@ -39,15 +39,15 @@ require_once __DIR__ . "/../../../config/init.php";
                         </li>
 
                         <li class="nav-item d-flex align-items-center">
-                            <select class="form-select form-select-sm" style="width: 140px;">
-                                <option value="">Category</option>
-                                <option value="category1">Adidas</option>
-                                <option value="category2">Sport</option>
-                                <option value="category3">Nike</option>
+                            <select name="brand" class="form-select form-select-sm" style="width: 140px; box-shadow: none;">
+                                <option value="">Brand</option>
+                                <option value="Adidas">Adidas</option>
+                                <option value="Vans">Vans</option>
+                                <option value="Nike">Nike</option>
                             </select>
                         </li>
                         <li class="nav-item d-flex align-items-center">
-                            <select class="form-select form-select-sm" style="width: 140px;">
+                            <select name="price" class="form-select form-select-sm" style="width: 140px; box-shadow: none;">
                                 <option value="">Price</option>
                                 <option value="low">Below 200.000đ</option>
                                 <option value="medium">200.000đ - 500.000đ</option>
@@ -67,10 +67,10 @@ require_once __DIR__ . "/../../../config/init.php";
             </div>
             <div class="d-flex align-items-center gap-2 ms-auto me-3">
                 <div class="input-group input-group-sm">
-                    <input type="text" class="form-control" placeholder="Search ...">
-                    <span class="input-group-text" style="cursor: pointer;">
+                    <input id="searchInput" type="text" class="form-control" style="box-shadow: none; border: 1px solid black; font-size: 14px !important;" placeholder="Search ...">
+                    <button id="btnSearch" data-url="/ShoesStore/public/index.php?page=Product&action=searchProduct" class="input-group-text" style="cursor: pointer; background: none; border: 1px solid black;">
                         <i class="fa fa-fw fa-search"></i>
-                    </span>
+                    </button>
                 </div>
             </div>
             <!-- <div class="d-flex align-items-center" style="width: 100%; max-width: 700px; margin-right: 14px;">
@@ -116,7 +116,7 @@ require_once __DIR__ . "/../../../config/init.php";
                                 <hr class="dropdown-divider">
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/ShoesStore/user/resource/content/Logout.php">Log out</a>
+                                <a class="dropdown-item" href="/ShoesStore/public/Logout.php">Log out</a>
                             </li>
                         </ul>
                     </div>

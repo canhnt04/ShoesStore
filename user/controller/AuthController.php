@@ -16,7 +16,7 @@ class AuthController extends BaseController
     public function auth()
     {
         try {
-            $this->render("Auth.php");
+            include_once  __DIR__ . '/../view/Auth.php';
         } catch (Exception $e) {
             echo ($e);
         }

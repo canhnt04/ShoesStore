@@ -1,8 +1,11 @@
+<?php
+require_once __DIR__ . "/../../../config/init.php";
+?>
+
 <div id="ajaxLoad">
     <!-- Start Content -->
     <div class="container py-5">
         <div class="row">
-
             <div class="col-lg-3">
                 <h1 class="h2 pb-4">Category</h1>
                 <ul class="list-unstyled templatemo-accordion">
@@ -54,10 +57,11 @@
                             <div class="col-md-4">
                                 <div class="card mb-4 product-wap rounded-0">
                                     <div class="card rounded-0">
-                                        <img class="card-img rounded-0 img-fluid" src="/ShoesStore/public/assets/images/test2.jpg" />
+                                        <img class="card-img rounded-0 img-fluid" src="/ShoesStore/public/assets/shoes/Air Jordan 1 LV8D.png" />
                                     </div>
                                     <div class="card-body">
-                                        <p class="h3"><?= $product->name ?></p>
+                                        <p class="h3" style="font-weight: 600 !important;"><?= $product['name'] ?></p>
+                                        <p class="h2">Brand: <?= $product['brand'] ?></p>
 
                                         <?php
                                         // Duyệt chi tiết sản phẩm
@@ -83,11 +87,29 @@
                         </div>
                     <?php } ?>
                     <ul class="pagination pagination-lg justify-content-end">
-                        <?php for ($index = 1; $index <= $totalPage; $index++) { ?>
+                        <?php for ($index = 1; $index <= $totalPage; $index++) {
+                            $url = "index.php?page=Product&action=" . urlencode($paginationName);
+
+                            if (isset($categoryId)) {
+                                $url .= "&category=" . urlencode($categoryId);
+                            }
+                            if (!empty($keyword)) {
+                                $url .= "&keyword=" . urlencode($keyword);
+                            }
+                            if (!empty($brand)) {
+                                $url .= "&brand=" . urlencode($brand);
+                            }
+                            if (!empty($price)) {
+                                $url .= "&price=" . urlencode($price);
+                            }
+
+                            $url .= "&pageNumber=" . $index;
+                        ?>
                             <li class="page-item">
                                 <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
-                                    href="index.php?page=Product&action=<?php echo $paginationName;
-                                                                        if (isset($categoryId)) echo '&category=' . $categoryId ?>&pageNumber=<?php echo $index ?>"><?php echo $index ?></a>
+                                    href="<?= $url ?>">
+                                    <?= $index ?>
+                                </a>
                             </li>
                         <?php } ?>
                     </ul>

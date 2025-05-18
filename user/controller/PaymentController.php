@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/BaseController.php";
 require_once __DIR__ . "/../model/Payment.php";
-
+require_once __DIR__ . "/../../config/init.php";
 class PaymentController extends BaseController
 {
     private $paymentModel;
