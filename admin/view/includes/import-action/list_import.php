@@ -9,7 +9,7 @@ $filters = [
     'end_date' => $_GET['end_date'] ?? null,
 ];
 
-$importController = new ImportController();
+$importController = new ImportController($connection);
 $importData = $importController->getListImports($filters, $limit, $page);
 $imports= $importData['imports'];
 $totalPages = $importData['totalPages'];
@@ -37,6 +37,7 @@ $totalPages = $importData['totalPages'];
             <tr>
                 <th>Chọn</th>
                 <th>ID</th>
+                <th>ID Nhân Viên</th>
                 <th>Nhà cung cấp</th>
                 <th>Tổng tiền</th>
                 <th>Ngày tạo</th>

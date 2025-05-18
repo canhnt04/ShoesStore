@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../../../controller/CustomerController.php';
 
-$customerController = new CustomerController();
+$customerController = new CustomerController(connection: $connection);
 $customers = $customerController->listCustomers(); // Lấy danh sách trực tiếp từ Controller
 
 ?>

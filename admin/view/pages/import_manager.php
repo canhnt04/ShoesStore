@@ -1,13 +1,15 @@
 <?php
-session_start(); // Bắt đầu phiên làm việc
 include_once __DIR__ . '/../includes/alert_message.php';
+include __DIR__ . '/../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'account';
 ?>
 <header class="header_account-page">
 
     <a class="<?php echo ($tab == 'list') ? 'active' : '' ?>" href="index.php?page=import_manager&tab=list">Danh sách phiếu nhập</a>
     <span>/</span>
-    <a class="<?php echo ($tab == 'create') ? 'active' : '' ?>" href="index.php?page=import_manager&tab=create">Tạo phiếu nhập </a>   
+    <a class="<?php echo ($tab == 'create') ? 'active' : '' ?>" href="index.php?page=import_manager&tab=create">Tạo phiếu nhập </a>
 
 </header>
 

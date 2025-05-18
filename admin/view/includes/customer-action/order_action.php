@@ -12,7 +12,7 @@ $filters = [
     'province' => $_GET['province'] ?? null,
 ];
 
-$orderController = new OrderController();
+$orderController = new OrderController($connection);
 $orderData = $orderController->listOrders($filters, $limit, $page);
 $orders = $orderData['orders'];
 $totalOrders = $orderData['totalCount']; // Đây nên là số đơn hàng sau khi filter

@@ -53,7 +53,7 @@ $(document).ready(function () {
     const orderId = $(this).data("id"); // Lấy ID từ thuộc tính data-id
 
     $.ajax({
-      url: "order/get_order_detail.php",
+      url: "ajax-handler/order/get_order_detail.php",
       method: "GET",
       data: {
         id: orderId,
@@ -95,12 +95,14 @@ $(document).ready(function () {
         }
         if (action === "approve_order") {
           $.post(
-            "order/get_quantity_product.php",
+            "ajax-handler/order/get_quantity_product.php",
             {
               order_id: orderId,
             },
             function (res) {
               if (res.success) {
+                console.log("Dữ liệu trả về từ server:", res);
+
                 let html = `<ul>`;
 
                 let hasInsufficientStock = false;
@@ -154,7 +156,7 @@ $(document).ready(function () {
 
   function sendUpdateRequest(orderId, action) {
     $.ajax({
-      url: "order/update_status.php",
+      url: "ajax-handler/order/update_status.php",
       method: "POST",
       data: {
         selected_order_id: orderId,

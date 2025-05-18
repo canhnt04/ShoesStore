@@ -15,4 +15,13 @@ class SupplierController
     {
         return  $this->model_supplier->getAllSuppliers();
     }
+    public function getListSuppliers(array $filters = [], int $perPage = 5, int $page = 1): array
+    {
+        $result = $this->model_supplier->getListSuppliers($filters, $perPage, $page);
+
+        return [
+            'suppliers' => $result['suppliers'] ?? [],
+            'totalPages' => $result['totalPages'] ?? 1,
+        ];
+    }
 }

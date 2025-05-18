@@ -1,5 +1,8 @@
 <?php
 include_once __DIR__ . '/../../../controller/OrderController.php';
+include_once __DIR__ . '/../../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -14,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     ];
 
     if ($orderId && isset($statusMap[$action])) {
-        $controller = new OrderController();
+        $controller = new OrderController($connection);
 
         // 1. Update trạng thái đơn hàng
         $newStatus    = $statusMap[$action];

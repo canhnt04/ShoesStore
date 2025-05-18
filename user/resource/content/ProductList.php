@@ -65,9 +65,9 @@ require_once __DIR__ . "/../../../config/init.php";
 
                                         <?php
                                         // Duyệt chi tiết sản phẩm
-                                        if (isset($product->productDetailsList)) {
+                                        if (isset($product["productDetailsList"])) {
                                             $colorList = [];
-                                            foreach ($product->productDetailsList as $detail) {
+                                            foreach ($product["productDetailsList"] as $detail) {
                                                 if (!in_array($detail["color"], $colorList)) {
                                                     $colorList[] = $detail["color"];  ?>
                                                     <a href="index.php?page=Product&action=showById&id=<?= $detail["product_id"] ?>&pr_id=<?= $detail["id"] ?>"

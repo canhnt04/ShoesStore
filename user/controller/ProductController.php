@@ -81,10 +81,10 @@ class ProductController extends BaseController
             $prDetailsID = $params["pr_id"];
             $product = $this->productModel->getById($id, $prDetailsID);
             // Lấy danh sách Size theo Màu.
-            $sizeList = $this->productModel->getSizeListByIdAndColor($id, $product->productDetails->color);
+            $sizeList = $this->productModel->getSizeListByIdAndColor($id, $product["productDetails"]["color"]);
             // Lấy tất cả Màu theo sản phẩm cha để hiện lên color
             $colorList = $this->productModel->getColorListById($id);
-            $productDetailsSelected = $product->productDetails;
+            $productDetailsSelected = $product["productDetails"];
 
             $this->render("ProductDetail.php", [
                 "id" => $id, // Xét theo id và productId

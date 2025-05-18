@@ -3,6 +3,7 @@ require_once __DIR__ . "/BaseController.php";
 require_once __DIR__ . "/../model/Product.php";
 require_once __DIR__ . "/../model/Cart.php";
 require_once __DIR__ . "/../../config/init.php";
+
 class CartController extends BaseController
 {
     private $cartModel;
@@ -24,8 +25,8 @@ class CartController extends BaseController
             ]);
             return;
         }
-        $userId = $_SESSION["userId"];
         try {
+            $userId = $_SESSION["userId"];
             $cart = $this->cartModel->getCartByUserId($userId);
             $this->render("Cart.php", ["cart" => $cart]);
         } catch (Exception $ex) {
@@ -91,7 +92,7 @@ class CartController extends BaseController
             $productDetails->product_id = $params['pr_id'];
             $productDetails->quantity = $params['product_quantity'];
             $model = $this->productModel->getProductDetailByID($productDetails->product_id, $productDetails->id);
-            $productDetails->price = $model->price;
+            $productDetails->price = $model['price'];
 
             try {
                 $check = $this->cartModel->addToCart($productDetails, $userId);

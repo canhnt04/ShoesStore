@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../Entity/Order.php';
 include_once __DIR__ . '/../Entity/OrderDetail.php';
-include_once __DIR__ . '/../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../../config/init.php';
 
 class Model_Order
 {
@@ -428,6 +428,7 @@ class Model_Order
     public function getProductQuantity($orderId)
     {
         $query = "SELECT 
+                productdetail.id AS detail_id,
                 product.name AS product_name,
                 orderdetail.quantity AS ordered_quantity,
                 productdetail.quantity AS product_quantity
@@ -449,6 +450,7 @@ class Model_Order
         $data = [];
         while ($row = $result->fetch_assoc()) {
             $data[] = [
+                "detail_id" =>$row['detail_id'],
                 "product_name" => $row['product_name'],
                 "ordered_quantity" => (int)$row['ordered_quantity'],
                 "product_quantity" => (int)$row['product_quantity']

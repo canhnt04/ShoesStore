@@ -1,23 +1,22 @@
 <?php
-include_once __DIR__ . '/../../config/database/ConnectDB.php';
 include_once __DIR__ . '/../model/Model/Model_Customer.php';
+include_once __DIR__ . '/../../config/init.php';
 
 
 class CustomerController
 {
     private $customerModel;
 
-    public function __construct()
+    public function __construct($connection)
     {
-        global $connection; // Sử dụng biến toàn cục
-        $this->customerModel = new Model_Customer($connection);
+        
+        $this->customerModel = new Model_Customer(connection: $connection);
     }
 
     public function listCustomers()
     {
-        // Lấy danh sách người dùng từ model
         return  $this->customerModel->getAllCustomers();
-        // include __DIR__ . '/../view/includes/account-action/account_action.php';
+      ;
     }
 
     public function getTopCustomers($startDate, $endDate, $sortOrder = 'DESC')
