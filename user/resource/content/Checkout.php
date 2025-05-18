@@ -41,72 +41,64 @@ require_once __DIR__ . "/../../../config/init.php";
                         <div class="col-md-8 order-md-1">
                             <h4 class="mb-3">Your address info</h4>
                             <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="firstName">First name</label>
-                                    <input type="text" class="form-control" id="firstName" disabled placeholder="" value="">
+                                <div class="mb-3">
+                                    <label for="firstName">Full name</label>
+                                    <input type="text" class="form-control" id="firstName" readonly placeholder="" value="<?= $user["fullname"] ?>" required>
                                     <div class="invalid-feedback">
-                                        Valid first name is required.
+                                        Valid full name is required.
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="lastName">Last name</label>
-                                    <input type="text" class="form-control" id="lastName" disabled placeholder="" value="">
-                                    <!-- <div class="invalid-feedback">
-                                        Valid last name is required.
-                                    </div> -->
+
+                                <div class="mb-3">
+                                    <label for="email">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" readonly placeholder="you@example.com" value="<?= $user["email"] ?>" required>
+                                    <div class="invalid-feedback">
+                                        Please enter a valid email address for shipping updates.
+                                    </div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label for="phone">Phone</label>
+                                    <div class="input-group">
+                                        <input type="number" readonly class="form-control" id="phone" value="<?= $user["phone"] ?>" required>
+                                        <div class="invalid-feedback" style="width: 100%;">
+                                            Phone Number is required.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="address">Address</label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" value="<?= $user["address"] ?>" required>
+                                    <div class="invalid-feedback">
+                                        Please enter your shipping address.
+                                    </div>
+                                </div>
+
+                                <hr class="mb-4">
+
+                                <h4 class="mb-3">Payment Method</h4>
+
+                                <div class="d-block my-3">
+                                    <div class="custom-control custom-radio">
+                                        <input id="cash" name="paymentMethod" value="1" type="radio" class="custom-control-input" checked required>
+                                        <label class="custom-control-label" for="cash">Cash</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input id="credit" name="paymentMethod" value="2" type="radio" class="custom-control-input" required>
+                                        <label class="custom-control-label" for="credit">Credit card</label>
+                                    </div>
+                                </div>
+
+                                <!-- render credit -->
+                                <div id="creditDiv">
+
+                                </div>
+
+                                <hr class="mb-4">
                             </div>
-
-                            <div class="mb-3">
-                                <label for="username">Username</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="username" disabled placeholder="Username" required>
-                                    <!-- <div class="invalid-feedback" style="width: 100%;">
-                                        Your username is required.
-                                    </div> -->
-                                </div>
-                            </div>
-
-                            <!-- <div class="mb-3">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" disabled  placeholder="you@example.com" required>
-                                <div class="invalid-feedback">
-                                    Please enter a valid email address for shipping updates.
-                                </div>
-                            </div> -->
-
-                            <div class="mb-3">
-                                <label for="address">Address</label>
-                                <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
-                                <div class="invalid-feedback">
-                                    Please enter your shipping address.
-                                </div>
-                            </div>
-
-                            <hr class="mb-4">
-
-                            <h4 class="mb-3">Payment Method</h4>
-
-                            <div class="d-block my-3">
-                                <div class="custom-control custom-radio">
-                                    <input id="cash" name="paymentMethod" value="1" type="radio" class="custom-control-input" checked required>
-                                    <label class="custom-control-label" for="cash">Cash</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input id="credit" name="paymentMethod" value="2" type="radio" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="credit">Credit card</label>
-                                </div>
-                            </div>
-
-                            <!-- render credit -->
-                            <div id="creditDiv">
-
-                            </div>
-
-                            <hr class="mb-4">
                         </div>
                     </div>
-                </div>
             </form>
         </section>
     </main>

@@ -212,10 +212,10 @@ class Product
                     " AND pd.id = " . $productDetailsId;
                 $resultDetails = $this->con->query($sqlDetails);
 
-                $product->productDetails = null;
+                $product["productDetails"] = [];
                 if ($resultDetails->num_rows > 0) {
                     while ($row = $resultDetails->fetch_assoc()) {
-                        $product->productDetails = $row;
+                        $product["productDetails"] = $row;
                     }
                 }
             }
@@ -284,7 +284,7 @@ class Product
                     $product = $row;
 
                     // Truy vấn chi tiết
-                    $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product->id;
+                    $sqlDetails = "SELECT * FROM productdetail WHERE product_id = " . (int)$product["id"];
                     $resultDetails = $this->con->query($sqlDetails);
 
                     $productDetails = [];
@@ -295,7 +295,7 @@ class Product
                     }
 
                     // Gán mảng chi tiết vào product
-                    $product->productDetailsList = $productDetails;
+                    $product["productDetailsList"] = $productDetails;
 
                     // Thêm vào danh sách, mỗi phần tử là một object.
                     $productList[] = $product;

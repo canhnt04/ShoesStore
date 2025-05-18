@@ -5,7 +5,6 @@ require_once __DIR__ . "/../../config/init.php";
 class User
 {
     private $conn;
-    private $userModel;
 
     public function __construct()
     {
@@ -35,9 +34,33 @@ class User
         // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         $hashPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO user (username, email, password, role_id, status, created_at) VALUES (?, ?, ?, 4,1, NOW())";
+        $sql = "INSERT INTO user (username, email, password, role_id, status, created_at, updated_at) VALUES (?, ?, ?, 4, 1, NOW(), NOW())";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sss", $username, $email, $hashPassword);
+
+        if ($stmt->execute()) {
+            $userId = $stmt->insert_id;
+            $this->createCart($userId);
+            $this->createCustomer($userId);
+            return true;
+        }
+        return false;
+    }
+
+    private function createCart($userId)
+    {
+        $sql = "INSERT INTO cart (user_id, status) VALUES (?, 1)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $userId);
+
+        return $stmt->execute();
+    }
+
+    private function createCustomer($userId)
+    {
+        $sql = "INSERT INTO customer (user_id, created_at, updated_at) VALUES (?, NOW(), NOW())";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $userId);
 
         return $stmt->execute();
     }
@@ -60,5 +83,27 @@ class User
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->num_rows > 0; // Nếu có bản ghi, trả về true (email đã tồn tại)
+    }
+
+    public function getUserByid($userId)
+    {
+        $sql = "SELECT 
+                    cu.fullname,
+                    cu.address,
+                    cu.phone, 
+                    us.username, 
+                    us.email
+                FROM customer cu 
+                JOIN user us on cu.user_id = us.id
+                WHERE user_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+        }
+        return $user;
     }
 }
