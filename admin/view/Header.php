@@ -10,10 +10,6 @@
         <div class="header_account-popup">
             <ul class="header_account-popup__list">
                 <li class="header_account-popup__item">
-                    <i class="fa-solid fa-user"></i>
-                    <a href="" class="header_account-popup__link">Phúc Lê</a>
-                </li>
-                <li class="header_account-popup__item">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <a href="/ShoesStore/public/Logout.php" class="header_account-popup__link">Đăng xuất</a>
                 </li>
