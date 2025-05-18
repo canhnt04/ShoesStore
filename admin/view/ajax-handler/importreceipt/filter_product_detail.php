@@ -6,7 +6,7 @@ $productDetailController = new ProductDetailController($connection);
 $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : 0;
 
 if ($product_id > 0) {
-    $details = $productDetailController->getDetailsByProductId($product_id);
+    $details = $productDetailController->getAllDetailsByProductId($product_id);
 
     $tbody = '';
     foreach ($details as $detail) {

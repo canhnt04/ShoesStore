@@ -16,22 +16,19 @@ $totalPages = $data['totalPages'];
 
 ob_start();
 if (!empty($suppliers)) {
-    foreach ($suppliers['suppliers'] as $supplier) {
+    foreach ($suppliers as $supplier) {
         $id      = $supplier->getId();
         $name    = $supplier->getName();
         $address = $supplier->getAddress();
         $phone   = $supplier->getPhone();
         $email   = $supplier->getEmail();
-        $status = $supplier->getStatus();
 ?>
         <tr>
             <td><?= htmlspecialchars($id) ?></td>
-
             <td><?= htmlspecialchars($name) ?></td>
             <td><?= htmlspecialchars($address) ?></td>
             <td><?= htmlspecialchars($phone) ?></td>
             <td><?= htmlspecialchars($email) ?></td>
-            <td><?= htmlspecialchars($status) ?></td>
         </tr>
 <?php
     }

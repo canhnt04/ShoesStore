@@ -14,7 +14,7 @@ $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $limit;
 
 // Lấy danh sách sản phẩm
-$products = $productController->getListPaginated($limit, $offset);
+$products = $productController->getAllPaginated($limit, $offset);
 
 // Lấy tổng số sản phẩm để tính tổng số trang
 $totalProducts = $productController->countList();

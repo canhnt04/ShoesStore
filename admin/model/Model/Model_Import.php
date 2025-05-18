@@ -52,7 +52,6 @@ class Model_import
                 $row['user_id'],
                 $row['supplier_id'],
                 $row['total_price'],
-                $row['sale_price'],
                 $row['created_at'],
                 $row['updated_at']
             );
@@ -108,17 +107,16 @@ class Model_import
         return $row['total'] ?? 0;
     }
 
-    public function createImport(int $user_id, int $supplier_id)
+    public function createImport( $user_id, $supplier_id,$total_price,$created_at,$updated_at)
     {
-        $now = date('Y-m-d H:i:s');
         $sql = "INSERT INTO importreceipt (user_id, supplier_id, total_price, created_at, updated_at)
-                VALUES (?, ?, 0, ?, ?)";
+                VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->connection->prepare($sql);
         if (!$stmt) {
             error_log("Prepare failed: " . $this->connection->error);
             return false;
         }
-        $stmt->bind_param('iiss', $user_id, $supplier_id, $now, $now);
+        $stmt->bind_param('iiiss', $user_id, $supplier_id,$total_price, $created_at, $updated_at);
         if ($stmt->execute()) {
             $newId = $stmt->insert_id;
             $stmt->close();

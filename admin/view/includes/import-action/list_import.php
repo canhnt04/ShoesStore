@@ -37,6 +37,7 @@ $totalPages = $importData['totalPages'];
             <tr>
                 <th>Chọn</th>
                 <th>ID</th>
+                <th>ID Nhân Viên</th>
                 <th>Nhà cung cấp</th>
                 <th>Tổng tiền</th>
                 <th>Ngày tạo</th>

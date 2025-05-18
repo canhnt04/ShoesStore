@@ -32,7 +32,7 @@ if ($results) {
             <td>' . htmlspecialchars($row['customer_name']) . '</td>
             <td>' . number_format($row['total_spent'], 0, ',', '.') . 'đ</td>
             <td>
-                <a href="ajax-php/list_order_customer.php?user_id=' . $row['user_id'] .
+                <a href="ajax-handler/order/list_order_customer.php?user_id=' . $row['user_id'] .
             '&begin_date=' . urlencode($beginDate) .
             '&end_date=' . urlencode($endDate) .
             '&sort_order=' . urlencode($sortOrder) . '" class="view-orders">Xem chi tiết</a>

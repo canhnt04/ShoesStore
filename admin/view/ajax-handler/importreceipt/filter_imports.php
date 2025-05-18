@@ -18,7 +18,7 @@ $totalRecords = $data['totalPages'];
 
 ob_start();
 if (!empty($imports)) {
-  
+
 
     foreach ($imports['imports'] as $import) {
         // Dùng getter thay vì truy cập thuộc tính private
@@ -26,15 +26,14 @@ if (!empty($imports)) {
         $userId = $import->getUserId();
         $supplierId = $import->getSupplierId();
         $totalPrice = $import->getTotalPrice();
-        $salePrice = $import->getSalePrice();
         $createdAt = $import->getCreatedAt();
 ?>
         <tr>
             <td><input type="radio" name="selected_order_id" value="<?= htmlspecialchars($id) ?>" form="actionForm"></td>
+            <td><?= htmlspecialchars($id) ?></td>
             <td><?= htmlspecialchars($userId) ?></td>
             <td><?= htmlspecialchars($supplierId) ?></td>
             <td><?= htmlspecialchars($totalPrice) ?></td>
-            <td><?= htmlspecialchars($salePrice) ?></td>
             <td><?= htmlspecialchars($createdAt) ?></td>
             <td class="table_col-action">
                 <button type="button" class="btn-view" data-id="<?= htmlspecialchars($id) ?>">
