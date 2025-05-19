@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . "/../../../config/init.php";
+
+// echo '<pre>';
+// print_r($product);
+// echo '</pre>';
 ?>
 
 <div id="ajaxLoad">
@@ -9,7 +13,10 @@ require_once __DIR__ . "/../../../config/init.php";
             <div class="row" id="loadProductDetails">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid" src="/ShoesStore/public/assets/images/test2.jpg" alt="Card image cap" id="product-detail">
+                        <img src="/ShoesStore/admin/uploads/<?= htmlspecialchars($product['thumbnail']) ?>"
+                            alt="Hình ảnh sản phẩm"
+                            height="300"
+                            onerror="this.onerror=null;this.src='/DoAn/ShoesStore/public/assets/images/no_image.png';">
                     </div>
                 </div>
 

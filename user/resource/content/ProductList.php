@@ -1,6 +1,13 @@
 <?php
 require_once __DIR__ . "/../../../config/init.php";
+
+// echo '<pre>';
+// print_r($productList);
+// echo '</pre>';
+
 ?>
+
+
 
 <div id="ajaxLoad">
     <!-- Start Content -->
@@ -57,8 +64,13 @@ require_once __DIR__ . "/../../../config/init.php";
                             <div class="col-md-4">
                                 <div class="card mb-4 product-wap rounded-0">
                                     <div class="card rounded-0">
-                                        <img class="card-img rounded-0 img-fluid" src="/ShoesStore/public/assets/shoes/Air Jordan 1 LV8D.png" />
+                                        <img src="/ShoesStore/admin/uploads/<?= htmlspecialchars($product['thumbnail']) ?>"
+                                            alt="Hình ảnh sản phẩm"
+                                            width="300"
+                                            onerror="this.onerror=null;this.src='/DoAn/ShoesStore/public/assets/images/no_image.png';">
                                     </div>
+
+
                                     <div class="card-body">
                                         <p class="h3" style="font-weight: 600 !important;"><?= $product['name'] ?></p>
                                         <p class="h2">Brand: <?= $product['brand'] ?></p>
