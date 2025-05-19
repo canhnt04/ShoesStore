@@ -10,13 +10,13 @@
 .profile h2 {
   text-align: center;
   color: #333;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 /* Layout chia trái - phải */
 .profile-body {
   display: flex;
-  gap: 30px;
+  gap: 40px;
 }
 
 /* Sidebar bên trái */
@@ -50,41 +50,6 @@
   margin: 0;
   color: #555;
 }
-
-/* Các nút điều hướng */
-.profile-links {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 10px;
-}
-
-.profile-links a {
-  text-decoration: none;
-  width: 100%;
-  padding: 8px 12px;
-  text-align: center;
-  background-color: #999;
-  font-weight: 600 !important;
-  color: black;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-}
-.profile-links a.active {
-  background-color: #007bff;
-  color: white;
-}
-.profile-links a.active:hover {
-  background-color: #007bff;
-  color: white;
-  cursor: default;
-}
-
-.profile-links a:hover {
-  background-color: #0056b3;
-  color: white;
-}
-
 /* Nội dung bên phải */
 .profile-main {
   flex: 1;

@@ -75,50 +75,6 @@ $(document).ready(function () {
     });
   }
 
-  function submitFormProfile(url, data = {}) {
-    $.ajax({
-      url: url,
-      method: "POST",
-      dataType: "html",
-      data: data,
-      beforeSend: function () {
-        $(window).scrollTop(0);
-        $("#ajaxLoad").html(`
-                    <div style="height:600px; display:flex; align-items:center; justify-content:center;">
-                        <img style="height:75px; width:75px; border-radius:50%; margin-top: -100px" 
-                            src="/ShoesStore/public/assets/images/loading.gif" alt="Loading..." />
-                    </div>
-                `);
-      },
-      success: function (data) {
-        $("#ajaxLoad").html(data);
-        // $("input[name='fullname']").attr(
-        //   "data-old",
-        //   $("input[name='fullname']").val()
-        // );
-        // $("input[name='phone']").attr(
-        //   "data-old",
-        //   $("input[name='phone']").val()
-        // );
-        // $("input[name='address']").attr(
-        //   "data-old",
-        //   $("input[name='address']").val()
-        // );
-        // history.pushState({}, "", url);
-        alert(123);
-      },
-      error: function (xhr, ajaxOptions, thrownError) {
-        try {
-          var errorMessage = JSON.parse(xhr.responseText);
-          alert(errorMessage.message);
-        } catch (e) {
-          alert("Lỗi không xác định: " + thrownError);
-          console.error("Chi tiết lỗi:", xhr.responseText);
-        }
-      },
-    });
-  }
-
   function logOut(url) {
     $.ajax({
       url: url,
@@ -202,11 +158,12 @@ $(document).ready(function () {
       );
       return;
     }
-
-    const url = $(this).data("url");
-    let data = $(this).serialize();
-    console.log(data);
-    submitFormProfile(url, data);
+    const data = {
+      fullname: $("input[name='fullname']").val().trim(),
+      phone: $("input[name='phone']").val().trim(),
+      address: $("input[name='address']").val().trim(),
+    };
+    loadAjax("index.php?page=Profile&action=updateInfo", "POST", data);
   });
 
   $(document).on("click", "#showById", function (e) {

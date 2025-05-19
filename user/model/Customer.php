@@ -16,19 +16,12 @@ class Customer
     {
         $sql = "UPDATE customer SET fullname = ?, phone = ?, address = ? WHERE user_id = ?";
         $stmt = $this->conn->prepare($sql);
-
-        if (!$stmt) {
-            die("Prepare failed: " . $this->conn->error);
-        }
-
         $stmt->bind_param("sssi", $fullname, $phone, $address, $userId);
-
-        $result = $stmt->execute();
-
-        if (!$result) {
-            die("Execute failed: " . $stmt->error);
-        }
-
-        return $result;
+        return $stmt->execute();
+        // $user = null;
+        // if ($result->num_rows > 0) {
+        //     $user = $result->fetch_assoc();
+        // }
+        // return $user;
     }
 }

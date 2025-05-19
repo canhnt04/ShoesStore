@@ -34,13 +34,15 @@ class ProfileController extends BaseController
     {
         try {
             $userId = $_SESSION["userId"];
-            $fullname = $_POST['fullname'];
-            $phone = $_POST['phone'];
-            $address = $_POST['address'];
+            $fullname = $_POST['fullname'] ?? '';
+            $phone = $_POST['phone'] ?? '';
+            $address = $_POST['address'] ?? '';
             $result = $this->customerModel->updateUserInfo($userId, $fullname, $phone, $address);
             if ($result) {
                 $user = $this->userModel->getUserByid($userId);
                 $this->render("Profile.php", ["user" => $user]);
+            } else {
+                echo "Cập nhật thất bại.";
             }
         } catch (Exception $ex) {
             http_response_code(500);

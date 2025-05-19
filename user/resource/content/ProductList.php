@@ -13,8 +13,8 @@ require_once __DIR__ . "/../../../config/init.php";
                         <a class="collapsed d-flex justify-content-between h3 text-decoration-none" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" href="#collapseThree">
                             Category
-                            <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1" data-bs-toggle="collapse" role="button"
-                                aria-expanded="false" href="#collapseThree"></i>
+                            <!-- <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1" data-bs-toggle="collapse" role="button"
+                                aria-expanded="false" href="#collapseThree"></i> -->
                         </a>
                         <ul id="collapseThree" class="collapse list-unstyled pl-3">
                             <?php
@@ -39,14 +39,14 @@ require_once __DIR__ . "/../../../config/init.php";
                             </li>
                         </ul>
                     </div>
-                    <div class="col-md-6 pb-4">
+                    <!-- <div class="col-md-6 pb-4">
                         <div class="d-flex">
                             <select class="form-control">
                                 <option>A to Z</option>
                                 <option>Z to A</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="row" id="loadProduct">
@@ -106,7 +106,7 @@ require_once __DIR__ . "/../../../config/init.php";
                             $url .= "&pageNumber=" . $index;
                         ?>
                             <li class="page-item">
-                                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark"
+                                <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark ajaxLink"
                                     href="<?= $url ?>">
                                     <?= $index ?>
                                 </a>
