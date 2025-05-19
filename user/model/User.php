@@ -34,7 +34,7 @@ class User
         // Mã hóa mật khẩu trước khi lưu vào cơ sở dữ liệu
         $hashPassword = password_hash($password, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO user (username, email, password, role_id, status, created_at, updated_at) VALUES (?, ?, ?, 4, 1, NOW(), NOW())";
+        $sql = "INSERT INTO user (username, email, password, role_id, status, created_at) VALUES (?, ?, ?, 4,1, NOW())";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("sss", $username, $email, $hashPassword);
 
@@ -64,7 +64,6 @@ class User
 
         return $stmt->execute();
     }
-
     public function checkUsernameExist($username)
     {
         $sql = "SELECT * FROM user WHERE username = ?";
@@ -87,12 +86,7 @@ class User
 
     public function getUserByid($userId)
     {
-        $sql = "SELECT 
-                    cu.fullname,
-                    cu.address,
-                    cu.phone, 
-                    us.username, 
-                    us.email
+        $sql = "SELECT cu.fullname, cu.address, us.username, us.email, cu.phone
                 FROM customer cu 
                 JOIN user us on cu.user_id = us.id
                 WHERE user_id = ?";
@@ -101,6 +95,10 @@ class User
         $stmt->execute();
         $result = $stmt->get_result();
 
-        return $result->fetch_assoc() ?? [];
+        $user = null;
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+        }
+        return $user;
     }
 }

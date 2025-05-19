@@ -96,4 +96,3 @@
 <script src="/ShoesStore/public/assets/js/templatemo.js"></script>
 <script src="/ShoesStore/public/assets/js/ajax.js"></script>
 <script src="/ShoesStore/public/assets/js/auth.js"></script>
-<script src="/ShoesStore/public/assets/js/profile.js"></script>
