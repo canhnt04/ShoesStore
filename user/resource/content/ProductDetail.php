@@ -29,14 +29,14 @@ require_once __DIR__ . "/../../../config/init.php";
                                 <span class="list-inline-item text-dark">Rating 4.8</span>
                             </p>
 
-                            <ul class="list-inline">
+                            <!-- <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6>Brand:</h6>
                                 </li>
                                 <li class="list-inline-item">
                                     <p><?php echo $product['brand'] ?></p>
                                 </li>
-                            </ul>
+                            </ul> -->
 
                             <h6>Description:</h6>
                             <p><?php echo !empty($productDetailsSelected['description']) ? $productDetailsSelected['description'] : 'None'; ?></p>

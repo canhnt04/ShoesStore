@@ -14,7 +14,7 @@ class Product
     public function searchProduct($keyword, $brand, $price, $limit, $offset)
     {
         try {
-            $sql = "SELECT DISTINCT p.* 
+            $sql = "SELECT DISTINCT p.*, pd.color
                 FROM product p 
                 JOIN productdetail pd ON p.id = pd.product_id 
                 WHERE p.name LIKE ?";
@@ -50,6 +50,21 @@ class Product
 
             $products = [];
             while ($row = $result->fetch_assoc()) {
+                // Lấy danh sách chi tiết sản phẩm cho mỗi sản phẩm
+                $productId = $row["id"];
+                $stmtDetail = $this->con->prepare("SELECT * FROM productdetail WHERE product_id = ?");
+                $stmtDetail->bind_param("i", $productId);
+                $stmtDetail->execute();
+                $resultDetail = $stmtDetail->get_result();
+
+                $productDetails = [];
+                while ($detail = $resultDetail->fetch_assoc()) {
+                    $productDetails[] = $detail;
+                }
+
+                // Gán danh sách chi tiết vào sản phẩm
+                $row["productDetailsList"] = $productDetails;
+
                 $products[] = $row;
             }
 

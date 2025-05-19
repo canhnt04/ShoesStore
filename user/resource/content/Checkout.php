@@ -81,11 +81,11 @@ require_once __DIR__ . "/../../../config/init.php";
 
                                 <div class="d-block my-3">
                                     <div class="custom-control custom-radio">
-                                        <input id="cash" name="paymentMethod" value="1" type="radio" class="custom-control-input" checked required>
+                                        <input id="cash" name="paymentMethod" value="2" type="radio" class="custom-control-input" checked required>
                                         <label class="custom-control-label" for="cash">Cash</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input id="credit" name="paymentMethod" value="2" type="radio" class="custom-control-input" required>
+                                        <input id="credit" name="paymentMethod" value="1" type="radio" class="custom-control-input" required>
                                         <label class="custom-control-label" for="credit">Credit card</label>
                                     </div>
                                 </div>
