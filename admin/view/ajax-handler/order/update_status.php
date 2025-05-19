@@ -9,11 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $orderId = isset($_POST["selected_order_id"]) ? intval($_POST["selected_order_id"]) : null;
     $action  = $_POST["action"] ?? null;
 
-    // Map action thành status code
     $statusMap = [
-        'approve_order'     => 3,  // Đã duyệt
-        'cancel_order'      => 4,  // Đã hủy
-        'confirm_delivery'  => 5   // Đã giao
+        'approve_order'     => 3,  
+        'cancel_order'      => 4,  
+        'confirm_delivery'  => 5   
     ];
 
     if ($orderId && isset($statusMap[$action])) {
@@ -29,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stockResult = $controller->updateAmountProduct($orderId);
 
             if (! $stockResult) {
-                // Nếu cập nhật tồn kho lỗi, bạn có thể rollback trạng thái hoặc báo lỗi
                 echo json_encode([
                     "success"    => false,
                     "message"    => "Cập nhật tồn kho thất bại",
@@ -38,7 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
             }
         }
-        // 3. Nếu là hủy đơn, trả kho   
         if ($statusResult && $action === 'cancel_order') {
             $stockResult = $controller->restoreAmountProduct($orderId);
 
@@ -52,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-        // Trả về kết quả chung
         echo json_encode([
             "success"    => (bool)$statusResult,
             "new_status" => $newStatus

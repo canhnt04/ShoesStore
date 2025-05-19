@@ -30,7 +30,7 @@
     </form>
 
     <div id="statistic-result">
-        <!-- Kết quả thống kê sẽ hiển thị ở đây -->
+       
     </div>
 
 
@@ -42,10 +42,9 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- phải đặt trước đoạn JS -->
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <script>
-        let chartInstance = null; // Biến toàn cục để lưu biểu đồ
+        let chartInstance = null; 
 
         $(document).ready(function() {
             $("#statistic-form").submit(function(e) {

@@ -53,7 +53,6 @@ class Model_Customer
     }
     public function getTopCustomers($startDate, $endDate, $sortOrder)
     {
-        // Bảo vệ sortOrder khỏi SQL Injection
         $sortOrder = strtoupper($sortOrder) === 'ASC' ? 'ASC' : 'DESC';
 
         $query = "SELECT *
@@ -61,10 +60,11 @@ class Model_Customer
             SELECT 
                 customer.id AS user_id,
                 customer.fullname AS customer_name,
-                SUM(od.quantity * od.price) AS total_spent
+                SUM(cd.quantity * cd.price) AS total_spent
             FROM orders 
             JOIN customer ON orders.user_id = customer.id
             JOIN orderdetail od ON orders.id = od.order_id
+            JOIN cartdetail cd ON cd.id = od.cartdetail_id
             WHERE orders.created_at BETWEEN ? AND ? AND orders.status_id =5
             GROUP BY customer.id
             ORDER BY total_spent DESC

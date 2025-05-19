@@ -24,4 +24,9 @@ class SupplierController
             'totalPages' => $result['totalPages'] ?? 1,
         ];
     }
+    public function getNameById($id){
+        return $this->model_supplier->getNameById($id);
+    }
+
+
 }

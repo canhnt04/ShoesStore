@@ -14,12 +14,15 @@ if (isset($_GET['id'])) {
 <table border="1" cellpadding="8" cellspacing="0" style="width: 100%;">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>ID Chi Tiết</th>
             <th>Phương thức thanh toán</th>
             <th>Trạng thái</th>
             <th>Sản phẩm</th>
+            <th>Size</th>
+            <th>Màu sắc</th>
+            <th>Chất liệu</th>
             <th>Số lượng</th>
-            <th>Tổng tiền</th>
+            <th>Giá</th>
         </tr>
     </thead>
     <tbody>
@@ -30,8 +33,11 @@ if (isset($_GET['id'])) {
                     <td><?= htmlspecialchars($order['payment_method']) ?></td>
                     <td><?= htmlspecialchars($order['status_name']) ?></td>
                     <td><?= htmlspecialchars($order['product_name'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($order['product_size'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($order['product_color'] ?? '-') ?></td>
+                    <td><?= htmlspecialchars($order['product_material'] ?? '-') ?></td>
                     <td><?= htmlspecialchars($order['quantity'] ?? '-') ?></td>
-                    <td><?= isset($order['total_price']) ? number_format($order['total_price'], 0, ',', '.') . ' VND' : '-' ?></td>
+                    <td><?= isset($order['price']) ? number_format($order['price'], 0, ',', '.') . ' VND' : '-' ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>

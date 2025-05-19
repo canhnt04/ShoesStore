@@ -15,24 +15,24 @@ class ImportController
         $this->importDetailModel = new Model_importdetail($connection);
     }
 
-    public function getListImports(array $filters = [], int $perPage = 5, int $page = 1)
+    public function getListImports(array $filters = [], int $perPage = 5, int $currentPage = 1)
     {
-        $offset = ($page - 1) * $perPage;
-        $imports = $this->importModel->filterImports($filters, $perPage, $offset);
-        $totalRecords = $this->importModel->countFilteredImports($filters);
+        $offset = ($currentPage - 1) * $perPage;
 
-        $totalPages = ceil($totalRecords / $perPage);
+        $imports = $this->importModel->filterImports($filters, $perPage, $offset);
+        $totalImports = $this->importModel->countFilteredImports($filters);
+
+        $totalPages = $perPage > 0 ? ceil($totalImports / $perPage) : 0;
 
         return [
             'imports' => $imports,
-            'totalPages' => $totalPages
+            'totalCount' => $totalImports,
+            'totalPages'=>$totalPages,
         ];
     }
     public function saveImportReceipt($user_id, $supplier_id, $details,$created_at,$updated_at)
     {
         try {
-            $createdAt = date('Y-m-d H:i:s');
-            $updatedAt = date('Y-m-d H:i:s');
 
             // Tính tổng giá
             $total_price = 0;
@@ -40,7 +40,6 @@ class ImportController
                 $total_price += $detail['quantity'] * $detail['price'];
             }
 
-            $sale_price = $total_price * 1.2; // hệ số 20% lợi nhuận
 
             // Tạo phiếu nhập
             $import_id = $this->importModel->createImport(
@@ -77,4 +76,10 @@ class ImportController
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
+
+     public function getDetailsByImportId($id){
+        return $this->importModel->getDetailsByImportId($id);
+     }
+
+
 }

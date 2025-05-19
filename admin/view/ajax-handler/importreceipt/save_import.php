@@ -11,7 +11,11 @@ if (!$supplier_id || !$details_json) {
     echo json_encode(['success' => false, 'message' => 'Dữ liệu không hợp lệ hoặc thiếu']);
     exit;
 }
-$created_at = date('Y-m-d H:i:s');
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$current = new DateTime();
+$currentStandard = $current->format('Y-m-d H:i:s');
+
+$created_at = $currentStandard;
 $updated_at = $created_at;
 $details = json_decode($details_json, true);
 if ($details === null) {

@@ -32,7 +32,7 @@ if (!$orders || count($orders) === 0) {
             <th>Phương thức thanh toán</th>
             <th>Sản phẩm</th>
             <th>Số lượng</th>
-            <th>Tổng tiền</th>
+            <th>Giá tiền</th>
         </tr>
     </thead>
     <tbody>

@@ -50,17 +50,14 @@ class Model_Supplier
 
     public function getListSuppliers(array $filters = [], int $perPage = 5, int $page = 1): array
     {
-        // Tính offset dựa vào trang hiện tại và số phần tử trên trang
         $page = max(1, $page);
         $offset = ($page - 1) * $perPage;
 
-        // Lấy dữ liệu và tổng số bản ghi
         $result = $this->filterSuppliers($filters, $perPage, $offset);
 
         $totalRows = $result['totalRows'] ?? 0;
         $suppliers = $result['suppliers'] ?? [];
 
-        // Tính tổng số trang (làm tròn lên)
         $totalPages = ($totalRows > 0) ? (int) ceil($totalRows / $perPage) : 1;
 
         return [
@@ -75,14 +72,12 @@ class Model_Supplier
         $types = '';
         $where = '';
 
-        // Lọc theo tên nhà cung cấp nếu có
         if (!empty($filters['name'])) {
             $where = 'WHERE name LIKE ?';
             $params[] = '%' . $filters['name'] . '%';
             $types .= 's';
         }
 
-        // Gọi hàm đếm tổng dòng
         $totalRows = $this->countFilteredSuppliers($filters);
 
         $sql = "
@@ -140,7 +135,7 @@ class Model_Supplier
         $sql = "SELECT COUNT(*) as total FROM supplier $where";
 
         $stmt = $this->connection->prepare($sql);
-      
+
 
         if (!$stmt) {
             die("COUNT SQL error: " . $this->connection->error);
@@ -168,6 +163,23 @@ class Model_Supplier
         $stmt->execute();
 
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? $row['name'] : null;
+    }
+    public function getNameById($id)
+    {
+        $query = "SELECT name FROM supplier WHERE id = ? LIMIT 1";
+        $stmt = $this->connection->prepare($query);
+
+        if (!$stmt) {
+            die("Lỗi prepare: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $result = $stmt->get_result(); 
+        $row = $result->fetch_assoc();
+
         return $row ? $row['name'] : null;
     }
 }

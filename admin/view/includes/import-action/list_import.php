@@ -11,12 +11,14 @@ $filters = [
 
 $importController = new ImportController($connection);
 $importData = $importController->getListImports($filters, $limit, $page);
-$imports= $importData['imports'];
-$totalPages = $importData['totalPages'];
+$imports = $importData['imports'];
+$totalImports = $importData['totalCount'];
+$totalPages = ceil($totalImports / $limit);
 ?>
 
-<div class="order-action">
-    <form id="filter-form" class="filter_orders" method="GET">
+<div class="import-action">
+    <div id="error-message" style="color: red; margin-bottom: 10px;"></div>
+    <form id="import-form" class="filter_orders" method="GET">
         <div class="form-group-order">
             <label for="begin_date">Từ ngày</label>
             <input type="datetime-local" name="begin_date" class="input_date">
@@ -31,6 +33,7 @@ $totalPages = $importData['totalPages'];
 
     </form>
 </div>
+
 <?php if (!empty($imports)): ?>
     <table border="1" id="order-table">
         <thead>
@@ -54,8 +57,6 @@ $totalPages = $importData['totalPages'];
 
     </div>
 
-
-    <!-- Modal xem chi tiết -->
     <div id="order-modal" style="display:none;" class="modal">
         <div class="modal-content">
             <button class="btn-close" onclick="$('#order-modal').hide()">Đóng</button>
@@ -63,7 +64,6 @@ $totalPages = $importData['totalPages'];
         </div>
     </div>
 
-    <!-- Modal xác nhận duyệt đơn hàng -->
 
 
 
@@ -73,4 +73,4 @@ $totalPages = $importData['totalPages'];
 <?php endif; ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="js/ajax-import.js"></script>
+<script src="js/ajax-import-list.js"></script>

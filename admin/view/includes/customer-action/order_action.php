@@ -15,7 +15,7 @@ $filters = [
 $orderController = new OrderController($connection);
 $orderData = $orderController->listOrders($filters, $limit, $page);
 $orders = $orderData['orders'];
-$totalOrders = $orderData['totalCount']; // Đây nên là số đơn hàng sau khi filter
+$totalOrders = $orderData['totalCount']; 
 $totalPages = ceil($totalOrders / $limit);
 ?>
 
@@ -111,7 +111,7 @@ $totalPages = ceil($totalOrders / $limit);
     <!-- Modal xác nhận duyệt đơn hàng -->
     <div class="modal" id="approveOrderModal" style="display:none;">
         <div class="modal-content custom-modal-content">
-            <h3>Xác nhận duyệt đơn hàng</h3>
+            <h3 style="color:#13d42d">Xác Nhận Đơn Hàng</h3>
             <div id="modalOrderInfo" style="margin: 10px 0;"></div>
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="$('#approveOrderModal').fadeOut()">Hủy</button>

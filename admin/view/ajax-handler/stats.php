@@ -8,12 +8,41 @@ $database = new Database();
 $connection = $database->getConnection();
 $customerController = new CustomerController($connection);
 
-$beginDateInput = $_GET['begin_date'] ?? '';
-$endDateInput = $_GET['end_date'] ?? '';
+$beginDate = isset($_GET['begin_date']) ? $_GET['begin_date'] : '';
+$endDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
+
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+$current = new DateTime();
+$currentStandard = $current->format('Y-m-d H:i:s');
+
+if (empty($endDate)) {
+    $endDate = $currentStandard;
+}
+if (!empty($beginDate) && strtotime($beginDate) > strtotime($currentStandard)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Ngày bắt đầu không được lớn hơn ngày hiện tại',
+    ]);
+    exit;
+}
+if (!empty($endDate) && strtotime($endDate) > strtotime($currentStandard)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Ngày kết thúc không được lớn hơn ngày hiện tại',
+    ]);
+    exit;
+}
+if (strtotime($beginDate) > strtotime($endDate)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Ngày bắt đầu không được lớn hơn ngày kết thúc',
+    ]);
+    exit;
+}
+
 $sortOrder = $_GET['sort_order'] === 'asc' ? 'ASC' : 'DESC';
 
-$beginDate = $beginDateInput ? date('Y-m-d 00:00:00', strtotime($beginDateInput)) : null;
-$endDate = $endDateInput ? date('Y-m-d 23:59:59', strtotime($endDateInput)) : null;
+
 
 $results = $customerController->getTopCustomers($beginDate, $endDate, $sortOrder);
 

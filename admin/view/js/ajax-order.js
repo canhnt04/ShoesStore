@@ -1,12 +1,9 @@
 $(document).ready(function () {
   $(document).ready(function () {
     function loadOrders(page = 1) {
-      // Lấy dữ liệu từ form lọc
       const formData = $("#filter-form").serialize();
 
-      // Thêm page vào dữ liệu gửi đi
       const dataToSend = formData + "&page=" + page;
-      console.log(dataToSend);
 
       $.ajax({
         url: "ajax-handler/order/filter_orders.php",
@@ -18,13 +15,12 @@ $(document).ready(function () {
             $("#order-table-body").html(response.tbody);
             $("#pagination").html(response.pagination);
 
-            // Bắt lại sự kiện click phân trang
             $("#pagination .page-link")
               .off("click")
               .on("click", function (e) {
                 e.preventDefault();
                 const selectedPage = $(this).data("page");
-                loadOrders(selectedPage); // Gọi lại AJAX với page mới
+                loadOrders(selectedPage);
               });
           } else {
             alert(response.message || "Không thấy đơn hàng nào.");
@@ -35,22 +31,20 @@ $(document).ready(function () {
           alert("Lỗi khi tải dữ liệu đơn hàng.");
         },
       });
-      
     }
     $("#filter-form").on("submit", function (e) {
       e.preventDefault();
       loadOrders(1);
     });
 
-    // Load dữ liệu trang đầu tiên khi load trang
     loadOrders(1);
   });
 
-  // Xem chi tiết đơn hàng
+  // Xem chi tiet
   $(document).on("click", ".btn-view", function (e) {
     e.preventDefault();
 
-    const orderId = $(this).data("id"); // Lấy ID từ thuộc tính data-id
+    const orderId = $(this).data("id");
 
     $.ajax({
       url: "ajax-handler/order/get_order_detail.php",
@@ -74,7 +68,6 @@ $(document).ready(function () {
   $(document).ready(function () {
     let selectedOrderId = null;
     let selectedAction = null;
-    // Bắt sự kiện khi click các nút trong form
     $("#actionForm button")
       .off("click")
       .on("click", function () {
@@ -87,12 +80,22 @@ $(document).ready(function () {
         }
         const $row = $("input[name='selected_order_id']:checked").closest("tr");
         const currentStatus = $row.find("td:nth-child(7)").text().trim();
+
         const forbiddenStatuses = ["Order Canceled", "Order Received"];
+        const approvedStatuses = ["Order Shipped Out", "Đã duyệt"];
 
         if (forbiddenStatuses.includes(currentStatus)) {
-          alert("Đơn hàng đã duyệt hoặc đã hủy không thể duyệt lại!");
+          alert("Đơn hàng đã thành công hoặc đã hủy không thể duyệt lại!");
           return;
         }
+        if (
+          approvedStatuses.includes(currentStatus) &&
+          action === "approve_order"
+        ) {
+          alert("Đơn hàng đã duyệt không thể duyệt lại!");
+          return;
+        }
+
         if (action === "approve_order") {
           $.post(
             "ajax-handler/order/get_quantity_product.php",
@@ -111,12 +114,24 @@ $(document).ready(function () {
                     item.ordered_quantity > item.product_quantity;
                   if (isInsufficient) hasInsufficientStock = true;
                   html += `<li style="color: ${
-                    isInsufficient ? "red" : "black"
-                  };">
-                  ${item.product_name}: ${item.ordered_quantity} sản phẩm 
-                  (Còn lại: ${item.product_quantity})
-                  ${isInsufficient ? " <strong>Không đủ hàng!</strong>" : ""}
-                 </li>`;
+                    isInsufficient ? "red" : "blue"
+                  }; margin-bottom: 10px;">
+                  <strong>Sản phẩm:<span style="color: black;">
+                   ${item.product_name}</strong><br><br>
+                  <strong> Size:<span style="color: black;">
+                   ${item.product_size}</strong>
+                  <strong>Màu sắc:<span style="color: black;">
+                  ${item.product_color}</strong>
+                  <strong>Chất liệu:<span style="color: black;">
+                   ${item.product_material}</strong> <br><br>
+                  <strong>Số lượng đặt:<span style="color: black;">
+                   ${item.ordered_quantity}</strong>
+                  <strong>Tồn kho:<span style="color: black;">
+                   ${item.product_quantity}</strong><br><br>
+  ${isInsufficient ? `<strong style="color: red;">Không đủ hàng!</strong>` : ""}
+                 
+                  
+                </li>`;
                 });
 
                 html += "</ul>";
@@ -136,7 +151,6 @@ $(document).ready(function () {
             "json"
           );
         } else if (action === "cancel_order" || action === "confirm_delivery") {
-          // Với hủy hoặc xác nhận giao: gọi luôn, không qua modal
           sendUpdateRequest(orderId, action);
         }
       });

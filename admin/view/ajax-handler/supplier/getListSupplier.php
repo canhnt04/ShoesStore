@@ -42,7 +42,6 @@ if (!empty($suppliers)) {
 $tbody = ob_get_clean();
 
 
-// Render pagination
 ob_start();
 if ($page > 1) {
     $prevPage = $page - 1;
@@ -69,7 +68,6 @@ if ($page < $totalPages) {
 }
 $pagination = ob_get_clean();
 
-// Return JSON
 echo json_encode([
     'success' => true,
     'tbody' => $tbody,

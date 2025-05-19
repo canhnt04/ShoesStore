@@ -46,12 +46,7 @@ class OrderController
 
         return $this->orderModel->updateStatus($orderId, $newStatus);
     }
-    public function filterOrders($status, $beginDate, $endDate, $district, $province)
-    {
-        return $this->orderModel->filterOrders($status, $beginDate, $endDate, $district, $province);
-    }
-
-
+    
     public function getDetailsByOrderId($orderId)
     {
         return $this->orderModel->getDetailsByOrderId($orderId);

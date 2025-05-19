@@ -12,36 +12,49 @@ class Model_import
         $this->connection = $connection;
     }
 
-    public function filterImports(array $filters = [], int $limit = 5, int $offset = 0): array
+    public function filterImports(array $filters = [], int $limit = 5, int $offset = 0)
     {
         $params = [];
         $types = '';
-        $where = '';
+        $where = [];
 
-        if (!empty($filters['begin_date']) && !empty($filters['end_date'])) {
-            $where = 'WHERE imp.created_at BETWEEN ? AND ?';
-            $params[] = $filters['begin_date'];
-            $params[] = $filters['end_date'];
-            $types .= 'ss';
+        if (!empty($filters['begin_date'])) {
+            $where[] = 'imp.created_at >= ?';
+            $params[]   = $filters['begin_date'];
+            $types     .= 's';
         }
 
-        $totalRows = $this->countFilteredImports($filters); // Gọi luôn hàm đã có
+        if (!empty($filters['end_date'])) {
+            $where[] = 'imp.created_at <= ?';
+            $params[]   = $filters['end_date'];
+            $types     .= 's';
+        }
 
-        $limit = (int)$limit;
-        $offset = (int)$offset;
+        $whereSql = count($where)
+            ? 'WHERE ' . implode(' AND ', $where)
+            : '';
 
-        $sql = "
-            SELECT imp.*
+
+        $query = "SELECT imp.*
             FROM importreceipt imp
-            $where
+            $whereSql
             ORDER BY imp.created_at DESC
-            LIMIT $limit OFFSET $offset
+            LIMIT ? OFFSET ?;
         ";
+        $params[] = $limit;
+        $params[] = $offset;
+        $types .= 'ii';
 
-        $stmt = $this->connection->prepare($sql);
-        if ($types) {
-            $stmt->bind_param($types, ...$params);
+
+        $stmt = $this->connection->prepare($query);
+
+        if ($stmt === false) {
+            die("Lỗi chuẩn bị truy vấn: " . $this->connection->error);
         }
+        
+        $stmt->bind_param($types, ...$params);
+        
+
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -59,59 +72,106 @@ class Model_import
         }
         $stmt->close();
 
-        return [
-            'imports' => $imports,
-            'totalRows' => $totalRows
-        ];
+        return $imports;
     }
 
 
     public function countFilteredImports(array $filters = []): int
     {
-        $conn = $this->connection;
         $params = [];
         $where = [];
+        $types = '';
 
-        if (!empty($filters['begin_date']) && !empty($filters['end_date'])) {
-            $where[] = 'created_at BETWEEN ? AND ?';
+        if (!empty($filters['begin_date'])) {
+            $where[] = "DATE(importreceipt.created_at) >= ?";
             $params[] = $filters['begin_date'];
+            $types .= 's';
+        }
+        if (!empty($filters['end_date'])) {
+            $where[] = "DATE(importreceipt.created_at) <= ?";
             $params[] = $filters['end_date'];
+            $types .= 's';
         }
 
-        $whereSQL = count($where) ? 'WHERE ' . implode(' AND ', $where) : "";
+        $wherequery = count($where) ? 'WHERE ' . implode(' AND ', $where) : "";
 
-        $query = "SELECT COUNT(*) as total FROM importreceipt $whereSQL";
-        $stmt = $conn->prepare($query);
-        if (!$stmt) {
-            error_log("Prepare count query failed: " . $conn->error);
-            return 0;
+        $query = "SELECT COUNT(*) as total FROM importreceipt $wherequery";
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) {
+            die("Lỗi chuẩn bị truy vấn: " . $this->connection->error);
         }
 
         if (!empty($params)) {
-            $types = str_repeat('s', count($params));
-            if (!$stmt->bind_param($types, ...$params)) {
-                error_log("Bind param count query failed: " . $stmt->error);
-                return 0;
-            }
+            $stmt->bind_param($types, ...$params);
         }
 
-        if (!$stmt->execute()) {
-            error_log("Execute count query failed: " . $stmt->error);
-            return 0;
-        }
-
+        $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
+
         $stmt->close();
 
-        return $row['total'] ?? 0;
+        return (int)$row['total'];
     }
 
+    public function getDetailsByImportId($importId)
+    {
+        $query = "SELECT imp.*, 
+       imd.id AS importdetail_id,
+       product.name AS product_name,
+       productdetail.size AS product_size,
+       productdetail.color AS product_color,
+       productdetail.material AS product_material,
+       imd.quantity AS quantity,
+       imd.price AS price,
+       supplier.name AS supplier_name
+FROM importreceipt imp
+LEFT JOIN importreceiptdetail imd ON imd.import_id = imp.id
+LEFT JOIN productdetail ON productdetail.id = imd.productdetail_id
+LEFT JOIN product ON product.id = productdetail.product_id
+LEFT JOIN supplier ON supplier.id = imp.supplier_id
+WHERE imp.id = ?
+";
+          
+        $stmt = $this->connection->prepare($query);
+        if ($stmt === false) {
+            die("Lỗi prepare: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("i", $importId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $imports = [];
+        while ($row = $result->fetch_assoc()) {
+            $importData = [
+                "import" => new ImportReceipt(
+                    $row['id'],
+                    $row['user_id'],
+                    $row['supplier_id'],
+                    $row['total_price'],
+                    $row['created_at'],
+                    $row['updated_at']
+                ),
+                "importdetail_id"=>$row['importdetail_id'],
+                "product_name" => $row['product_name'],
+                "product_size" => $row['product_size'],
+                "product_color" => $row['product_color'],
+                "product_material" => $row['product_material'],
+                "quantity" => $row['quantity'],
+                "price" => $row['price'],
+                "supplier_name"=>$row['supplier_name']
+            ];
+            $imports[] = $importData;
+        }
+
+        return $imports;
+    }
     public function createImport( $user_id, $supplier_id,$total_price,$created_at,$updated_at)
     {
-        $sql = "INSERT INTO importreceipt (user_id, supplier_id, total_price, created_at, updated_at)
+        $query = "INSERT INTO importreceipt (user_id, supplier_id, total_price, created_at, updated_at)
                 VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->connection->prepare($sql);
+        $stmt = $this->connection->prepare($query);
         if (!$stmt) {
             error_log("Prepare failed: " . $this->connection->error);
             return false;
