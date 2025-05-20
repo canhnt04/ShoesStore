@@ -42,8 +42,8 @@ require_once __DIR__ . "/../../../config/init.php";
                             <h4 class="mb-3">Your address info</h4>
                             <div class="row">
                                 <div class="mb-3">
-                                    <label for="firstName">Full name</label>
-                                    <input type="text" class="form-control" id="firstName" readonly placeholder="" value="<?= $user["fullname"] ?>" required>
+                                    <label for="fullname">Full name</label>
+                                    <input type="text" class="form-control" id="fullname" placeholder="" value="<?= $user["fullname"] ?>" required>
                                     <div class="invalid-feedback">
                                         Valid full name is required.
                                     </div>
@@ -60,7 +60,7 @@ require_once __DIR__ . "/../../../config/init.php";
                                 <div class="mb-3">
                                     <label for="phone">Phone</label>
                                     <div class="input-group">
-                                        <input type="number" readonly class="form-control" id="phone" value="<?= $user["phone"] ?>" required>
+                                        <input type="number" class="form-control" id="phone" value="<?= $user["phone"] ?>" required>
                                         <div class="invalid-feedback" style="width: 100%;">
                                             Phone Number is required.
                                         </div>

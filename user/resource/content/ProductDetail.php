@@ -88,7 +88,11 @@ require_once __DIR__ . "/../../../config/init.php";
                                                 Quantity
                                                 <input type="hidden" name="product-quanity" id="product-quanity" value="1">
                                             </li>
-                                            <li class="list-inline-item"><span class="btn-sm btn-success" id="btn-minus">-</span></li>
+                                            <li class="list-inline-item">
+                                                <span class="btn-sm btn-success" id="btn-minus">
+                                                    <i class="fas fa-minus"></i>
+                                                </span>
+                                            </li>
                                             <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
                                             <li class="list-inline-item"><span class="btn-sm btn-success" id="btn-plus">+</span></li>
                                         </ul>
@@ -113,3 +117,26 @@ require_once __DIR__ . "/../../../config/init.php";
     </section>
     <!-- Close Content -->
 </div>
+<script>
+    $(document).ready(function() {
+
+        let btnMinus = document.getElementById("btn-minus");
+        let btnPlus = document.getElementById("btn-plus");
+        let valueDisplay = document.getElementById("var-value");
+
+        btnMinus.addEventListener("click", () => {
+            alert("Số lượng tối thiểu phải là 1.");
+            let currentValue = parseInt(valueDisplay.textContent);
+            if (currentValue > 0) currentValue--;
+            valueDisplay.textContent = currentValue;
+            document.getElementById("product-quanity").value = currentValue;
+        });
+
+        btnPlus.addEventListener("click", () => {
+            let currentValue = parseInt(valueDisplay.textContent);
+            currentValue++;
+            valueDisplay.textContent = currentValue;
+            document.getElementById("product-quanity").value = currentValue;
+        });
+    })
+</script>

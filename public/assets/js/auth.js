@@ -1,4 +1,4 @@
-$(function () {
+$(document).ready(function () {
   const container = document.getElementById("container");
   const loginBtn = document.getElementById("toggleLogin");
   const registerBtn = document.getElementById("toggleRegister");
