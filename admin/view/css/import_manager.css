@@ -1,0 +1,241 @@
+/* CSS Variables for consistent theming */
+:root {
+    --primary-color: #007bff;
+    --primary-hover: #0056b3;
+    --success-color: #28a745;
+    --success-hover: #1e7e34;
+    --border-color: #d1d3e2;
+    --background-light: #f8f9fa;
+    --border-radius: 8px;
+    --spacing-unit: 8px;
+    --transition: all 0.3s ease;
+    --text-color: #2d3748;
+    --font-size-base: 0.9rem;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Global box-sizing */
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* Supplier Select */
+  #supplier-select {
+    width: 100%;
+    max-width: 400px; /* Limit width for better layout */
+    padding: calc(var(--spacing-unit) * 1.25);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) / 2);
+    font-size: var(--font-size-base);
+    background-color: white;
+    transition: var(--transition);
+    margin-bottom: calc(var(--spacing-unit) * 2.5);
+    appearance: none; /* Remove default browser styling */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+  
+  #supplier-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  }
+  
+  /* Container for product variants */
+  #product-variant-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--spacing-unit) * 2.5);
+    align-items: flex-start;
+    margin-bottom: calc(var(--spacing-unit) * 3.75);
+    padding: var(--spacing-unit);
+  }
+  
+  /* Table wrappers */
+  .table-wrapper-product {
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .table-wrapper-detail {
+    flex: 2;
+    min-width: 300px;
+  }
+  
+  /* Table headers */
+  .table-wrapper-product h2,
+  .table-wrapper-detail h2 {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-unit);
+    font-weight: 600;
+  }
+  
+  /* Tables */
+  #product-table-import,
+  #product-variant-table,
+  #details-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  /* Table cells */
+  #product-table-import th,
+  #product-table-import td,
+  #product-variant-table th,
+  #product-variant-table td,
+  #details-table th,
+  #details-table td {
+    padding: calc(var(--spacing-unit) * 1.25);
+    border: 1px solid var(--border-color);
+    text-align: left;
+    font-size: var(--font-size-base);
+  }
+  
+  /* Table rows hover effect */
+  #product-table-import tbody tr:hover,
+  #product-variant-table tbody tr:hover,
+  #details-table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+    transition: var(--transition);
+  }
+  
+  /* Table headers */
+  #product-table-import th,
+  #product-variant-table th,
+  #details-table th {
+    background-color: var(--background-light);
+    font-weight: 600;
+    color: var(--text-color);
+    padding: calc(var(--spacing-unit) * 1.5);
+  }
+  
+  /* Form styling */
+  #import-form {
+    margin: 0 auto;
+    padding: calc(var(--spacing-unit) * 2.5);
+    background-color: var(--background-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .form-section {
+    margin-bottom: calc(var(--spacing-unit) * 2.5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--spacing-unit) * 2);
+    align-items: flex-start;
+  }
+  
+ 
+  
+  .form-section input[type="number"] {
+    width: 200px; /* Fixed width for better alignment */
+    padding: calc(var(--spacing-unit) * 1.25);
+    margin-bottom: calc(var(--spacing-unit) * 1.25);
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) / 2);
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+  }
+  
+  .form-section input[type="number"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  }
+  
+  #add-detail-btn,
+  #submit-btn {
+    padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5);
+    border: none;
+    border-radius: calc(var(--border-radius) / 2);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+  }
+  
+  #add-detail-btn {
+    background-color: var(--success-color);
+    color: white;
+  }
+  
+  #add-detail-btn:hover,
+  #add-detail-btn:focus {
+    background-color: var(--success-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  #add-detail-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2);
+  }
+  
+  #submit-btn {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  #submit-btn:hover,
+  #submit-btn:focus {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  #submit-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+  }
+  
+  @media (max-width: 768px) {
+    #product-variant-container {
+      flex-direction: column;
+    }
+  
+    .table-wrapper-product,
+    .table-wrapper-detail {
+      width: 100%;
+      min-width: unset;
+    }
+  
+    #import-form {
+      padding: var(--spacing-unit);
+    }
+  
+    #supplier-select,
+    .form-section input[type="number"] {
+      width: 100%;
+      font-size: 0.85rem;
+    }
+  
+    .form-section {
+      flex-direction: column;
+      gap: var(--spacing-unit);
+    }
+  }
+  
+  @media (max-width: 720px) {
+    #product-table-import th,
+    #product-table-import td,
+    #product-variant-table th,
+    #product-variant-table td,
+    #details-table th,
+    #details-table td {
+      padding: calc(var(--spacing-unit) * 0.75);
+      font-size: 0.8rem;
+    }
+  
+    .table-wrapper-product h2,
+    .table-wrapper-detail h2 {
+      font-size: 1.1rem;
+    }
+  }

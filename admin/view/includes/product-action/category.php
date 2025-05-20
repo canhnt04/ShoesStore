@@ -1,1 +1,0 @@
-<h1>Quản lý danh mục</h1>

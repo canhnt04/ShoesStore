@@ -8,8 +8,8 @@
                 case 'product_manager':
                     include './pages/product_manager.php';
                     break;
-                case 'employee_manager':
-                    include './pages/employee_manager.php';
+                case 'user_manager':
+                    include './pages/user_manager.php';
                     break;
                 case 'customer_manager':
                     include './pages/customer_manager.php';

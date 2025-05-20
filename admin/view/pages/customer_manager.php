@@ -1,6 +1,9 @@
 <?php
-session_start(); // Bắt đầu phiên làm việc
 include_once __DIR__ . '/../includes/alert_message.php';
+include __DIR__ . '/../../../config/init.php';
+$database = new Database();
+$connection = $database->getConnection();
+
 $tab = isset($_GET['tab']) ? $_GET['tab'] : 'account';
 ?>
 <header class="header_account-page">
@@ -35,4 +38,3 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : 'account';
         ?>
 
     </div>
-    

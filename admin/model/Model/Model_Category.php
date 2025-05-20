@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../Entity/Category.php';
-include_once __DIR__ . '/../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../../config/init.php';
 
 class Model_Category
 {
@@ -9,6 +9,20 @@ class Model_Category
     public function __construct($connection)
     {
         $this->connection = $connection;
+    }
+
+    public function countCategory()
+    {
+        $query = "SELECT COUNT(*) as total FROM category";
+        $result = $this->connection->query($query);
+
+        if (!$result) {
+            error_log("Lỗi truy vấn: " . $this->connection->error);
+            return 0;
+        }
+
+        $row = $result->fetch_assoc();
+        return $row['total'];
     }
 
     // Lấy tất cả danh mục

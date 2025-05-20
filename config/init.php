@@ -8,7 +8,7 @@ class Database
     private $servername = "localhost";
     private $username = "root";
     private $password = "";
-    private $dbname = "shoesstore";
+    private $dbname = "shoesstore-backup";
 
     public function __construct()
     {

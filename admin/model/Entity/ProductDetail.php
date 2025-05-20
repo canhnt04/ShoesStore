@@ -8,12 +8,12 @@ class ProductDetail
     private $size;
     private $color;
     private $material;
-    private $brand;
     private $price;
+    private $status;
     private $update_at;
 
     // Constructor
-    public function __construct($id, $product_id, $description, $quantity, $size, $color, $material, $brand, $price, $update_at)
+    public function __construct($id, $product_id, $description, $quantity, $size, $color, $material, $price, $status, $update_at)
     {
         $this->id = $id;
         $this->product_id = $product_id;
@@ -22,8 +22,8 @@ class ProductDetail
         $this->size = $size;
         $this->color = $color;
         $this->material = $material;
-        $this->brand = $brand;
         $this->price = $price;
+        $this->status = $status;
         $this->update_at = $update_at;
     }
 
@@ -98,16 +98,6 @@ class ProductDetail
         $this->material = $material;
     }
 
-    public function getBrand()
-    {
-        return $this->brand;
-    }
-
-    public function setBrand($brand)
-    {
-        $this->brand = $brand;
-    }
-
     public function getPrice()
     {
         return $this->price;
@@ -116,6 +106,16 @@ class ProductDetail
     public function setPrice($price)
     {
         $this->price = $price;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 
     public function getUpdateAt()

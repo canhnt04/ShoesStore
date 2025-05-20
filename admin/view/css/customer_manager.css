@@ -1,5 +1,3 @@
-
-
 .header_account-page {
   background-color: #f0f0f0;
   padding: 20px;
@@ -27,77 +25,16 @@
 }
 
 .order-action {
-  /* display: flex; */
-  /* justify-content: space-between; */
-  /* align-items: center; */
   background-color: #f9f9f9;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
 }
-.group-button_account-action {
+.group-button_order-action {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  justify-content: center;
 }
-.input_search_account-action {
-  width: 300px;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 20px;
-
-  &:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-
-  &:hover {
-    border-color: #007bff;
-  }
-}
-.filter_orders {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  margin: 5px 10px ;
-
-}
-
-.filter_orders select,
-.filter_orders input[type="date"]{
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  min-width: 180px;
-}
-.filter_orders input[type="text"]{
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  min-width: 120px;
-}
-.filter_orders button {
-  padding: 8px 16px;
-  background-color: #28a745;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.filter_orders button:hover {
-  background-color: #218838;
-}
-
-
-.button_account-action {
+.button_order-action {
   color: white;
   font-size: 14px;
   font-weight: 500;
@@ -112,38 +49,88 @@
     opacity: 0.9;
   }
 }
-
-.button_account-action i,
-.button_account-action span {
+.button_order-action i,
+.button_order-action span {
   padding: 0 5px;
   font-size: 16px;
 }
 
-.button_account-action.add {
+.button_order-action.add {
   background-color: #17a2b8;
 }
 
+.filter_orders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 1rem auto;
+  align-items: flex-end;
+}
+
+.form-group-order {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  flex: 1;
+}
+
+.form-group-order label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group-order select,
+.form-group-order input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+.form-group-order button {
+  position: relative;
+  left: 25%;
+}
+.filter-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 50%;
+}
+
+.filter-button:hover {
+  background-color: #0056b3;
+}
 
 .table_col-action {
   width: 120px;
   text-align: center;
   white-space: nowrap;
- 
 }
-.table_col-action button{
-    border: none;
+.table_col-action button {
+  border: none;
 }
-/* Tạo khoảng cách giữa các biểu tượng */
 .table_col-action span {
   display: inline-block;
   margin: 0 2px;
   cursor: pointer;
-  /* transition: transform 0.2s ease, color 0.2s ease; */
 }
-.btn_detail span{
-padding:0 5px;
+.btn_detail span {
+  padding: 0 5px;
 }
-/* Định dạng icon */
 .table_col-action i {
   font-size: 16px;
   padding: 0 8px;
@@ -151,21 +138,16 @@ padding:0 5px;
   transition: ease-in 0.1s;
 }
 
-/* Màu sắc cho từng action */
-
 .table_col-action i.fa-eye {
   color: #17a2b8;
-} /* Màu xanh dương cho xem */
+}
 .table_col-action i.fa-lock {
   color: #dc3545;
-} /* Màu đỏ cho xóa */
-
-/* Hiệu ứng hover */
+}
 .table_col-action i:hover {
   transform: scale(1.2);
   opacity: 0.8;
 }
-/* Nền mờ đằng sau modal */
 .modal {
   position: fixed;
   top: 0;
@@ -173,25 +155,71 @@ padding:0 5px;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* Mờ nền */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 9999;
 }
 
-/* Hộp nội dung modal */
 .modal-content {
   background-color: #fff;
   padding: 30px 25px;
   border-radius: 10px;
-  width: 65%;
-  /* Điều chỉnh chiều rộng */
   max-width: 90%;
-  /* Tự động thay đổi kích thước khi màn hình nhỏ */
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   position: relative;
   animation: fadeIn 0.3s ease;
+}
+
+.modal-content.phuc {
+  max-height: 60vh;
+}
+.btn-close:hover {
+  background-color: rgb(225, 11, 11);
+  color: #ddd;
+}
+/* Container phân trang */
+#pagination.pagination-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+  gap: 8px;
+}
+
+/* Link trang */
+.page-link {
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+/* Hover trạng thái */
+.page-link:hover {
+  background-color: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #1a202c;
+}
+
+/* Trang hiện tại */
+.page-link.active-page {
+  background-color: #3182ce;
+  border-color: #2b6cb0;
+  color: #fff;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Nếu muốn disable nút trước/sau */
+.page-link.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }

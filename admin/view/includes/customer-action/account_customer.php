@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . '/../../../controller/CustomerController.php';
 
-$customerController = new CustomerController();
+$customerController = new CustomerController(connection: $connection);
 $customers = $customerController->listCustomers(); // Lấy danh sách trực tiếp từ Controller
 
 ?>
@@ -22,11 +22,12 @@ $customers = $customerController->listCustomers(); // Lấy danh sách trực ti
             <th>Address</th>
             <th>Thao tác</th>
         </tr>
-        <?php foreach ($customers as $customer): ?>
+        <?php foreach ($customers as $entry): ?>
+            <?php $customer = $entry['customer']; ?>
             <tr>
                 <td><?= htmlspecialchars($customer->getId()) ?></td>
                 <td><?= htmlspecialchars($customer->getFullName()) ?></td>
-                <td><?= htmlspecialchars($customer->getGmail()) ?></td>
+                <td><?= htmlspecialchars($entry['email']) ?></td>
                 <td><?= htmlspecialchars($customer->getPhone()) ?></td>
                 <td><?= htmlspecialchars($customer->getAddress()) ?></td>
                 <td class="table_col-action">

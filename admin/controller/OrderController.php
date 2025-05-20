@@ -1,27 +1,40 @@
 <?php
-include_once __DIR__ . '/../../config/database/ConnectDB.php';
 include_once __DIR__ . '/../model/Model/Model_Order.php';
+include_once __DIR__ . '/../../config/init.php';
 
 
 class OrderController
 {
     private $orderModel;
 
-    public function __construct()
+    public function __construct($connection)
     {
-        global $connection; // Sử dụng biến toàn cục
         $this->orderModel = new Model_Order($connection);
     }
 
-    public function listOrders()
+    public function listOrders(array $filters = [], int $perPage = 5, int $currentPage = 1)
     {
-        // Lấy danh sách đơn hàng từ model
-        return $this->orderModel->getAllOrders();
-        // include __DIR__ . '/../view/includes/account-action/account_action.php';
+        $offset = ($currentPage - 1) * $perPage;
+
+        $orders = $this->orderModel->getOrdersPaginated($filters, $perPage, $offset);
+        $totalOrders = $this->orderModel->countFilteredOrders($filters);
+        $totalPages = $perPage > 0 ? ceil($totalOrders / $perPage) : 1;
+
+        return [
+            'orders' => $orders,
+            'totalPages' => $totalPages,
+            'totalCount' => $totalOrders,
+        ];
+    }
+
+
+    public function countAllOrders(): int
+    {
+        return $this->orderModel->countAllOrders();
     }
     public  function getOrderById($orderId)
     {
-       return $this->orderModel->getOrdersById($orderId);
+        return $this->orderModel->getOrdersById($orderId);
     }
     public  function getOrdersByCustomerIdAndDateRange($customerId, $beginDate, $endDate)
     {
@@ -33,14 +46,26 @@ class OrderController
 
         return $this->orderModel->updateStatus($orderId, $newStatus);
     }
-    public function filterOrders($status, $beginDate,$endDate,$district,$province)
+    public function filterOrders($status, $beginDate, $endDate, $district, $province)
     {
-        // Gọi phương thức filterOrders từ Model_Order để lấy danh sách đơn hàng đã lọc
-        return $this->orderModel->filterOrders($status, $beginDate,$endDate, $district,$province);
+        return $this->orderModel->filterOrders($status, $beginDate, $endDate, $district, $province);
     }
-    public function getOrdersByOrderId($orderId)
+
+
+    public function getDetailsByOrderId($orderId)
     {
-        return $this->orderModel->getOrdersByOrderId($orderId);
+        return $this->orderModel->getDetailsByOrderId($orderId);
+    }
+    public function getProductQuantity($orderId)
+    {
+        return $this->orderModel->getProductQuantity($orderId);
+    }
+    public function updateAmountProduct($orderId)
+    {
+        return $this->orderModel->updateAmountProduct($orderId);
+    }
+    public function restoreAmountProduct($orderId)
+    {
+        return $this->orderModel->restoreAmountProduct($orderId);
     }
 }
-?>

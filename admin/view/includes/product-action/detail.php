@@ -1,39 +1,54 @@
     <?php
-    // Cài đặt phân trang
+
+    require_once __DIR__ . '/../../../controller/ProductController.php';
+    require_once __DIR__ . '/../../../controller/ProductDetailController.php';
+
     $page = isset($_GET['pagination']) ? (int)$_GET['pagination'] : 1;
     $limit = 5;
     $offset = ($page - 1) * $limit;
 
-    $_SESSION['limit'] = $limit;
-    $_SESSION['offset'] = $offset;
+    // Khai báo các controller
+    $productController = new ProductController($connection);
+    $productDetailController = new ProductDetailController($connection);
 
 
-    // Lấy danh sách sản phẩm để tiện cho việc lấy hình ảnh
-    $_GET['action'] = 'get_product_without_pagination';
-    include __DIR__ . '/../../../controller/ProductController.php';
-    $products = $_SESSION['list_product'] ?? [];
+    $details = $productDetailController->getAllPaginated($limit, $offset);
+    $totalCount = $productDetailController->countList();
+    $totalPages = ceil($totalCount / $limit);
+
+    // Lấy danh sách sản phẩm
+    $products = $productController->getAllWithoutPagination();
     $productMap = [];
     foreach ($products as $product) {
-        $productMap[$product->getId()] = $product->getThumbnail();
+        $productMap[$product->getId()] = [
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+            'thumbnail' => $product->getThumbnail()
+        ];
     }
 
-    // Gọi 2 hành động trong controller
-    $_GET['action'] = 'count_list';
-    include __DIR__ . '/../../../controller/ProductDetailController.php';
+    // echo '<pre>';
+    // print_r($details);
+    // echo '</pre>';
 
-    $_GET['action'] = 'render_view';
-    include __DIR__ . '/../../../controller/ProductDetailController.php';
+    function formatPriceVND($price)
+    {
+        // Ép kiểu về float
+        $price = (float) $price;
 
-    // Kiểm tra xem session có dữ liệu chưa
-    $details = $_SESSION['detail_view'] ?? [];
-    $totalCount = $_SESSION['count'] ?? 0;
-    $totalPages = ceil($totalCount / $limit);
+        // Định dạng: không hiển thị số lẻ, dùng dấu . ngăn cách hàng nghìn
+        $formattedPrice = number_format($price, 0, ',', '.');
+
+        // Thêm đơn vị VNĐ
+        return $formattedPrice . ' ₫';
+    }
+
 
     ?>
 
     <div class="account-action">
         <div class="search-box">
-            <input type="text" class="input_search_account-action" placeholder="Tìm kiếm sản phẩm" />
+            <input type="text" class="input_search_account-action" placeholder="Tìm kiếm chi tiết" />
         </div>
         <div class="group-button_account-action">
             <button class="button_account-action blue" id="open_modal-create-btn">
@@ -46,37 +61,53 @@
     <?php if (!empty($details)): ?>
         <table border='1'>
             <tr>
-                <th>ID</th>
-                <th>Id sản phẩm</th>
+                <th>ID chi tiết</th>
+                <th>Tên sản phẩm</th>
                 <th>Số lượng</th>
                 <th>Size</th>
                 <th>Màu sắc</th>
                 <th>Chất liệu</th>
-                <th>Thương hiệu</th>
                 <th>Giá</th>
+                <th>Trạng thái</th>
                 <th>Thao tác</th>
             </tr>
             <?php foreach ($details as $detail): ?>
                 <tr>
                     <td><?= htmlspecialchars($detail->getId()) ?></td>
-                    <td>
-                        <img src="/DoAn/ShoesStore/admin/uploads/<?= htmlspecialchars($productMap[$detail->getProductId()]) ?>"
-                            alt="Hình ảnh sản phẩm"
-                            width="80"
-                            onerror="this.onerror=null;this.src='/DoAn/ShoesStore/public/assets/images/no_image.png';">
+                    <td><?= htmlspecialchars($productMap[$detail->getProductId()]['name']) ?>
                     </td>
+
                     <td><?= htmlspecialchars($detail->getQuantity()) ?></td>
                     <td><?= htmlspecialchars($detail->getSize()) ?></td>
                     <td><?= htmlspecialchars($detail->getColor()) ?></td>
                     <td><?= htmlspecialchars($detail->getMaterial()) ?></td>
-                    <td><?= htmlspecialchars($detail->getBrand()) ?></td>
-                    <td><?= htmlspecialchars($detail->getPrice()) ?></td>
+                    <td><?= formatPriceVND($detail->getPrice()) ?></td>
+                    <td> <?php if ($detail->getStatus() == 0): ?>
+                            <span style="background-color: red; color: white; font-size: 14px; padding: 2px 4px; border-radius: 4px;">Đã ẩn</span>
+                        <?php else: ?>
+                            <span style="background-color: green; color: white; font-size: 14px; padding: 2px 4px; border-radius: 4px;">Đang bán</span>
+                        <?php endif; ?>
+                    </td>
                     <td class="table_col-action">
-                        <span class="open_modal-edit-btn"><i class="fa-solid fa-pen"></i></span>
+                        <span class="open_modal-edit-btn-detail"><i class="fa-solid fa-pen"></i></span>
                         <span class="seperator"></span>
-                        <span class="open_modal-edit-btn"><i class="fa-solid fa-eye"></i></span>
-                        <span class="seperator"></span>
-                        <span><i class="fa-solid fa-lock"></i>
+                        <span>
+                            <form method="POST" onsubmit="return confirmLock(this);">
+
+                                <input type="hidden" name="action" value="delete_detail_product">
+                                <input type="hidden" name="id" value="<?= $detail->getId() ?>">
+                                <input type="hidden" name="pagination" value="<?= htmlspecialchars($_GET['pagination'] ?? 1) ?>">
+                                <input type="hidden" name="dispatch" value="<?= $detail->getStatus() ?>">
+
+                                <button type="submit" style="border: none; background: none; cursor: pointer;">
+                                    <?php if ($detail->getStatus() == 1): ?>
+                                        <i class="fa-solid fa-lock"></i>
+                                    <?php else: ?>
+                                        <i class="fa-solid fa-lock-open"></i>
+                                    <?php endif; ?>
+                                </button>
+
+                            </form>
                         </span>
                     </td>
                 </tr>
@@ -100,3 +131,112 @@
     <?php else: ?>
         <p>Không có chi tiết sản phẩm nào.</p>
     <?php endif; ?>
+
+    <!-- Form THÊM chi tiết sản phẩm mới -->
+    <div class="modal" id="modal-create" style="display: none; opacity: 0;">
+        <div class="modal-content phuc">
+            <h2>Thêm chi tiết sản phẩm</h2>
+            <span class="close">&times;</span>
+            <form method="POST" class="form-create-user">
+                <input type="hidden" name="action" value="create_detail_product">
+                <input type="hidden" name="pagination" value="<?= htmlspecialchars($totalPages) ?>">
+                <div class="form-group phuc">
+                    <label for="product_id">Chọn sản phẩm muốn thêm chi tiết</label>
+                    <select class="form-control" id="product_id" name="product_id">
+                        <option value="">-- Chọn sản phẩm cần thêm chi tiết --</option>
+                        <?php foreach ($productMap as $id => $data): ?>
+                            <option value="<?= htmlspecialchars($id) ?>">
+                                <?= htmlspecialchars($data['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+
+                <div class="form-group phuc">
+                    <label for="size">Size</label>
+                    <select class="form-control" id="size" name="size" required>
+                        <option value="">-- SIZE --</option>
+                        <?php for ($i = 38; $i <= 50; $i++): ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="quantity">Số lượng</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="color">Màu sắc</label>
+                    <input type="text" class="form-control" id="color" name="color" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="material">Chất liệu</label>
+                    <input type="text" class="form-control" id="material" name="material" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="price">Giá bán</label>
+                    <input type="text" class="form-control" id="price" name="price" required>
+                </div>
+
+                <button type="submit" class="btn">GỬI</button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Form SỬA chi tiết sản phẩm -->
+    <div class="modal" id="modal-edit" style="display: none; opacity: 0;">
+        <div class="modal-content phuc">
+            <h2>Sửa chi tiết sản phẩm</h2>
+            <span class="close">&times;</span>
+            <form method="POST" class="form-create-user">
+                <input type="hidden" name="action" value="update_detail_product">
+                <input type="hidden" name="pagination" value="<?= htmlspecialchars($page) ?>">
+                <input type="hidden" id="edit-id" name="id">
+
+                <div class="form-group phuc">
+                    <label for="product-name">Tên sản phẩm</label>
+                    <input type="text" class="form-control" name="product-name" id="product-name" value=<?= htmlspecialchars($productMap[$detail->getProductId()]['name']) ?> disabled>
+                </div>
+
+
+                <div class="form-group phuc">
+                    <label for="size">Size</label>
+                    <select class="form-control" id="edit-size" name="size" required>
+                        <option value="">-- SIZE --</option>
+                        <?php for ($i = 38; $i <= 50; $i++): ?>
+                            <option value="<?= $i ?>"><?= $i ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="quantity">Số lượng</label>
+                    <input type="number" class="form-control" id="edit-quantity" name="quantity" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="color">Màu sắc</label>
+                    <input type="text" class="form-control" id="edit-color" name="color" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="material">Chất liệu</label>
+                    <input type="text" class="form-control" id="edit-material" name="material" required>
+                </div>
+
+                <div class="form-group phuc">
+                    <label for="price">Giá bán</label>
+                    <input type="text" class="form-control" id="edit-price" name="price" required>
+                </div>
+
+                <button type="submit" class="btn">GỬI</button>
+            </form>
+
+        </div>
+    </div>

@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../Entity/Product.php';
-include_once __DIR__ . '/../../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../../config/init.php';
 
 class Model_Product
 {
@@ -51,6 +51,7 @@ class Model_Product
                 $row['thumbnail'],
                 $row['supplier_id'],
                 $row['category_id'],
+                $row['brand'],
                 $row['status'],
                 $row['created_at'],
                 $row['updated_at']
@@ -86,8 +87,9 @@ class Model_Product
                 $row['id'],
                 $row['name'],
                 $row['thumbnail'],
-                $row['supplier_id'],
                 $row['category_id'],
+                $row['supplier_id'],
+                $row['brand'],
                 $row['status'],
                 $row['created_at'],
                 $row['updated_at']
@@ -124,6 +126,7 @@ class Model_Product
                 $row['thumbnail'],
                 $row['supplier_id'],
                 $row['category_id'],
+                $row['brand'],
                 $row['status'],
                 $row['created_at'],
                 $row['updated_at']
@@ -133,19 +136,19 @@ class Model_Product
         return null;
     }
 
-    public function createProduct($name, $thumbnail, $supplier_id, $category_id, $status)
+    public function createProduct($name, $thumbnail, $category_id, $supplier_id, $brand, $status)
     {
         $created_at = date('Y-m-d H:i:s');
         $updated_at = date('Y-m-d H:i:s');
 
         // Câu lệnh SQL
-        $query = "INSERT INTO product (name, thumbnail, supplier_id, category_id, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO product (name, thumbnail, category_id, supplier_id, brand, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Chuẩn bị truy vấn
         $stmt = $this->connection->prepare($query);
 
         if ($stmt) {
-            $stmt->bind_param("sssisss", $name, $thumbnail, $supplier_id, $category_id, $status, $created_at, $updated_at);
+            $stmt->bind_param("ssiissss", $name, $thumbnail, $category_id, $supplier_id, $brand, $status, $created_at, $updated_at);
             if ($stmt->execute()) {
                 return true;
             }
@@ -154,11 +157,11 @@ class Model_Product
         return false;
     }
 
-    public function updateProduct($id, $name, $thumbnail)
+    public function updateProduct($id, $name, $thumbnail, $category_id)
     {
         $updated_at = date('Y-m-d H:i:s');
 
-        $query = "UPDATE product SET name = ?, thumbnail = ?, updated_at = ? WHERE id = ?";
+        $query = "UPDATE product SET name = ?, thumbnail = ?, category_id = ? WHERE id = ?";
         $stmt = $this->connection->prepare($query);
 
         if (!$stmt) {
@@ -166,7 +169,7 @@ class Model_Product
             return false;
         }
 
-        $stmt->bind_param("sssi", $name, $thumbnail, $updated_at, $id);
+        $stmt->bind_param("sssi", $name, $thumbnail, $category_id, $id);
 
         if ($stmt->execute()) {
             return true;

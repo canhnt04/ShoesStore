@@ -1,22 +1,27 @@
 <?php
-include_once __DIR__ . '/../../config/database/ConnectDB.php';
+include_once __DIR__ . '/../../config/init.php';
 include_once __DIR__ . '/../model/Model/Model_Supplier.php';
 
+class SupplierController
+{
+    private $model_supplier;
 
-$limit = $_SESSION['limit'];
-$offset = $_SESSION['offset'];
+    public function __construct($connection)
+    {
+        $this->model_supplier = new Model_Supplier($connection);
+    }
 
-$model_supplier = new Model_Supplier($connection);
+    public function getAllSuppliers()
+    {
+        return  $this->model_supplier->getAllSuppliers();
+    }
+    public function getListSuppliers(array $filters = [], int $perPage = 5, int $page = 1): array
+    {
+        $result = $this->model_supplier->getListSuppliers($filters, $perPage, $page);
 
-$action = $_GET['action'] ?? $_POST['action'] ?? null;
-
-switch ($action) {
-    case 'get_all_suppliers':
-        $suppliers = $model_supplier->getAllSuppliers();
-        $_SESSION['suppliers'] = $suppliers;
-        break;
-
-    default:
-        $_SESSION['message'] = "Hành động không hợp lệ!";
-        $_SESSION['message_type'] = "error";
+        return [
+            'suppliers' => $result['suppliers'] ?? [],
+            'totalPages' => $result['totalPages'] ?? 1,
+        ];
+    }
 }

@@ -10,26 +10,29 @@
 
 <body>
     <h2>Thống kê khách hàng</h2>
-
     <form id="statistic-form" method="GET">
-        <label>Từ ngày:</label>
-        <input type="datetime-local" name="begin_date" required>
-
-        <label>Đến ngày:</label>
-        <input type="datetime-local" name="end_date" required>
-
-        <label>Sắp xếp:</label>
-        <select name="sort_order">
-            <option value="desc">Giảm dần</option>
-            <option value="asc">Tăng dần</option>
-        </select>
-
-        <button type="submit">Thống kê</button>
+        <div class="form-group-stats">
+            <label>Từ ngày:</label>
+            <input type="datetime-local" name="begin_date" required>
+        </div>
+        <div class="form-group-stats">
+            <label>Đến ngày:</label>
+            <input type="datetime-local" name="end_date" required>
+        </div>
+        <div class="form-group-stats">
+            <label>Sắp xếp:</label>
+            <select name="sort_order">
+                <option value="desc">Giảm dần</option>
+                <option value="asc">Tăng dần</option>
+            </select>
+        </div>
+            <button type="submit">Thống kê</button>
     </form>
 
     <div id="statistic-result">
-
+        <!-- Kết quả thống kê sẽ hiển thị ở đây -->
     </div>
+
 
     <canvas id="customerChart" width="400" height="200"></canvas>
     <div id="order-modal" style="display:none;" class="modal">
@@ -47,11 +50,9 @@
         $(document).ready(function() {
             $("#statistic-form").submit(function(e) {
                 e.preventDefault();
-
                 const formData = $(this).serialize();
-
                 $.ajax({
-                    url: "includes/customer-action/ajax/stats.php",
+                    url: "ajax-handler/stats.php",
                     method: "GET",
                     data: formData,
                     dataType: "json",
