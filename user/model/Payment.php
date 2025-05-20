@@ -15,31 +15,58 @@ class Payment
         $this->con = $db->getConnection();
         $this->productModel = new Product();
         $this->cartModel = new Cart();
+        
     }
 
-    public function createOrder($userId, $cart, $method, $adress)
+    // public function createOrder($userId, $cart, $method, $adress)
+    // {
+    //     try {
+    //         // Create Order
+    //         $sql = "INSERT INTO orders (user_id, status_id, created_at, updated_at, paymethod)
+    //                 VALUES ($userId, 1, NOW(), NOW(), '$method')";
+    //         $this->con->query($sql);
+    //         $order_id = $this->con->insert_id;
+
+    //         // Create OrderDetail
+    //         foreach ($cart as $cartItem) {
+    //             $product_id = $cartItem['product_id'];
+    //             $quantity = $cartItem['quantity'];
+    //             $totalPrice = $cartItem['price'] * $quantity;
+
+    //             $sql2 = "INSERT INTO orderdetail (order_id, product_id, quantity, price, created_at, updated_at)
+    //                      VALUES ($order_id, $product_id, $quantity, $totalPrice, NOW(), NOW())";
+    //             $this->con->query($sql2);
+    //             $this->productModel->updateQuantity($cartItem["detail_id"], -$cartItem["quantity"]);
+    //             $this->cartModel->removeFromCart($product_id, $userId);
+    //         }
+    //         return $order_id;
+    //     } catch (Exception $ex) {
+    //         throw new Exception("SQL Error: " . $ex->getMessage());
+    //     }
+    // }
+    public function createOrder($userId, $cart, $method, $note)
     {
         try {
             // Create Order
-            $sql = "INSERT INTO orders (user_id, status_id, created_at, updated_at, paymethod)
-                    VALUES ($userId, 1, NOW(), NOW(), '$method')";
+            $sql = "INSERT INTO orders (user_id, status_id, created_at, updated_at, paymethod, note)
+                    VALUES ($userId, 1, NOW(), NOW(), '$method', '$note')";
             $this->con->query($sql);
             $order_id = $this->con->insert_id;
 
             // Create OrderDetail
-            foreach ($cart as $cartItem) {
-                $product_id = $cartItem['product_id'];
-                $quantity = $cartItem['quantity'];
-                $totalPrice = $cartItem['price'] * $quantity;
+            $cartdetail_id = "SELECT cartdetail.id
+                    FROM orderdetail 
+                    JOIN cartdetail ON cartdetail.id = orderdetail.cartdetail_id ";
 
-                $sql2 = "INSERT INTO orderdetail (order_id, product_id, quantity, price, created_at, updated_at)
-                         VALUES ($order_id, $product_id, $quantity, $totalPrice, NOW(), NOW())";
+                $sql2 = "INSERT INTO orderdetail (order_id,cartdetail_id, created_at, updated_at)
+                         VALUES ($order_id, $cartdetail_id , NOW(), NOW())";
                 $this->con->query($sql2);
+                
                 $this->productModel->updateQuantity($cartItem["detail_id"], -$cartItem["quantity"]);
                 $this->cartModel->removeFromCart($product_id, $userId);
             }
             return $order_id;
-        } catch (Exception $ex) {
+         catch (Exception $ex) {
             throw new Exception("SQL Error: " . $ex->getMessage());
         }
     }

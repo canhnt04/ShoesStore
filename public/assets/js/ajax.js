@@ -224,6 +224,14 @@ $(document).ready(function () {
 
   $(document).on("submit", "#submitForm", function (e) {
     e.preventDefault();
+    const fullname = $("#firstName").val();
+    const phone = $("#phone").val();
+    if (!fullname || !phone) {
+      alert("Vui lòng nhập cập nhật thông tin cá nhân trước.");
+      loadAjax("index.php?page=Profile&action=profile");
+      return;
+    }
+
     const url = $(this).attr("action");
 
     let data = $(this).serialize(); // Lấy hết dữ liệu post trong form

@@ -113,3 +113,26 @@ require_once __DIR__ . "/../../../config/init.php";
     </section>
     <!-- Close Content -->
 </div>
+<script>
+    $(document).ready(function() {
+
+        let btnMinus = document.getElementById("btn-minus");
+        let btnPlus = document.getElementById("btn-plus");
+        let valueDisplay = document.getElementById("var-value");
+
+        btnMinus.addEventListener("click", () => {
+            alert("F");
+            let currentValue = parseInt(valueDisplay.textContent);
+            if (currentValue > 0) currentValue--;
+            valueDisplay.textContent = currentValue;
+            document.getElementById("product-quanity").value = currentValue;
+        });
+
+        btnPlus.addEventListener("click", () => {
+            let currentValue = parseInt(valueDisplay.textContent);
+            currentValue++;
+            valueDisplay.textContent = currentValue;
+            document.getElementById("product-quanity").value = currentValue;
+        });
+    })
+</script>

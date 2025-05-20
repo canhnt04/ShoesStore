@@ -43,7 +43,7 @@ require_once __DIR__ . "/../../../config/init.php";
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="firstName">Full name</label>
-                                    <input type="text" class="form-control" id="firstName" readonly placeholder="" value="<?= $user["fullname"] ?>" required>
+                                    <input type="text" class="form-control" id="firstName" readonly placeholder="your name" value="<?= $user["fullname"] ?>">
                                     <div class="invalid-feedback">
                                         Valid full name is required.
                                     </div>
@@ -60,7 +60,7 @@ require_once __DIR__ . "/../../../config/init.php";
                                 <div class="mb-3">
                                     <label for="phone">Phone</label>
                                     <div class="input-group">
-                                        <input type="number" readonly class="form-control" id="phone" value="<?= $user["phone"] ?>" required>
+                                        <input type="number" readonly class="form-control" id="phone" placeholder="090123456" value="<?= $user["phone"] ?>" required>
                                         <div class="invalid-feedback" style="width: 100%;">
                                             Phone Number is required.
                                         </div>
@@ -75,17 +75,27 @@ require_once __DIR__ . "/../../../config/init.php";
                                     </div>
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="phone">Note</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="note" name="note">
+                                        <div class="invalid-feedback" style="width: 100%;">
+                                            Phone Number is required.
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <hr class="mb-4">
 
                                 <h4 class="mb-3">Payment Method</h4>
 
                                 <div class="d-block my-3">
                                     <div class="custom-control custom-radio">
-                                        <input id="cash" name="paymentMethod" value="1" type="radio" class="custom-control-input" checked required>
+                                        <input id="cash" name="paymentMethod" value="2" type="radio" class="custom-control-input" checked required>
                                         <label class="custom-control-label" for="cash">Cash</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input id="credit" name="paymentMethod" value="2" type="radio" class="custom-control-input" required>
+                                        <input id="credit" name="paymentMethod" value="1" type="radio" class="custom-control-input" required>
                                         <label class="custom-control-label" for="credit">Credit card</label>
                                     </div>
                                 </div>
