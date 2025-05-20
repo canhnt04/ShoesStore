@@ -144,7 +144,7 @@ class Product
     public function getAll($limit, $offset)
     {
         try {
-            $sql = "SELECT * FROM product LIMIT $limit OFFSET $offset";
+            $sql = "SELECT * FROM product WHERE status = 1 LIMIT $limit OFFSET $offset";
             $result = $this->con->query($sql);
 
             $productList = [];

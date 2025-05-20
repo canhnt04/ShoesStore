@@ -107,18 +107,18 @@ class Model_ProductDetail
         return $productDetails;
     }
 
-    public function createProductDetail($product_id, $description, $quantity, $size, $color, $material, $price)
+    public function createProductDetail($product_id, $description, $quantity, $size, $color, $material, $price, $status)
     {
         $created_at = date('Y-m-d H:i:s');
         $updated_at = date('Y-m-d H:i:s');
 
-        $query = "INSERT INTO productdetail (product_id, description, quantity, size, color, material, price, created_at, updated_at) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO productdetail (product_id, description, quantity, size, color, material, price, status ,created_at, updated_at) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->connection->prepare($query);
 
         if ($stmt) {
-            $stmt->bind_param("isisssdss", $product_id, $description, $quantity, $size, $color, $material, $price, $created_at, $updated_at);
+            $stmt->bind_param("isisssdiss", $product_id, $description, $quantity, $size, $color, $material, $price, $status, $created_at, $updated_at);
 
             if ($stmt->execute()) {
                 $stmt->close();

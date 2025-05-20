@@ -39,7 +39,7 @@ class ProductDetailController
         $material = $data['material'];
         $price = $data['price'];
 
-        $this->model_product_detail->createProductDetail($product_id, $description, $quantity, $size, $color, $material, $price);
+        $this->model_product_detail->createProductDetail($product_id, $description, $quantity, $size, $color, $material, $price, 1);
     }
 
     // Hàm cập nhật một chi tiết sản phẩm
